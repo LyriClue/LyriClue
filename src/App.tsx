@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { ViteDefault } from './views/viteDefault';
+import { SuspenseView } from './views/suspenseView'
+import { RouterProvider, createHashRouter } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+function App(props: any) {
+  console.log(props.model);
+
+  if (!props.model.ready) {
+    return (<SuspenseView promise="loading data" />)
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <RouterProvider router={makeRouter(props.model)} />
+    </div>
   )
+}
+
+export function makeRouter(reactiveModel: any) {
+  console.log(reactiveModel.ready);
+  return createHashRouter([
+    {
+      path: "/",
+      element: <ViteDefault />
+    },
+  ]);
 }
 
 export default App

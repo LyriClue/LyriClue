@@ -5,7 +5,6 @@ import { resolvePromise } from "./utils/resolvePromise";
    It is an abstract object, i.e. it knows nothing about graphics and interaction.
 */
 export const model = {
-  dummyData: 0,
   searchParams: {},
   searchResultsPromiseState: {},
 

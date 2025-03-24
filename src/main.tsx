@@ -15,5 +15,6 @@ createRoot(document.getElementById('root')!).render(
     <App model={reactiveModel} />
   </StrictMode>,
 )
+window.myModel = reactiveModel
 
 connectToPersistence(reactiveModel, reaction);

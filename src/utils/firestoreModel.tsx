@@ -13,42 +13,37 @@ window.setDoc = setDoc;
 window.db = db;
 
 const COLLECTION = "lyriclue"; // TODO: create better names
-const DOC_NAMAE = "lyriclue_doc";
+const DOC_NAME = "lyriclue-doc";
 
 export function connectToPersistence(model: any, watchFunction: any) {
-  const fireStoreDoc = doc(db, COLLECTION, DOC_NAMAE);
-  console.log("connecting to persistance");
-
-
+  const fireStoreDoc = doc(db, COLLECTION, DOC_NAME);
 
   watchFunction(checkUpdateACB, updateFirestoreACB);
 
   model.ready = false;
   getDoc(fireStoreDoc).then(gotDataACB);
 
+
   function checkUpdateACB() {
-    return [model.dummyData];
+    return []; // TODO: add relevant model values
   }
 
   function updateFirestoreACB() {
     if (!model.ready) {
-      return;
+      return
     }
+
     setDoc(
       fireStoreDoc,
       {
-        dummy: model.dummyData
+        // TODO: set firestore values based on model values
       },
       { merge: true },
     );
   }
 
   function gotDataACB(snapshot: any) {
-    console.log("got data");
-
-    model.dummyData = snapshot.data()?.dummy || 0;
+    // TODO: set model values based on firestore values
     model.ready = true;
-    console.log("model.ready: " + model.ready);
-
   }
 }

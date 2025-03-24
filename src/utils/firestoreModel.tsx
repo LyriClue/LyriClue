@@ -1,7 +1,4 @@
-// initialize Firebase app
-import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "./firestoreConfig.js";
-const app = initializeApp(firebaseConfig);
+import { app } from "./firebaseConfig.js";
 
 // initialize Firestore
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";

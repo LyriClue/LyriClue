@@ -2,7 +2,7 @@ import { AuthView } from "../views/AuthView"
 import { observer } from "mobx-react-lite"
 
 export const AuthPresenter = observer(
-  function AuthPresenter(props) {
+  function AuthPresenterRender() {
 
     return (
       <AuthView onSpotifyLogin={onSpotifyLoginACB} />
@@ -21,13 +21,13 @@ export const AuthPresenter = observer(
         response_type: "token",
         show_dialog: "true"
       })
-      props.model.setToken(getTokenFromUrl().access_token)
+
       window.location = authEndpoint + "?" + searchparams
     }
   }
 
 )
-export const getTokenFromUrl = () => { // TODO: refactor to actual function
+export const getTokenFromUrl = () => { // TODO: Move to appropriate place
   return window.location.hash.substring(1).split('&').reduce((initial: object, item: string) => {
     let parts = item.split("=");
     initial[parts[0]] = decodeURIComponent(parts[1])

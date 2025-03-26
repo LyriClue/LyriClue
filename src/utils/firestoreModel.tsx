@@ -22,7 +22,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
 
 
   function checkUpdateACB() {
-    return []; // TODO: add relevant model values
+    return [model.token];
   }
 
   function updateFirestoreACB() {
@@ -30,17 +30,19 @@ export function connectToPersistence(model: any, watchFunction: any) {
       return
     }
 
+
     setDoc(
       fireStoreDoc,
       {
-        // TODO: set firestore values based on model values
+        token: model.token,
       },
       { merge: true },
     );
   }
 
   function gotDataACB(snapshot: any) {
-    // TODO: set model values based on firestore values
+
+    model.token = snapshot.data()?.token || ""
     model.ready = true;
   }
 }

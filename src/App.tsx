@@ -4,6 +4,8 @@ import { ViteDefault } from './views/viteDefault';
 import { SuspenseView } from './views/suspenseView'
 import { RouterProvider, createBrowserRouter, createHashRouter } from "react-router-dom";
 import { observer } from 'mobx-react-lite';
+import { SpotifyLanding } from './presenters/SpotifyLanding.tsx';
+
 
 const App = observer(
   function AppRender(props: any) {
@@ -23,12 +25,16 @@ const App = observer(
 export function makeRouter(reactiveModel: object) {
   return createBrowserRouter([
     {
-      path: "/home",
+      path: "/vite",
       element: <ViteDefault />
     },
     {
       path: "/",
-      element: <AuthPresenter model={reactiveModel} />
+      element: <AuthPresenter />
+    },
+    {
+      path: "/home",
+      element: <SpotifyLanding model={reactiveModel} />
     }
   ])
   // return createHashRouter([

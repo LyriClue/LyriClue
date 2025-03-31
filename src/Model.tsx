@@ -18,7 +18,7 @@ export const model = {
     console.log("changed token");
 
     this.token = newToken
-  }
+  },
   //currentDishPromiseState: {}, TODO: update for info relevant to our use case
 
   //setSearchQuery(query) {
@@ -36,7 +36,7 @@ export const model = {
   },
 
   // TODO: convert to using the provided previous item 
-  retrievepreviousPlaylistPage() {
+  retrievePreviousPlaylistPage() {
     this.playlistParams.offset -= 1
     this.retrievePlaylists()
   },

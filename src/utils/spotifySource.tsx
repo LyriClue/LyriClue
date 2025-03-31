@@ -14,7 +14,7 @@ export function getPlaylistPage(pageParams, model) {
     new URLSearchParams(pageParams),
     {
       headers: {
-        "Bearer": model.access_token,
+        "Authorization": "Bearer " + model.token,
       },
     },
   )
@@ -25,11 +25,11 @@ export function getPlaylistPage(pageParams, model) {
 export function getSongPage(songParams, model) {
   return fetch(
     PROXY_URL +
-    "playlists/" + songParams.playlistId + "/tracks/" +
-    "?" + new URLSearchParams({ "limit": songParams.limit, "offset": songParams.offset }), //TODO: maybe att fields param?
+    "playlists/" + songParams.playlistId + "/tracks",
+    //"?" //+ new URLSearchParams({ "limit": songParams.limit, "offset": songParams.offset }), //TODO: maybe att fields param?
     {
       headers: {
-        "Bearer": model.access_token,
+        "Authorization": "Bearer " + model.token,
       },
     },
   )

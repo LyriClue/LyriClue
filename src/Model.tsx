@@ -8,53 +8,41 @@ import { getPlaylistPage, getSongPage } from "./utils/spotifySource";
 export const model = {
   token: "",
   searchParams: {},
-  playlistParams: {},
-  songParams: {},
+  playlistParams: { "limit": 10, "offset": 0 },
+  songParams: { "market": "SV", "playlistId": null },
   searchResultsPromiseState: {},
   playlistsPromiseState: {},
   songsPromiseState: {},
 
   setToken(newToken: string) {
     console.log("changed token");
-
     this.token = newToken
   },
-  //currentDishPromiseState: {}, TODO: update for info relevant to our use case
 
-  //setSearchQuery(query) {
-  //  this.searchParams.query = query;
-  //},
-
-  retrievePlaylists() {
-    resolvePromise(getPlaylistPage(this.playlistParams, this), this.playlistsPromiseState)
+  retrievePlaylists(url = null) {
+    resolvePromise(getPlaylistPage(this.playlistParams, this, url), this.playlistsPromiseState)
+    this.playlistParams.offset = this.playlistsPromiseState.offset // WARN: Double check that this works since retrieve playlist works with promises
   },
 
-  // TODO: convert to using the provided next item 
   retrieveNextPlaylistPage() {
-    this.playlistParams.offset += 1
-    this.retrievePlaylists()
+    this.retrievePlaylists(this.playlistsPromiseState.data.next)
   },
 
-  // TODO: convert to using the provided previous item 
   retrievePreviousPlaylistPage() {
-    this.playlistParams.offset -= 1
-    this.retrievePlaylists()
+    this.retrievePlaylists(this.playlistsPromiseState.data.previous)
   },
 
-  retrieveSongs() {
-    resolvePromise(getSongPage(this.songParams, this), this.songsPromiseState)
+  retrieveSongs(url = null) {
+    resolvePromise(getSongPage(this.songParams, this, url), this.songsPromiseState)
+    this.songParams.offset = this.songsPromiseState.offset // WARN: Double check that this works since retrieve song works with promises
   },
 
-  // TODO: convert to using the provided next item 
   retrieveNextsongPage() {
-    this.songParams.offset += 1
-    this.retrieveSongs()
+    this.retrieveSongs(this.songsPromiseState.data.next)
   },
 
-  // TODO: convert to using the provided previous item 
   retrieveprevioussongPage() {
-    this.songParams.offset -= 1
-    this.retrieveSongs()
+    this.retrieveSongs(this.songsPromiseState.data.previous)
   },
 
 

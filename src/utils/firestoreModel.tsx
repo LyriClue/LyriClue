@@ -1,7 +1,4 @@
-// initialize Firebase app
-import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "./firestoreConfig.js";
-const app = initializeApp(firebaseConfig);
+import { app } from "./firebaseConfig.js";
 
 // initialize Firestore
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
@@ -25,7 +22,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
 
 
   function checkUpdateACB() {
-    return []; // TODO: add relevant model values
+    return []; // TODO: Add model attributes to save
   }
 
   function updateFirestoreACB() {
@@ -33,17 +30,19 @@ export function connectToPersistence(model: any, watchFunction: any) {
       return
     }
 
+
     setDoc(
       fireStoreDoc,
       {
-        // TODO: set firestore values based on model values
+        // TODO: Add firestore attributes to save model to
       },
       { merge: true },
     );
   }
 
   function gotDataACB(snapshot: any) {
-    // TODO: set model values based on firestore values
+
+    // TODO:  Update model Attributes according to firestore
     model.ready = true;
   }
 }

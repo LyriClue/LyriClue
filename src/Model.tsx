@@ -1,4 +1,5 @@
 import { resolvePromise } from "./utils/resolvePromise";
+import { getPlaylistPage, getSongPage } from "./utils/spotifySource";
 
 /* 
    The Model keeps the state of the application (Application State). 
@@ -7,20 +8,47 @@ import { resolvePromise } from "./utils/resolvePromise";
 export const model = {
   token: "",
   searchParams: {},
+  playlistParams: { "limit": 10, "offset": 0 },
+  songParams: { "market": "SV", "playlistId": null },
   searchResultsPromiseState: {},
+  playlistsPromiseState: {},
+  songsPromiseState: {},
 
   setToken(newToken: string) {
     console.log("changed token");
-    
     this.token = newToken
-  }
-  //currentDishPromiseState: {}, TODO: update for info relevant to our use case
+  },
 
-  //setSearchQuery(query) {
-  //  this.searchParams.query = query;
-  //},
+  retrievePlaylists(url = null) {
+    resolvePromise(getPlaylistPage(this.playlistParams, this, url), this.playlistsPromiseState)
+    this.playlistParams.offset = this.playlistsPromiseState.offset // WARN: Double check that this works since retrieve playlist works with promises
+  },
+
+  retrieveNextPlaylistPage() {
+    this.retrievePlaylists(this.playlistsPromiseState.data.next)
+  },
+
+  retrievePreviousPlaylistPage() {
+    this.retrievePlaylists(this.playlistsPromiseState.data.previous)
+  },
+
+  retrieveSongs(url = null) {
+    resolvePromise(getSongPage(this.songParams, this, url), this.songsPromiseState)
+    this.songParams.offset = this.songsPromiseState.offset // WARN: Double check that this works since retrieve song works with promises
+  },
+
+  retrieveNextsongPage() {
+    this.retrieveSongs(this.songsPromiseState.data.next)
+  },
+
+  retrieveprevioussongPage() {
+    this.retrieveSongs(this.songsPromiseState.data.previous)
+  },
+
 
 };
+
+
 
 export function isPromiseResolved(model) {
   return (

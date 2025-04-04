@@ -1,5 +1,5 @@
 import { resolvePromise } from "./utils/resolvePromise";
-import { getPlaylistPage, getSongPage } from "./utils/spotifySource";
+import { getPlaylistPage, getSongs } from "./utils/spotifySource";
 
 /* 
    The Model keeps the state of the application (Application State). 
@@ -8,11 +8,28 @@ import { getPlaylistPage, getSongPage } from "./utils/spotifySource";
 export const model = {
   token: "",
   searchParams: {},
+  market: "SV",
   playlistParams: { "limit": 10, "offset": 0 },
-  songParams: { "market": "SV", "playlistId": null },
+  songParams: { "market": "SV", "playlistId": null, "limit": 50, "offset": 0 },
   searchResultsPromiseState: {},
   playlistsPromiseState: {},
   songsPromiseState: {},
+  currentPlaylist: {},
+  numSongs: 5,
+  currentSongs: {},
+
+  currentPlaylistEffect() {
+    if (!this.currentPlaylist) {
+      return
+    }
+    this.songParams.playlistId = this.currentPlaylist.id
+    this.retrieveSongs()
+  },
+
+
+  setCurrentPlaylist(playlist) {
+    this.currentPlaylist = playlist
+  },
 
   setToken(newToken: string) {
     console.log("changed token");
@@ -33,8 +50,8 @@ export const model = {
   },
 
   retrieveSongs(url = null) {
-    resolvePromise(getSongPage(this.songParams, this, url), this.songsPromiseState)
-    this.songParams.offset = this.songsPromiseState.offset // WARN: Double check that this works since retrieve song works with promises
+    resolvePromise(getSongs(this.songParams, this, url), this.songsPromiseState)
+    // this.songParams.data.offset = this.songsPromiseState.data.offset // WARN: Double check that this works since retrieve song works with promises
   },
 
   retrieveNextsongPage() {

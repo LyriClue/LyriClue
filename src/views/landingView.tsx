@@ -2,29 +2,29 @@ export function LandingView(props: any) {
   console.log("landingview");
   const highscoreArray = [1, 2, 3, 4, 5];
   const myHighscoreArray = [1, 2, 3, 4, 5];
-  
+
   return (
     <div className="h-screen w-screen ">
       {/* Background image */}
       <img
         className="fixed top-0 left-0 w-full h-full object-cover"
-        src="images/background.jpg"
+        src="src/assets/background.jpg"
         alt="Background"
       />
       <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
-      
+
       {/* Logo */}
       <div className="absolute top-4 left-0 w-full">
         <h1 className="text-2xl text-black mainfont text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
           LyriClue
         </h1>
       </div>
-      
+
       {/* Main content */}
       <div className="relative z-10 flex flex-col md:flex-row justify-between pl-4 items-center">
         {/* High Score Section */}
         <HighscoreSection />
-        
+
         {/* Start game section */}
         <StartGameSection />
         {/* Profile Section */}
@@ -86,7 +86,7 @@ export function LandingView(props: any) {
             </button>
           </div>
         </div>
-        
+
         {/* Difficulty Selection */}
         <div className="w-full max-w-md flex flex-col items-center">
           <h1 className="text-3xl md:text-5xl mainfont text-black mb-8 text-center [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
@@ -108,8 +108,8 @@ export function LandingView(props: any) {
     );
   }
 
-  function ProfileSection(){
-    return(
+  function ProfileSection() {
+    return (
       <div className="w-96 bg-black/40 rounded-tl-3xl rounded-bl-3xl relative right-0 h-screen rounded-3xl md:rounded-tr-none md:rounded-br-none" >
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/40 to-black/80 rounded-3xl md:rounded-tr-none md:rounded-br-none " />
         <div className="relative z-10 flex flex-col items-center justify-center h-full p-6">

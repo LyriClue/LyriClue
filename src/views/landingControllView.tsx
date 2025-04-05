@@ -1,4 +1,4 @@
-export function ControlView() {
+export function ControlView(props: any) {
   return (
     <div className="w-full md:w-2/3 flex flex-col items-center p-30">
       {/* Start Game */}
@@ -10,7 +10,8 @@ export function ControlView() {
           <button className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
             Play daily playlist
           </button>
-          <button className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
+          <button className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
+            onClick={props.playOwnPlaylist}>
             Play my own songs
           </button>
         </div>
@@ -33,6 +34,6 @@ export function ControlView() {
           </button>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

@@ -1,6 +1,8 @@
+import { redirect, useNavigate } from "react-router-dom";
 import { HighscoreView } from "../views/highscoreView";
 import { ControlView } from "../views/landingControllView";
 import { ProfileSection } from "../views/profileSelectionView";
+import { Link } from "react-router-dom"
 
 
 export function LandingPresenter(props: any) {
@@ -31,7 +33,7 @@ export function LandingPresenter(props: any) {
         <HighscoreView highscoreArray={highscoreArray} userHighscoreArray={myHighscoreArray} />
 
         {/* Start game section */}
-        <ControlView />
+        <ControlView playOwnPlaylist={PlayOwnPlaylistsACB} />
 
         {/* Profile Section */}
         <ProfileSection />
@@ -40,5 +42,9 @@ export function LandingPresenter(props: any) {
   );
 
 
+  function PlayOwnPlaylistsACB() {
+    window.history.pushState("", "", "/settings");
+    dispatchEvent(new PopStateEvent('popstate', {}))
+  }
 
 }

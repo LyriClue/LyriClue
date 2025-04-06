@@ -1,3 +1,4 @@
+import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
 import { getPlaylistPage, getSongPage } from "./utils/spotifySource";
 
@@ -13,6 +14,8 @@ export const model = {
   searchResultsPromiseState: {},
   playlistsPromiseState: {},
   songsPromiseState: {},
+  lyricPromiseState: {},
+  lyricParams: {},
 
   setToken(newToken: string) {
     console.log("changed token");
@@ -44,6 +47,10 @@ export const model = {
   retrieveprevioussongPage() {
     this.retrieveSongs(this.songsPromiseState.data.previous)
   },
+
+  retrieveLyrics() {
+    resolvePromise(getLyrics(this.lyricParams), this.lyricPromiseState)
+  }
 
 
 };

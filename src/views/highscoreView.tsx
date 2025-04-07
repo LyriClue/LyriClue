@@ -36,7 +36,7 @@ export function HighscoreView(props: any) {
   function HighScoreTableCB(index: number) {
     return (
       <tr key={index} className="border-b border-gray-200 last:border-0">
-        <td className="py-1">Person {index + 1}</td>
+        <td className="py-1">Person {index}</td>
         <td className="py-1 px-2">......</td>
         <td className="py-1">Xpts</td>
       </tr>

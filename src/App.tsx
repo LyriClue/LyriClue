@@ -7,6 +7,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { observer } from 'mobx-react-lite';
 import { SpotifyLanding } from './presenters/SpotifyLanding.tsx';
 import { Game } from './presenters/gamePresenter.tsx';
+import { LandingPresenter } from './presenters/landingPresenter.tsx';
+import './style.css'
 
 
 const App = observer(
@@ -45,6 +47,10 @@ export function makeRouter(reactiveModel: object) {
     {
       path: "/game",
       element: <Game model={reactiveModel} />
+    },
+    {
+      path: "/landing",
+      element: <LandingPresenter model={reactiveModel} />
     }
   ])
 }

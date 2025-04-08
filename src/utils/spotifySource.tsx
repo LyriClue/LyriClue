@@ -32,7 +32,7 @@ export function getSongPage(songParams, model, provided_url = null) {
     var url: string = provided_url
   } else {
     var url: string = PROXY_URL + "playlists/" + songParams.playlistId + "/tracks"
-    //"?" //+ new URLSearchParams({ "limit": songParams.limit, "offset": songParams.offset }), //TODO: maybe att fields param?
+    "?" + new URLSearchParams({ "market": songParams.market, "limit": songParams.limit, "offset": songParams.offset }) //TODO: maybe att fields param?
   }
   return fetch(
     url,
@@ -45,11 +45,33 @@ export function getSongPage(songParams, model, provided_url = null) {
     .then(getResponseACB)
 }
 
-export function getSongs(songParams: Object, model: any) {
-  return getSongPage(songParams, model).then(pageToItemArrayACB)
-
+export function getSongs(songParams: Object, model: any, provided_url = null) {
+  return getSongPage(songParams, model, provided_url)
+    .then(pageToItemArrayACB)
+    .then(filterValidSongsACB)
+    .then(extractSongInfoACB)
 }
 
 function pageToItemArrayACB(page: any) {
   return page.items
+}
+
+function filterValidSongsACB(items) {
+  items = items.filter(isValidSongCB)
+  return items
+}
+
+function isValidSongCB(song) {
+  if (song.is_local) {
+    return false
+  }
+  return true
+}
+
+function extractSongInfoACB(items) {
+  return items.map(itemToInfoACB)
+}
+
+function itemToInfoACB(item) {
+  return { "artist": item.track.artists[0].name, "title": item.track.name }
 }

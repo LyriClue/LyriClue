@@ -2,10 +2,9 @@ import { observer } from "mobx-react-lite";
 import { GameView } from "../views/gameView.tsx";
 
 const Game = observer(
-    function gameRender(){
+    function gameRender(props) {
         return (
-            <GameView test = {[1, 2, 3]} 
-                      test2 = {[4, 5, 6]} />
+            <GameView lyric={"placeholder lyric"} postGameURL={"/settings"} progress={props.model.progress} />
         )
     }
 );

@@ -13,6 +13,11 @@ export const model = {
   searchResultsPromiseState: {},
   playlistsPromiseState: {},
   songsPromiseState: {},
+  timerID: null,
+  maxTime: 15,
+  currentTime: 0.0,
+  progress: 0,
+
 
   setToken(newToken: string) {
     console.log("changed token");
@@ -45,8 +50,47 @@ export const model = {
     this.retrieveSongs(this.songsPromiseState.data.previous)
   },
 
+  setCurrentTime(time) {
+    this.currentTime = time
+  },
+
+  incrementTimer() {
+    console.log("time effect " + this.currentTime);
+    this.setCurrentTime(this.currentTime + 0.1)
+
+
+    if (this.currentTime >= this.maxTime) {
+      this.progress = 1
+      clearInterval(this.timerID)
+    }
+    this.progress = this.currentTime / this.maxTime
+  },
+
+  // incrementTimer() {
+  //   console.log("incremented time");
+  //   this.currentTime += 0.1
+  //   if (this.currentTime >= this.maxTime) {
+  //     this.progress = 1
+  //     clearInterval(this.timerID)
+  //   }
+  //
+  // },
+
+
+  startTimer() {
+    this.setCurrentTime(0.0)
+    this.progress = 0.0
+
+    console.log("start timer");
+    console.log(this.currentTime);
+
+
+    this.timerID = setInterval(this.incrementTimer, 100)
+
+  },
 
 };
+
 
 
 

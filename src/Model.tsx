@@ -1,3 +1,4 @@
+import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
 import { getPlaylistPage, getSongs } from "./utils/spotifySource";
 
@@ -16,6 +17,8 @@ export const model = {
   songsPromiseState: {},
   currentPlaylist: {},
   numSongs: 5,
+  lyricPromiseState: {},
+  lyricParams: {},
 
   currentPlaylistEffect() {
     if (!this.currentPlaylist) {
@@ -24,7 +27,6 @@ export const model = {
     this.songParams.playlistId = this.currentPlaylist.id
     this.retrieveSongs()
   },
-
 
   setCurrentPlaylist(playlist) {
     this.currentPlaylist = playlist
@@ -60,6 +62,10 @@ export const model = {
   retrieveprevioussongPage() {
     this.retrieveSongs(this.songsPromiseState.data.previous)
   },
+
+  retrieveLyrics() {
+    resolvePromise(getLyrics(this.lyricParams), this.lyricPromiseState)
+  }
 
 
 };

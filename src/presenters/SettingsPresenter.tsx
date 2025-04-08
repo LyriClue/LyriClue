@@ -37,8 +37,10 @@ export const Settings = observer(
     }
     function selectPlaylistACB(playlist) {
       console.log("set current playlist: ", playlist);
-
+      window.history.pushState("", "", "/game");
+      dispatchEvent(new PopStateEvent('popstate', {}))
       props.model.setCurrentPlaylist(playlist)
+
     }
   }
 

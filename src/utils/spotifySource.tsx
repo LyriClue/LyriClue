@@ -46,16 +46,19 @@ export function getSongPage(songParams, model, provided_url = null) {
 }
 
 export function getSongs(songParams: Object, model: any, provided_url = null) {
-  return getSongPage(songParams, model, provided_url).then(filterValidSongsACB)
+  return getSongPage(songParams, model, provided_url)
+    .then(pageToItemArrayACB)
+    .then(filterValidSongsACB)
+    .then(extractSongInfoACB)
 }
 
 function pageToItemArrayACB(page: any) {
   return page.items
 }
 
-function filterValidSongsACB(page) {
-  page.items = page.items.filter(isValidSongCB)
-  return page
+function filterValidSongsACB(items) {
+  items = items.filter(isValidSongCB)
+  return items
 }
 
 function isValidSongCB(song) {
@@ -63,4 +66,12 @@ function isValidSongCB(song) {
     return false
   }
   return true
+}
+
+function extractSongInfoACB(items) {
+  return items.map(itemToInfoACB)
+}
+
+function itemToInfoACB(item) {
+  return { "artist": item.track.artists[0].name, "title": item.track.name }
 }

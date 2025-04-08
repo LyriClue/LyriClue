@@ -16,7 +16,6 @@ export const model = {
   songsPromiseState: {},
   currentPlaylist: {},
   numSongs: 5,
-  currentSongs: {},
 
   currentPlaylistEffect() {
     if (!this.currentPlaylist) {

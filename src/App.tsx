@@ -45,7 +45,7 @@ export function makeRouter(reactiveModel: object) {
     },
     {
       path: "/landing",
-      element: <LandingPresenter />
+      element: <LandingPresenter model={reactiveModel} />
     }
   ])
 }

@@ -9,7 +9,7 @@ function getResponseACB(response) {
 export function getLyrics(songParams) {
   var url: string = PROXY_URL +
     "/" + songParams.artist +
-    "/" + songParams.song
+    "/" + songParams.title
   // new URLSearchParams(pageParams)
   return fetch(
     url,

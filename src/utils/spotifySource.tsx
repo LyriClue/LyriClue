@@ -1,3 +1,4 @@
+import { getLyrics } from "./lyricSource.js";
 import { PROXY_URL } from "./spotifyApiConfig.js";
 
 function getResponseACB(response) {
@@ -50,6 +51,14 @@ export function getSongs(songParams: Object, model: any, provided_url = null) {
     .then(pageToItemArrayACB)
     .then(filterValidSongsACB)
     .then(extractSongInfoACB)
+    .then(callLyricApi)
+
+
+}
+
+function joinWithLyrics(song) {
+  const lyric = getLyrics(song)
+  return { ...song, "lyrics": lyric }
 }
 
 function pageToItemArrayACB(page: any) {
@@ -74,4 +83,9 @@ function extractSongInfoACB(items) {
 
 function itemToInfoACB(item) {
   return { "artist": item.track.artists[0].name, "title": item.track.name }
+}
+
+function callLyricApi(songs) {
+  songs = songs.slice(0, 10).map(joinWithLyrics)
+  return songs
 }

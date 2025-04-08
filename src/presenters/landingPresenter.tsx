@@ -10,6 +10,7 @@ export function LandingPresenter(props: any) {
   );
 
   function PlayOwnPlaylistsACB() {
+    props.model.retrievePlaylists()
     window.history.pushState("", "", "/settings");
     dispatchEvent(new PopStateEvent('popstate', {}))
   }

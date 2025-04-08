@@ -54,39 +54,22 @@ export const model = {
     this.currentTime = time
   },
 
-  incrementTimer() {
-    console.log("time effect " + this.currentTime);
-    this.setCurrentTime(this.currentTime + 0.1)
-
-
-    if (this.currentTime >= this.maxTime) {
-      this.progress = 1
-      clearInterval(this.timerID)
+  incrementTimer(model) {
+    console.log("time effect " + model.currentTime);
+    model.setCurrentTime(model.currentTime + 0.1)
+    if (model.currentTime >= model.maxTime) {
+      model.progress = 1
+      clearInterval(model.timerID)
     }
-    this.progress = this.currentTime / this.maxTime
+    model.progress = model.currentTime / model.maxTime
   },
-
-  // incrementTimer() {
-  //   console.log("incremented time");
-  //   this.currentTime += 0.1
-  //   if (this.currentTime >= this.maxTime) {
-  //     this.progress = 1
-  //     clearInterval(this.timerID)
-  //   }
-  //
-  // },
-
 
   startTimer() {
     this.setCurrentTime(0.0)
     this.progress = 0.0
-
     console.log("start timer");
     console.log(this.currentTime);
-
-
-    this.timerID = setInterval(this.incrementTimer, 100)
-
+    this.timerID = setInterval(this.incrementTimer, 100, this)
   },
 
 };

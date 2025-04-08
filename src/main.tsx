@@ -17,14 +17,5 @@ createRoot(document.getElementById('root')!).render(
 )
 window.myModel = reactiveModel
 
-// reaction(checkTimerACB, timerEffectACB)
 connectToPersistence(reactiveModel, reaction);
 
-// function checkTimerACB() {
-//   return reactiveModel.currentTime
-// }
-//
-// function timerEffectACB() {
-//   reactiveModel.currentTimeEffect()
-// }
-//

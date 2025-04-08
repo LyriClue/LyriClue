@@ -1,0 +1,6 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
+/* Apply the font to the body or specific elements */
+.mainfont {
+    font-family: 'Protest Riot', sans-serif;
+}

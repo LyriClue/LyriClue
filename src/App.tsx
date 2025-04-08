@@ -6,6 +6,8 @@ import { SuspenseView } from './views/suspenseView'
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { observer } from 'mobx-react-lite';
 import { SpotifyLanding } from './presenters/SpotifyLanding.tsx';
+import { LandingPresenter } from './presenters/landingPresenter.tsx';
+import './style.css'
 
 
 const App = observer(
@@ -40,6 +42,10 @@ export function makeRouter(reactiveModel: object) {
     {
       path: "/settings",
       element: <Settings model={reactiveModel} />
+    },
+    {
+      path: "/landing",
+      element: <LandingPresenter />
     }
   ])
 }

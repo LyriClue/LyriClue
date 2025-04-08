@@ -22,7 +22,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
 
 
   function checkUpdateACB() {
-    return []; // TODO: Add model attributes to save
+    return [model.token]; // TODO: Add model attributes to save
   }
 
   function updateFirestoreACB() {
@@ -34,6 +34,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
     setDoc(
       fireStoreDoc,
       {
+        token: model.token
         // TODO: Add firestore attributes to save model to
       },
       { merge: true },
@@ -43,6 +44,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
   function gotDataACB(snapshot: any) {
 
     // TODO:  Update model Attributes according to firestore
+    model.token = snapshot.data()?.token || ""
     model.ready = true;
   }
 }

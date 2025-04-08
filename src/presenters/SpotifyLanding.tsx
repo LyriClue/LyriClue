@@ -9,7 +9,7 @@ export function SpotifyLanding(props) {
   // or handle the token like karaokify does
   const navigate = useNavigate()
   useEffect(() => {
-    navigate("/vite")
+    navigate("/settings")
   }, [])
 
   return (

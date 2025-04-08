@@ -33,11 +33,12 @@ export function SettingsView(props: any) {
         </td>
       </tr>
     )
+    function selectPlaylistACB() {
+      console.log("Selected Playlist");
+      props.selectPlaylist(playlist)
+    }
   }
 
-  function selectPlaylistACB(playlist) {
-    console.log("Selected Playlist");
-  }
 
   function selectPrevious(e) {
     console.log("previous");

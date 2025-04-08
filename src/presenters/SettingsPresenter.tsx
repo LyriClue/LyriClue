@@ -14,6 +14,7 @@ export const Settings = observer(
             next={props.model.playlistsPromiseState.data.next}
             onSelectPrevious={selectPreviousPlaylistPageACB}
             onSelectNext={selectNextPlaylistPageACB}
+            selectPlaylist={selectPlaylistACB}
           />
         )
           || (<SuspenseView promise={props.model.playlistsPromiseState.promise} error={props.model.playlistsPromiseState.error} />)}
@@ -34,6 +35,12 @@ export const Settings = observer(
     function selectPreviousPlaylistPageACB() {
       props.model.retrievePreviousPlaylistPage()
     }
+    function selectPlaylistACB(playlist) {
+      console.log("set current playlist: ", playlist);
+
+      props.model.setCurrentPlaylist(playlist)
+    }
   }
+
 )
 

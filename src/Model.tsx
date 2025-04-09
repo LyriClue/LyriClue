@@ -78,6 +78,7 @@ export const model = {
     if (model.currentTime >= model.maxTime) {
       model.progress = 1
       clearInterval(model.timerID)
+      model.timerID = null
     }
     model.progress = model.currentTime / model.maxTime
   },

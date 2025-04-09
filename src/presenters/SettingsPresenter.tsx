@@ -40,6 +40,7 @@ export const Settings = observer(
       window.history.pushState("", "", "/game");
       dispatchEvent(new PopStateEvent('popstate', {}))
       props.model.setCurrentPlaylist(playlist)
+      props.model.startTimer()
 
     }
   }

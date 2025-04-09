@@ -1,7 +1,10 @@
-export function SettingsView(props: any) {
+import { Difficulty } from "../Model";
+
+export function PlaylistSelectionView(props: any) {
 
   return (
     <div>
+
       <h1>Choose a Playlist!</h1>
       <table>
         {props.playlists.map(renderPlaylistsCB)}
@@ -49,5 +52,7 @@ export function SettingsView(props: any) {
     console.log("next");
     props.onSelectNext()
   }
+
+
 }
 

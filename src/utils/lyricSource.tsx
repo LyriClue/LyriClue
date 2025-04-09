@@ -5,6 +5,10 @@ function getResponseACB(response) {
   return response.json();
 }
 
+function errorACB(error) {
+  return null
+}
+
 // Reference : https://lyricsovh.docs.apiary.io/#reference/0/lyrics-of-a-song/search?console=1
 export function getLyrics(songParams) {
   var url: string = PROXY_URL +
@@ -14,7 +18,6 @@ export function getLyrics(songParams) {
   return fetch(
     url,
   )
-    .then(getResponseACB)
+    .then(getResponseACB).catch(errorACB)
 }
-
 

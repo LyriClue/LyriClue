@@ -52,13 +52,7 @@ export function getSongs(songParams: Object, model: any, provided_url = null) {
     .then(filterValidSongsACB)
     .then(extractSongInfoACB)
     .then(callLyricApi)
-
-
-}
-
-function joinWithLyrics(song) {
-  const lyric = getLyrics(song)
-  return { ...song, "lyrics": lyric }
+    .then(removeNullValues)
 }
 
 function pageToItemArrayACB(page: any) {
@@ -86,6 +80,22 @@ function itemToInfoACB(item) {
 }
 
 function callLyricApi(songs) {
-  songs = songs.slice(0, 10).map(joinWithLyrics)
-  return songs
+  return Promise.all(songs.slice(0, 10).map(joinWithLyrics))
+}
+
+function joinWithLyrics(song) {
+  return getLyrics(song).then(lyrics => ({ lyrics, ...song })).then(filterValidLyric)
+}
+
+function filterValidLyric(song) {
+
+  if (!song.lyrics) {
+    return null
+  } else {
+    return song
+  }
+}
+
+function removeNullValues(songs) {
+  return songs.filter((song) => song)
 }

@@ -26,11 +26,24 @@ function GameView(props: any) {
 
   function GameComponent() {
     return (
-      <div className="h-50% items-center w-screen justify-between mb-1/2 font-mono">
-        <span className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-6xl mb-4">
-            {"... " + props.lyric + " ..."}
-        </span>
-        <div className="mb-50" />
+      <div className="h-50% items-center w-screen justify-center mb-1/2 font-mono">
+        <table className="mr-auto ml-auto border-spacing-x-10 text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-6xl mb-4 whitespace-pre">
+          <tr>
+            <td>
+              ...
+            </td>
+          </tr>
+          <tr>
+            {props.lyrics.map(renderLyrics)}
+          </tr>
+          <tr>
+
+            <td>
+              ...
+            </td>
+          </tr>
+        </table>
+        <div className="mb-20" />
         <progress value={props.progress} />
         <form action={props.postGameURL} className="">
           <div className="mb-4">
@@ -44,6 +57,17 @@ function GameView(props: any) {
         </form>
       </div>
     );
+  }
+
+  function renderLyrics(lyric: string[]) {
+    return (
+      <tr>
+        <td>
+          {lyric}
+        </td>
+      </tr>
+    )
+
   }
 }
 

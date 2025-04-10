@@ -1,23 +1,33 @@
-import { SettingsView } from "../views/SettingsView"
+import { PlaylistSelectionView } from "../views/PlaylistSelectionView"
 import { observer } from "mobx-react-lite"
 import { SuspenseView } from "../views/suspenseView"
+import { Difficulty } from "../Model"
+import { DifficultyView } from "../views/difficultyView"
 
 
 export const Settings = observer(
   function SettingsPresenter(props: any) {
     return (
       <div>
-        {(isPromiseResolved(props.model) &&
-          < SettingsView
-            playlists={props.model.playlistsPromiseState.data.items}
-            previous={props.model.playlistsPromiseState.data.previous}
-            next={props.model.playlistsPromiseState.data.next}
-            onSelectPrevious={selectPreviousPlaylistPageACB}
-            onSelectNext={selectNextPlaylistPageACB}
-            selectPlaylist={selectPlaylistACB}
-          />
-        )
-          || (<SuspenseView promise={props.model.playlistsPromiseState.promise} error={props.model.playlistsPromiseState.error} />)}
+        <DifficultyView
+          selectDifficulty={selectDifficulty}
+          currentDifficulty={props.model.difficulty}
+        />
+        {
+          (isPromiseResolved(props.model) &&
+            <div>
+              < PlaylistSelectionView
+                playlists={props.model.playlistsPromiseState.data.items}
+                previous={props.model.playlistsPromiseState.data.previous}
+                next={props.model.playlistsPromiseState.data.next}
+                onSelectPrevious={selectPreviousPlaylistPageACB}
+                onSelectNext={selectNextPlaylistPageACB}
+                selectPlaylist={selectPlaylistACB}
+              />
+            </div>)
+          ||
+          (<SuspenseView promise={props.model.playlistsPromiseState.promise} error={props.model.playlistsPromiseState.error} noPromiseMessage={"can't find playlists"} />)
+        }
       </div>
     )
 
@@ -42,6 +52,9 @@ export const Settings = observer(
       props.model.setCurrentPlaylist(playlist)
       props.model.startTimer()
 
+    }
+    function selectDifficulty(difficulty) {
+      props.model.difficulty = difficulty
     }
   }
 

@@ -6,6 +6,10 @@ import { getPlaylistPage, getSongs } from "./utils/spotifySource";
    The Model keeps the state of the application (Application State). 
    It is an abstract object, i.e. it knows nothing about graphics and interaction.
 */
+
+export enum Difficulty {
+  easy, medium, hard
+}
 export const model = {
   token: "",
   searchParams: {},
@@ -24,7 +28,7 @@ export const model = {
   numSongs: 5,
   lyricPromiseState: {},
   lyricParams: {},
-
+  difficulty: Difficulty.medium,
   currentPlaylistEffect() {
     if (!this.currentPlaylist) {
       return

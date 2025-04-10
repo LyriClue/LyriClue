@@ -1,3 +1,4 @@
+import { Difficulty } from "../Model.js";
 import { app } from "./firebaseConfig.js";
 
 // initialize Firestore
@@ -22,7 +23,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
 
 
   function checkUpdateACB() {
-    return [model.token]; // TODO: Add model attributes to save
+    return [model.token, model.difficulty]; // TODO: Add model attributes to save
   }
 
   function updateFirestoreACB() {
@@ -34,7 +35,8 @@ export function connectToPersistence(model: any, watchFunction: any) {
     setDoc(
       fireStoreDoc,
       {
-        token: model.token
+        token: model.token,
+        difficulty: model.difficulty
         // TODO: Add firestore attributes to save model to
       },
       { merge: true },
@@ -45,6 +47,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
 
     // TODO:  Update model Attributes according to firestore
     model.token = snapshot.data()?.token || ""
+    model.difficulty = snapshot.data()?.difficulty || Difficulty.medium
     model.ready = true;
   }
 }

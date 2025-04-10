@@ -15,6 +15,11 @@ export const model = {
   searchResultsPromiseState: {},
   playlistsPromiseState: {},
   songsPromiseState: {},
+  timerID: null,
+  maxTime: 15,
+  currentTime: 0.0,
+  progress: 0,
+
   currentPlaylist: {},
   numSongs: 5,
   lyricPromiseState: {},
@@ -63,12 +68,35 @@ export const model = {
     this.retrieveSongs(this.songsPromiseState.data.previous)
   },
 
+  setCurrentTime(time) {
+    this.currentTime = time
+  },
+
+  incrementTimer(model) {
+    console.log("time effect " + model.currentTime);
+    model.setCurrentTime(model.currentTime + 0.1)
+    if (model.currentTime >= model.maxTime) {
+      model.progress = 1
+      clearInterval(model.timerID)
+      model.timerID = null
+    }
+    model.progress = model.currentTime / model.maxTime
+  },
+
+  startTimer() {
+    this.setCurrentTime(0.0)
+    this.progress = 0.0
+    console.log("start timer");
+    console.log(this.currentTime);
+    this.timerID = setInterval(this.incrementTimer, 100, this)
+  },
   retrieveLyrics() {
     resolvePromise(getLyrics(this.lyricParams), this.lyricPromiseState)
   }
 
 
 };
+
 
 
 

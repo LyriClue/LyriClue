@@ -23,8 +23,10 @@ export const model = {
   maxTime: 15,
   currentTime: 0.0,
   progress: 0,
+  maxLinesToShow: 5,
 
   currentPlaylist: {},
+  currentSong: null,
   numSongs: 5,
   lyricPromiseState: {},
   lyricParams: {},
@@ -96,7 +98,12 @@ export const model = {
   },
   retrieveLyrics() {
     resolvePromise(getLyrics(this.lyricParams), this.lyricPromiseState)
+  },
+
+  linesToShow() {
+    return Math.max(Math.round(this.progress * this.maxLinesToShow), 1)
   }
+
 
 
 };

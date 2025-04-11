@@ -18,6 +18,7 @@ export const model = {
   songParams: { "market": "SV", "playlistId": null, "limit": 50, "offset": 0 },
   searchResultsPromiseState: {},
   playlistsPromiseState: {},
+  playlists: null,
   songsPromiseState: {},
   timerID: null,
   maxTime: 15,
@@ -50,16 +51,17 @@ export const model = {
   },
 
   retrievePlaylists(url = null) {
+    this.playlists = null
     resolvePromise(getPlaylistPage(this.playlistParams, this, url), this.playlistsPromiseState)
     this.playlistParams.offset = this.playlistsPromiseState.offset // WARN: Double check that this works since retrieve playlist works with promises
   },
 
   retrieveNextPlaylistPage() {
-    this.retrievePlaylists(this.playlistsPromiseState.data.next)
+    this.retrievePlaylists(this.playlists.next)
   },
 
   retrievePreviousPlaylistPage() {
-    this.retrievePlaylists(this.playlistsPromiseState.data.previous)
+    this.retrievePlaylists(this.playlists.previous)
   },
 
   retrieveSongs(url = null) {
@@ -92,6 +94,11 @@ export const model = {
   setSongs(songs: []) {
     this.songs = songs
     return songs
+  },
+
+  setPlaylists(playlists: any) {
+    this.playlists = playlists
+    return playlists
   },
 
   startTimer() {

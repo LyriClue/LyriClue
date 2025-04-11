@@ -26,7 +26,8 @@ export const model = {
   maxLinesToShow: 5,
 
   currentPlaylist: {},
-  currentSong: null,
+  songs: [],
+  currentSong: -1,
   numSongs: 5,
   lyricPromiseState: {},
   lyricParams: {},
@@ -88,6 +89,10 @@ export const model = {
     }
     model.progress = model.currentTime / model.maxTime
   },
+  setSongs(songs: []) {
+    this.songs = songs
+    return songs
+  },
 
   startTimer() {
     this.setCurrentTime(0.0)
@@ -102,10 +107,29 @@ export const model = {
 
   linesToShow() {
     return Math.max(Math.round(this.progress * this.maxLinesToShow), 1)
+  },
+  startGame() {
+    window.history.pushState("", "", "/game");
+    dispatchEvent(new PopStateEvent('popstate', {}))
+    this.currentSong = 0
+    this.songs = []
+    this.startTimer()
+  },
+  nextRound() {
+    this.currentSong += 1
+    if (this.currentSong >= this.songs.length) {
+      this.endGame()
+    }
+    this.startTimer()
+    window.history.pushState("", "", "/game");
+    dispatchEvent(new PopStateEvent('popstate', {}))
+  },
+  endGame() {
+    // TODO: 
+    console.log("game has ended");
+
+    return
   }
-
-
-
 };
 
 

@@ -9,6 +9,7 @@ import { SpotifyLanding } from './presenters/SpotifyLanding.tsx';
 import { Game } from './presenters/gamePresenter.tsx';
 import { LandingPresenter } from './presenters/landingPresenter.tsx';
 import './style.css'
+import { PostGuessPresenter } from './presenters/postGuess.tsx';
 
 
 const App = observer(
@@ -51,7 +52,12 @@ export function makeRouter(reactiveModel: object) {
     {
       path: "/landing",
       element: <LandingPresenter model={reactiveModel} />
+    },
+    {
+      path: "/post-guess",
+      element: <PostGuessPresenter model={reactiveModel} />
     }
+
   ])
 }
 

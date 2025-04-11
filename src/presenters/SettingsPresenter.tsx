@@ -47,11 +47,8 @@ export const Settings = observer(
     }
     function selectPlaylistACB(playlist) {
       console.log("set current playlist: ", playlist);
-      window.history.pushState("", "", "/game");
-      dispatchEvent(new PopStateEvent('popstate', {}))
       props.model.setCurrentPlaylist(playlist)
-      props.model.currentSong = 0
-      props.model.startTimer()
+      props.model.startGame()
 
     }
     function selectDifficulty(difficulty) {

@@ -14,15 +14,16 @@ export const Settings = observer(
           currentDifficulty={props.model.difficulty}
         />
         {
-          (isPromiseResolved(props.model) &&
+          (modelHasPlaylists(props.model) &&
             <div>
               < PlaylistSelectionView
-                playlists={props.model.playlistsPromiseState.data.items}
-                previous={props.model.playlistsPromiseState.data.previous}
-                next={props.model.playlistsPromiseState.data.next}
+                playlists={props.model.playlists.items}
+                previous={props.model.playlists.previous}
+                next={props.model.playlists.next}
                 onSelectPrevious={selectPreviousPlaylistPageACB}
                 onSelectNext={selectNextPlaylistPageACB}
                 selectPlaylist={selectPlaylistACB}
+                refreshPlaylists={refreshPlaylistsACB}
               />
             </div>)
           ||
@@ -31,11 +32,9 @@ export const Settings = observer(
       </div>
     )
 
-    function isPromiseResolved(model) {
+    function modelHasPlaylists(model) {
       return (
-        model.playlistsPromiseState.promise &&
-        model.playlistsPromiseState.data &&
-        !model.playlistsPromiseState.error
+        model.playlists
       );
     }
 
@@ -53,6 +52,9 @@ export const Settings = observer(
     }
     function selectDifficulty(difficulty) {
       props.model.difficulty = difficulty
+    }
+    function refreshPlaylistsACB() {
+      props.model.retrievePlaylists()
     }
   }
 

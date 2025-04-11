@@ -25,6 +25,7 @@ export function getPlaylistPage(pageParams, model, provided_url = null) {
     },
   )
     .then(getResponseACB)
+    .then((playlists) => model.setPlaylists(playlists))
 }
 
 // Reference: https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks

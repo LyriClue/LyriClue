@@ -4,11 +4,15 @@ import { SuspenseView } from "../views/suspenseView.tsx";
 
 const Game = observer(
     function gameRender(props) {
+        if (props.model.currentTime >= props.model.maxTime) {
+            const test = document.getElementById("answers");
+            console.log(test.submit());
+        }
         return (
             <div>
 
                 {(isPromiseResolved(props.model) &&
-                    <GameView lyrics={formatLyrics(props.model)} postGameURL={"/settings"} progress={props.model.progress} />)
+                    <GameView lyrics={formatLyrics(props.model)} postGameURL={"/settings"} progress={props.model.progress}/>)
                     ||
                     (<SuspenseView promise={props.model.songsPromiseState.promise} error={props.model.songsPromiseState.error} />)
                 }

@@ -23,7 +23,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
 
 
   function checkUpdateACB() {
-    return [model.token, model.difficulty]; // TODO: Add model attributes to save
+    return [model.token, model.difficulty, model.songs, model.currentSong];
   }
 
   function updateFirestoreACB() {
@@ -32,11 +32,14 @@ export function connectToPersistence(model: any, watchFunction: any) {
     }
 
 
+
     setDoc(
       fireStoreDoc,
       {
         token: model.token,
-        difficulty: model.difficulty
+        difficulty: model.difficulty,
+        songs: model.songs,
+        currentSong: model.currentSong,
         // TODO: Add firestore attributes to save model to
       },
       { merge: true },
@@ -45,9 +48,14 @@ export function connectToPersistence(model: any, watchFunction: any) {
 
   function gotDataACB(snapshot: any) {
 
+
     // TODO:  Update model Attributes according to firestore
     model.token = snapshot.data()?.token || ""
     model.difficulty = snapshot.data()?.difficulty || Difficulty.medium
+    model.songs = snapshot.data()?.songs || []
+    model.currentSong = snapshot.data()?.currentSong || 0
+
     model.ready = true;
+
   }
 }

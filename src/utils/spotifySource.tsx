@@ -53,6 +53,7 @@ export function getSongs(songParams: Object, model: any, provided_url = null) {
     .then(extractSongInfoACB)
     .then(callLyricApi)
     .then(removeNullValues)
+    .then((songs) => setSongsInModel(songs, model))
 }
 
 function pageToItemArrayACB(page: any) {
@@ -94,6 +95,11 @@ function filterValidLyric(song) {
   } else {
     return song
   }
+}
+
+function setSongsInModel(songs: [{ "artist": string, "title": string, "lyrics": Object }], model: { setSongs: Function }) {
+  model.setSongs(songs)
+  return songs
 }
 
 function removeNullValues(songs) {

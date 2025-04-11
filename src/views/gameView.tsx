@@ -19,56 +19,52 @@ function GameView(props: any) {
 
       {/* Main content */}
       <div className="relative items-center horizontal-center top-1/3">
-        <GameComponent />
+        <div className="h-50% items-center w-screen justify-center mb-1/2 font-mono">
+          <table className="mr-auto ml-auto border-spacing-x-10 text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-6xl mb-4 whitespace-pre">
+            <tr>
+              <td>...</td>
+            </tr>
+            <tr> {props.lyrics.map(renderLyrics)}</tr>
+            <tr>
+              <td>...</td>
+            </tr>
+          </table>
+          <div className="mb-20" />
+          <progress value={props.progress} />
+          <form action={props.postGameURL} className="">
+            <div className="mb-4">
+              <input
+                type="text"
+                id="title"
+                name="title"
+                placeholder="Title "
+                className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-6xl"
+              />
+            </div>
+            <div className="mb-2" />
+            <div className="mb-4">
+              <input
+                type="text"
+                id="artist"
+                name="artist"
+                placeholder="Artist "
+                className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-6xl"
+              />
+            </div>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
       </div>
     </div>
-  )
-
-  function GameComponent() {
-    return (
-      <div className="h-50% items-center w-screen justify-center mb-1/2 font-mono">
-        <table className="mr-auto ml-auto border-spacing-x-10 text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-6xl mb-4 whitespace-pre">
-          <tr>
-            <td>
-              ...
-            </td>
-          </tr>
-          <tr>
-            {props.lyrics.map(renderLyrics)}
-          </tr>
-          <tr>
-
-            <td>
-              ...
-            </td>
-          </tr>
-        </table>
-        <div className="mb-20" />
-        <progress value={props.progress} />
-        <form action={props.postGameURL} className="">
-          <div className="mb-4">
-            <input type="text" id="title" name="title" placeholder="Title " className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-6xl" />
-          </div>
-          <div className="mb-2" />
-          <div className="mb-4">
-            <input type="text" id="artist" name="artist" placeholder="Artist " className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-6xl" />
-          </div>
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    );
-  }
+  );
 
   function renderLyrics(lyric: string[]) {
     return (
       <tr>
-        <td>
-          {lyric}
-        </td>
+        <td>{lyric}</td>
       </tr>
-    )
-
+    );
   }
 }
 
-export { GameView }
+export { GameView };

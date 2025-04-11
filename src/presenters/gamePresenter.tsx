@@ -32,12 +32,6 @@ function formatLyrics(model) {
 
 function modelHasSongs(model: { songs: [], songsPromiseState: { promise: any, data: any, error: Error } }) {
 
-    return (
-        (model.songs.length != 0) || (
-            model.songsPromiseState.promise &&
-            model.songsPromiseState.data &&
-            !model.songsPromiseState.error
-        )
-    );
+    return (model.songs.length != 0)
 }
 export { Game }

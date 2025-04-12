@@ -7,7 +7,7 @@ export function AuthView(props: any) {
     </button>
   )
 
-  function onSpotifyLoginACB(e: any) {
+  function onSpotifyLoginACB() {
     props.onSpotifyLogin()
 
   }

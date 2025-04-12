@@ -3,7 +3,7 @@ import { SuspenseView } from "../views/suspenseView"
 import { getTokenFromUrl } from "./AuthPresenter"
 import { useEffect } from "react";
 
-export function SpotifyLanding(props) {
+export function SpotifyLanding(props: { model: { setToken(newToken: string): void }; }) {
   props.model.setToken(getTokenFromUrl().access_token)
   // Probably needs something like: window.location.hash = "" ,
   // or handle the token like karaokify does
@@ -13,6 +13,6 @@ export function SpotifyLanding(props) {
   }, [])
 
   return (
-    <SuspenseView promise="logging ing" />
+    <SuspenseView promise={Promise.resolve("logging in")} />
   )
 }

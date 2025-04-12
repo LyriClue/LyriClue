@@ -1,6 +1,6 @@
-import { redirect, useNavigate } from "react-router-dom";
+// import { redirect, useNavigate } from "react-router-dom";
 import { LandingView } from "../views/landingView";
-import { Link } from "react-router-dom"
+// import { Link } from "react-router-dom"
 
 
 export function LandingPresenter(props: any) {

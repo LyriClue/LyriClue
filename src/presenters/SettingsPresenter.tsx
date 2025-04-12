@@ -1,7 +1,7 @@
 import { PlaylistSelectionView } from "../views/PlaylistSelectionView"
 import { observer } from "mobx-react-lite"
 import { SuspenseView } from "../views/suspenseView"
-import { Difficulty } from "../Model"
+// import { Difficulty } from "../Model"
 import { DifficultyView } from "../views/difficultyView"
 
 
@@ -31,7 +31,7 @@ export const Settings = observer(
       </div>
     )
 
-    function isPromiseResolved(model) {
+    function isPromiseResolved(model: { playlistsPromiseState: { promise: any; data: any; error: any } }) {
       return (
         model.playlistsPromiseState.promise &&
         model.playlistsPromiseState.data &&
@@ -45,7 +45,7 @@ export const Settings = observer(
     function selectPreviousPlaylistPageACB() {
       props.model.retrievePreviousPlaylistPage()
     }
-    function selectPlaylistACB(playlist) {
+    function selectPlaylistACB(playlist: any) {
       console.log("set current playlist: ", playlist);
       window.history.pushState("", "", "/game");
       dispatchEvent(new PopStateEvent('popstate', {}))
@@ -54,7 +54,7 @@ export const Settings = observer(
       props.model.startTimer()
 
     }
-    function selectDifficulty(difficulty) {
+    function selectDifficulty(difficulty: any) {
       props.model.difficulty = difficulty
     }
   }

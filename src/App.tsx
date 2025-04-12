@@ -15,7 +15,7 @@ const App = observer(
   function AppRender(props: any) {
 
     if (!props.model.ready) {
-      return (<SuspenseView promise="loading data" />)
+      return (<SuspenseView promise={Promise.resolve("loading data")} />)
     }
 
     return (
@@ -26,7 +26,7 @@ const App = observer(
   }
 )
 
-export function makeRouter(reactiveModel: object) {
+export function makeRouter(reactiveModel: any) {
   return createBrowserRouter([
     {
       path: "/vite",

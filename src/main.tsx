@@ -1,4 +1,12 @@
 import { StrictMode } from 'react'
+
+// Extend the Window interface to include the myModel property
+declare global {
+  interface Window {
+    myModel: typeof reactiveModel;
+  }
+}
+
 import { model } from './Model.tsx'
 import { createRoot } from 'react-dom/client'
 import './index.css'

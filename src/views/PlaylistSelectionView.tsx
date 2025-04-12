@@ -1,4 +1,4 @@
-import { Difficulty } from "../Model";
+// import { Difficulty } from "../Model";
 
 export function PlaylistSelectionView(props: any) {
 
@@ -43,12 +43,12 @@ export function PlaylistSelectionView(props: any) {
   }
 
 
-  function selectPrevious(e) {
+  function selectPrevious() {
     console.log("previous");
     props.onSelectPrevious()
   }
 
-  function selectNext(e) {
+  function selectNext() {
     console.log("next");
     props.onSelectNext()
   }

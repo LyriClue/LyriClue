@@ -24,7 +24,7 @@ export function LandingView(props: any) {
       <HighscoreView highscoreArray={highscoreArray} userHighscoreArray={myHighscoreArray} />
 
       {/* Start game section */}
-      <ControlView playOwnPlaylist={props.playOwnPlaylist} />
+      <ControlView />
 
       {/* Profile Section */}
       <ProfileSection />
@@ -32,7 +32,7 @@ export function LandingView(props: any) {
   </div>
   );
 
-  function ControlView(playOwnPlaylist) {
+  function ControlView() {
     return (
       <div className="w-full md:w-2/3 flex flex-col items-center p-30">
         {/* Start Game */}
@@ -55,7 +55,7 @@ export function LandingView(props: any) {
     );
   }
 
-  function HighscoreView(props) {
+  function HighscoreView(props: { highscoreArray: number[]; userHighscoreArray: number[] }) {
 
     return (
       <div className="flex flex-col items-center md:items-start space-y-6 mb-8 md:mb-0 pt-30 w-[300px]">

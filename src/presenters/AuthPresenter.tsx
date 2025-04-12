@@ -22,15 +22,15 @@ export const AuthPresenter = observer(
         show_dialog: "true"
       })
 
-      window.location = authEndpoint + "?" + searchparams
+      window.location.assign(authEndpoint + "?" + searchparams)
     }
   }
 
 )
 export const getTokenFromUrl = () => { // TODO: Move to appropriate place
-  return window.location.hash.substring(1).split('&').reduce((initial: object, item: string) => {
+  return window.location.hash.substring(1).split('&').reduce((initial: { [key: string]: any }, item: string) => {
     let parts = item.split("=");
-    initial[parts[0]] = decodeURIComponent(parts[1])
-    return initial
+    initial[parts[0]] = decodeURIComponent(parts[1]);
+    return initial;
   }, {});
 }

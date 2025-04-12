@@ -1,7 +1,7 @@
 import { PlaylistSelectionView } from "../views/PlaylistSelectionView"
 import { observer } from "mobx-react-lite"
 import { SuspenseView } from "../views/suspenseView"
-import { Difficulty } from "../Model"
+// import { Difficulty } from "../Model"
 import { DifficultyView } from "../views/difficultyView"
 
 
@@ -32,7 +32,7 @@ export const Settings = observer(
       </div>
     )
 
-    function modelHasPlaylists(model) {
+    function modelHasPlaylists(model: { playlists: any }) {
       return (
         model.playlists
       );
@@ -44,13 +44,13 @@ export const Settings = observer(
     function selectPreviousPlaylistPageACB() {
       props.model.retrievePreviousPlaylistPage()
     }
-    function selectPlaylistACB(playlist) {
+    function selectPlaylistACB(playlist: any) {
       console.log("set current playlist: ", playlist);
       props.model.setCurrentPlaylist(playlist)
       props.model.startGame()
 
     }
-    function selectDifficulty(difficulty) {
+    function selectDifficulty(difficulty: any) {
       props.model.difficulty = difficulty
     }
     function refreshPlaylistsACB() {

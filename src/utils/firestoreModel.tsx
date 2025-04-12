@@ -3,6 +3,15 @@ import { app } from "./firebaseConfig.js";
 
 // initialize Firestore
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+
+// Extend the Window interface to include Firestore properties
+declare global {
+  interface Window {
+    doc: typeof doc;
+    setDoc: typeof setDoc;
+    db: typeof db;
+  }
+}
 const db = getFirestore(app);
 
 // make doc and setDoc available at the Console for testing

@@ -51,7 +51,7 @@ export function getSongs(songParams: Object, model: any, provided_url = null) {
     .then(pageToItemArrayACB)
     .then(filterValidSongsACB)
     .then(extractSongInfoACB)
-    .then(callLyricApi)
+    .then((songInfo) => callLyricApi(songInfo, model.numSongs))
     .then(removeNullValues)
     .then((songs) => setSongsInModel(songs, model))
 }
@@ -80,20 +80,22 @@ function itemToInfoACB(item) {
   return { "artist": item.track.artists[0].name, "title": item.track.name }
 }
 
-function callLyricApi(songs) {
-  return Promise.all(songs.slice(0, 10).map(joinWithLyrics))
-}
+function callLyricApi(songs: [], numSongs: number) {
+  var songsWithLyrics = Array.apply(null, Array(numSongs)).map(() => getRandomSong(songs)) //just a wonky way of initializing an array dw
+  return Promise.all(songsWithLyrics.map(joinWithLyrics))
 
-function joinWithLyrics(song) {
-  return getLyrics(song).then(lyrics => ({ lyrics, ...song })).then(filterValidLyric)
-}
+  function joinWithLyrics(song: { artist: string, title: string }): Promise<any> {
+    return getLyrics(song).then(lyrics => ({ lyrics, ...song })).then(filterValidLyric)
+  }
 
-function filterValidLyric(song) {
-
-  if (!song.lyrics) {
-    return null
-  } else {
-    return song
+  function filterValidLyric(song: { artist: string, title: string, lyrics: string }) {
+    if (song.lyrics) {
+      return song
+    }
+    if (songs.length == 0) {
+      throw new Error("Ran out of songs")
+    }
+    return joinWithLyrics(getRandomSong(songs))
   }
 }
 
@@ -101,6 +103,12 @@ function setSongsInModel(songs: [{ "artist": string, "title": string, "lyrics": 
   model.setSongs(songs)
   return songs
 }
+
+function getRandomSong(songs: []) {
+  const randomIndex = Math.floor(Math.random() * songs.length)
+  return songs.splice(randomIndex, 1)[0]
+}
+
 
 function removeNullValues(songs) {
   return songs.filter((song) => song)

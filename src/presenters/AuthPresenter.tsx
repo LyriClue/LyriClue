@@ -10,7 +10,7 @@ export const AuthPresenter = observer(
 
     function onSpotifyLoginACB() {
       const authEndpoint = "https://accounts.spotify.com/authorize";
-      const redirectUri = "http://localhost:5173/home"
+      const redirectUri = `${window.location.origin}/home`;
       const clientId = "0f96e0b07475401cb8595b62238e4d2f"
       const scopes =
         "playlist-read-private user-top-read"

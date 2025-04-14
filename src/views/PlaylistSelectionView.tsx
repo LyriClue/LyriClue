@@ -1,7 +1,6 @@
 // import { Difficulty } from "../Model";
 
 export function PlaylistSelectionView(props: any) {
-
   return (
     <div>
 
@@ -29,23 +28,16 @@ export function PlaylistSelectionView(props: any) {
           {(playlist.images && <img height="50" width="50" src={playlist.images[playlist.images.length - 1].url} />) || "?"} {/*length -1 to get the last and smallest image'*/}
         </td >
         <td>
-          {checkTotalSongs(playlist.tracks.total) || playlist.name}
+          {playlist.name}
         </td>
         <td>
-          <button disabled={playlist.tracks.total < 5} onClick={selectPlaylistACB}>Play!</button>
+          <button disabled={playlist.tracks.total < 5 || !playlist.isValidPlaylist} onClick={selectPlaylistACB}>Play!</button>
         </td>
       </tr>
     )
     function selectPlaylistACB() {
       console.log("Selected Playlist");
       props.selectPlaylist(playlist)
-    }
-  }
-
-
-  function checkTotalSongs(songs: number){
-    if (songs < 5){
-      return " Add more songs to use this playlist! "
     }
   }
 

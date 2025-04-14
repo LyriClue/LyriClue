@@ -8,7 +8,7 @@ function getResponseACB(response: Response) {
 }
 
 // Reference : https://developer.spotify.com/documentation/web-api/reference/get-a-list-of-current-users-playlists
-export function getPlaylistPage(pageParams: { limit: number; offset: number }, model: any, provided_url: string | null) {
+export function getPlaylistPage(pageParams: { limit: number; offset: number }, model: any, provided_url: string | null, songParams:any) {
   if (provided_url) {
     var url: string = provided_url
   } else {
@@ -26,7 +26,35 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
     },
   )
     .then(getResponseACB)
-    .then((playlists) => model.setPlaylists(playlists))
+    .then(testing)
+
+    function testing(playlists: any) {
+      //add isValidPlaylist to each playlist object
+      let newItems = playlists.items.map(addParamCB)
+      playlists.items = newItems
+
+      // check validity of all playlists, wait for all promises to resolve then set the playlists in model
+      Promise.all(playlists.items.forEach(checkPlaylistValidity)).then(() => {
+        model.setPlaylists(playlists)
+      })
+
+      function addParamCB(currentItems: any){
+        return {...currentItems, isValidPlaylist : true}
+      }
+
+      // check validity of songs, if callLyricApi gets error -> playlist is invalid and can't be used for game
+      function checkPlaylistValidity(playlist: any){
+        songParams.playlistId = playlist.id
+        getSongPage(songParams, model, null)
+          .then(pageToItemArrayACB)
+          .then(filterValidSongsACB)
+          .then(extractSongInfoACB)
+          .then((songInfo) => callLyricApi(songInfo, model.numSongs))
+          .catch(() => {
+            playlist.isValidPlaylist = false
+          })
+      }
+    }
 }
 
 // Reference: https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks

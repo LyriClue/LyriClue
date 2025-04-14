@@ -113,7 +113,7 @@ export const model: Model = {
   },
 
   retrievePlaylists(url: string | null = null) {
-    resolvePromise(getPlaylistPage(this.playlistParams, this, url), this.playlistsPromiseState);
+    resolvePromise(getPlaylistPage(this.playlistParams, this, url, this.songParams), this.playlistsPromiseState);
     this.playlistParams.offset = this.playlistsPromiseState.data?.offset ?? 0;
   },
 

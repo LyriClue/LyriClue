@@ -19,7 +19,7 @@ export function LandingView(props: any) {
     </div>
 
     {/* Main content */}
-    <div className="relative z-10 flex flex-col md:flex-row justify-between pl-4 items-center">
+    <div className="relative z-10 flex flex-col md:flex-row justify-between items-center">
       {/* High Score Section */}
       <HighscoreView highscoreArray={highscoreArray} userHighscoreArray={myHighscoreArray} />
 

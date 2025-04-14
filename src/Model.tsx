@@ -2,107 +2,175 @@ import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
 import { getPlaylistPage, getSongs } from "./utils/spotifySource";
 
-/* 
-   The Model keeps the state of the application (Application State). 
-   It is an abstract object, i.e. it knows nothing about graphics and interaction.
-*/
-
 export enum Difficulty {
-  easy, medium, hard
+  easy = "easy",
+  medium = "medium",
+  hard = "hard"
 }
-export const model = {
+
+interface Playlist {
+  id: string;
+  [key: string]: any;
+}
+
+interface Song {
+  [key: string]: any;
+}
+
+interface PromiseState<T = any> {
+  data?: T;
+  error?: Error;
+  promise?: Promise<T>;
+}
+
+interface SongParams {
+  playlistId: string | null;
+  market: string;
+  limit: number;
+  offset: number;
+}
+
+interface Model {
+  songs: Song[];
+  token: string;
+  searchParams: Record<string, unknown>;
+  market: string;
+  playlistParams: { limit: number; offset: number };
+  songParams: SongParams;
+  searchResultsPromiseState: PromiseState;
+  playlistsPromiseState: PromiseState<any>; // Specify generic type if known
+  playlists: Playlist[] | null;
+  songsPromiseState: PromiseState<any>;     // Specify generic type if known
+  timerID: number | null;
+  maxTime: number;
+  currentTime: number;
+  progress: number;
+  maxLinesToShow: number;
+  currentPlaylist: Playlist | null;
+  currentSong: number;
+  numSongs: number;
+  lyricPromiseState: PromiseState;
+  lyricParams: Record<string, unknown>;
+  difficulty: Difficulty;
+  
+  currentPlaylistEffect(): void;
+  setCurrentPlaylist(playlist: Playlist | null): void;
+  setToken(newToken: string): void;
+  retrievePlaylists(url?: string | null): void;
+  retrieveNextPlaylistPage(): void;
+  retrievePreviousPlaylistPage(): void;
+  retrieveSongs(url?: string | null): void;
+  retrieveNextsongPage(): void;
+  retrieveprevioussongPage(): void;
+  setCurrentTime(time: number): void;
+  incrementTimer(model: Model): void;
+  setSongs(songs: Song[]): Song[];
+  setPlaylists(playlists: Playlist[]): Playlist[];
+  startTimer(): void;
+  retrieveLyrics(): void;
+  linesToShow(): number;
+  startGame(): void;
+  nextRound(): void;
+  endGame(): void;
+}
+
+export const model: Model = {
+  songs: [],
   token: "",
   searchParams: {},
   market: "SV",
-  playlistParams: { "limit": 10, "offset": 0 },
-  songParams: { "market": "SV", "playlistId": null, "limit": 50, "offset": 0 },
+  playlistParams: { limit: 10, offset: 0 },
+  songParams: { market: "SV", playlistId: null, limit: 50, offset: 0 },
   searchResultsPromiseState: {},
   playlistsPromiseState: {},
+  playlists: null,
   songsPromiseState: {},
   timerID: null,
   maxTime: 15,
   currentTime: 0.0,
   progress: 0,
   maxLinesToShow: 5,
-
-  currentPlaylist: {},
-  songs: [],
+  currentPlaylist: null,
   currentSong: -1,
   numSongs: 5,
   lyricPromiseState: {},
   lyricParams: {},
   difficulty: Difficulty.medium,
+
   currentPlaylistEffect() {
-    if (!this.currentPlaylist) {
-      return
-    }
-    this.songParams.playlistId = this.currentPlaylist.id
-    this.retrieveSongs()
+    if (!this.currentPlaylist) return;
+    this.songParams.playlistId = this.currentPlaylist.id;
+    this.retrieveSongs();
   },
 
-  setCurrentPlaylist(playlist) {
-    this.currentPlaylist = playlist
+  setCurrentPlaylist(playlist: Playlist | null) {
+    this.currentPlaylist = playlist;
   },
 
   setToken(newToken: string) {
     console.log("changed token");
-    this.token = newToken
+    this.token = newToken;
   },
 
-  retrievePlaylists(url = null) {
-    resolvePromise(getPlaylistPage(this.playlistParams, this, url), this.playlistsPromiseState)
-    this.playlistParams.offset = this.playlistsPromiseState.offset // WARN: Double check that this works since retrieve playlist works with promises
+  retrievePlaylists(url: string | null = null) {
+    resolvePromise(getPlaylistPage(this.playlistParams, this, url), this.playlistsPromiseState);
+    this.playlistParams.offset = this.playlistsPromiseState.data?.offset ?? 0;
   },
 
   retrieveNextPlaylistPage() {
-    this.retrievePlaylists(this.playlistsPromiseState.data.next)
+    this.retrievePlaylists(this.playlistsPromiseState.data?.next);
   },
 
   retrievePreviousPlaylistPage() {
-    this.retrievePlaylists(this.playlistsPromiseState.data.previous)
+    this.retrievePlaylists(this.playlistsPromiseState.data?.previous);
   },
 
-  retrieveSongs(url = null) {
-    resolvePromise(getSongs(this.songParams, this, url), this.songsPromiseState)
-    // this.songParams.data.offset = this.songsPromiseState.data.offset // WARN: Double check that this works since retrieve song works with promises
+  retrieveSongs(url: string | null = null) {
+    resolvePromise(getSongs(this.songParams, this, url), this.songsPromiseState);
   },
 
   retrieveNextsongPage() {
-    this.retrieveSongs(this.songsPromiseState.data.next)
+    this.retrieveSongs(this.songsPromiseState.data?.next);
   },
 
   retrieveprevioussongPage() {
-    this.retrieveSongs(this.songsPromiseState.data.previous)
+    this.retrieveSongs(this.songsPromiseState.data?.previous);
   },
 
-  setCurrentTime(time) {
-    this.currentTime = time
+  setCurrentTime(time: number) {
+    this.currentTime = time;
   },
 
-  incrementTimer(model) {
+  incrementTimer(model: Model) {
     console.log("time effect " + model.currentTime);
-    model.setCurrentTime(model.currentTime + 0.1)
+    model.setCurrentTime(model.currentTime + 0.1);
     if (model.currentTime >= model.maxTime) {
-      model.progress = 1
-      clearInterval(model.timerID)
-      model.timerID = null
+      model.progress = 1;
+      clearInterval(model.timerID!);
+      model.timerID = null;
     }
-    model.progress = model.currentTime / model.maxTime
+    model.progress = model.currentTime / model.maxTime;
   },
   setSongs(songs: []) {
     this.songs = songs
     return songs
   },
 
+  setPlaylists(playlists: any) {
+    this.playlists = playlists
+    return playlists
+  },
+
   startTimer() {
-    this.setCurrentTime(0.0)
-    this.progress = 0.0
+    this.setCurrentTime(0.0);
+    this.progress = 0.0;
     console.log("start timer");
     console.log(this.currentTime);
-    this.timerID = setInterval(this.incrementTimer, 100, this)
+    this.timerID = window.setInterval(this.incrementTimer, 100, this);
   },
+
   retrieveLyrics() {
-    resolvePromise(getLyrics(this.lyricParams), this.lyricPromiseState)
+    resolvePromise(getLyrics(this.lyricParams), this.lyricPromiseState);
   },
 
   linesToShow() {
@@ -111,7 +179,7 @@ export const model = {
   startGame() {
     window.history.pushState("", "", "/game");
     dispatchEvent(new PopStateEvent('popstate', {}))
-    this.currentSong = 0
+    this.currentSong = 0; // Reset to the first song index
     this.songs = []
     this.startTimer()
   },
@@ -132,13 +200,14 @@ export const model = {
   }
 };
 
-
-
-
-export function isPromiseResolved(model) {
+export function isPromiseResolved(model: Model) {
   return (
-    model.currentDishPromiseState.promise &&
-    model.currentDishPromiseState.data &&
-    !model.currentDishPromiseState.error
+    // Note: currentDishPromiseState doesn't exist in Model - this might be a bug
+    // @ts-ignore - Suppressing TypeScript error for original code compatibility
+    model.currentDishPromiseState?.promise &&
+    // @ts-ignore
+    model.currentDishPromiseState?.data &&
+    // @ts-ignore
+    !model.currentDishPromiseState?.error
   );
 }

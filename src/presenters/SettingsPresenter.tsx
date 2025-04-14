@@ -1,7 +1,7 @@
 import { PlaylistSelectionView } from "../views/PlaylistSelectionView"
 import { observer } from "mobx-react-lite"
 import { SuspenseView } from "../views/suspenseView"
-import { Difficulty } from "../Model"
+// import { Difficulty } from "../Model"
 import { DifficultyView } from "../views/difficultyView"
 
 
@@ -14,15 +14,16 @@ export const Settings = observer(
           currentDifficulty={props.model.difficulty}
         />
         {
-          (isPromiseResolved(props.model) &&
+          (modelHasPlaylists(props.model) &&
             <div>
               < PlaylistSelectionView
-                playlists={props.model.playlistsPromiseState.data.items}
-                previous={props.model.playlistsPromiseState.data.previous}
-                next={props.model.playlistsPromiseState.data.next}
+                playlists={props.model.playlists.items}
+                previous={props.model.playlists.previous}
+                next={props.model.playlists.next}
                 onSelectPrevious={selectPreviousPlaylistPageACB}
                 onSelectNext={selectNextPlaylistPageACB}
                 selectPlaylist={selectPlaylistACB}
+                refreshPlaylists={refreshPlaylistsACB}
               />
             </div>)
           ||
@@ -31,11 +32,9 @@ export const Settings = observer(
       </div>
     )
 
-    function isPromiseResolved(model) {
+    function modelHasPlaylists(model: { playlists: any }) {
       return (
-        model.playlistsPromiseState.promise &&
-        model.playlistsPromiseState.data &&
-        !model.playlistsPromiseState.error
+        model.playlists
       );
     }
 
@@ -45,14 +44,17 @@ export const Settings = observer(
     function selectPreviousPlaylistPageACB() {
       props.model.retrievePreviousPlaylistPage()
     }
-    function selectPlaylistACB(playlist) {
+    function selectPlaylistACB(playlist: any) {
       console.log("set current playlist: ", playlist);
       props.model.setCurrentPlaylist(playlist)
       props.model.startGame()
 
     }
-    function selectDifficulty(difficulty) {
+    function selectDifficulty(difficulty: any) {
       props.model.difficulty = difficulty
+    }
+    function refreshPlaylistsACB() {
+      props.model.retrievePlaylists()
     }
   }
 

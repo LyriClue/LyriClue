@@ -1,12 +1,6 @@
+import { getAuth } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
-//import admin = require("firebase-admin");
 
-//import * as admin from 'firebase-admin'
-//var serviceAccount = require("/functions/service-account.json");
-//import * as serviceAccount from '../../functions/service-account.json'
-//admin.initializeApp({
-//  credential: admin.credential.cert(serviceAccount)
-//});
 
 export const firebaseConfig = {
   apiKey: "AIzaSyAtftTTRua52ciI90bCPjrL1m2WgOduJvs",
@@ -18,4 +12,4 @@ export const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-
+export const auth = getAuth(app)

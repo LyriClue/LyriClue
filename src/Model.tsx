@@ -1,6 +1,6 @@
 import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
-import { getPlaylistPage, getSongs } from "./utils/spotifySource";
+import { getPlaylistPage, getSongs, getUser } from "./utils/spotifySource";
 
 export enum Difficulty {
   easy = "easy",
@@ -30,7 +30,11 @@ interface SongParams {
   offset: number;
 }
 
-interface Model {
+export interface Model {
+  userName: string;
+  user: any;
+  userId: string | null;
+  userPromiseState: PromiseState;
   songs: Song[];
   token: string;
   searchParams: Record<string, unknown>;
@@ -52,7 +56,9 @@ interface Model {
   lyricPromiseState: PromiseState;
   lyricParams: Record<string, unknown>;
   difficulty: Difficulty;
-  
+  ready: boolean;
+
+  getUserDetails(): void;
   currentPlaylistEffect(): void;
   setCurrentPlaylist(playlist: Playlist | null): void;
   setToken(newToken: string): void;
@@ -75,6 +81,10 @@ interface Model {
 }
 
 export const model: Model = {
+  userName: "",
+  user: null,
+  userId: null,
+  userPromiseState: {},
   songs: [],
   token: "",
   searchParams: {},
@@ -96,7 +106,12 @@ export const model: Model = {
   lyricPromiseState: {},
   lyricParams: {},
   difficulty: Difficulty.medium,
+  ready: true,
 
+  getUserDetails() {
+    resolvePromise(getUser(this.token), this.userPromiseState)
+  }
+  ,
   currentPlaylistEffect() {
     if (!this.currentPlaylist) return;
     this.songParams.playlistId = this.currentPlaylist.id;

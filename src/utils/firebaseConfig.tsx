@@ -1,9 +1,12 @@
+import { getAuth } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
-//import admin = require("firebase-admin");
+// import { getAuth } from 'firebase-admin/auth'
+// import { initializeApp } from 'firebase-admin/app';
+// import admin = require("firebase-admin");
 
 //import * as admin from 'firebase-admin'
 //var serviceAccount = require("/functions/service-account.json");
-//import * as serviceAccount from '../../functions/service-account.json'
+import * as serviceAccount from '../../lyriclue-2ea07-firebase-adminsdk-fbsvc-deeff8318f.json'
 //admin.initializeApp({
 //  credential: admin.credential.cert(serviceAccount)
 //});
@@ -18,4 +21,4 @@ export const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-
+export const auth = getAuth(app)

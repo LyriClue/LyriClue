@@ -29,10 +29,10 @@ export function PlaylistSelectionView(props: any) {
           {(playlist.images && <img height="50" width="50" src={playlist.images[playlist.images.length - 1].url} />) || "?"} {/*length -1 to get the last and smallest image'*/}
         </td >
         <td>
-          {playlist.name}
+          {checkTotalSongs(playlist.tracks.total) || playlist.name}
         </td>
         <td>
-          <button onClick={selectPlaylistACB}>Play!</button>
+          <button disabled={playlist.tracks.total < 5} onClick={selectPlaylistACB}>Play!</button>
         </td>
       </tr>
     )
@@ -42,6 +42,12 @@ export function PlaylistSelectionView(props: any) {
     }
   }
 
+
+  function checkTotalSongs(songs: number){
+    if (songs < 5){
+      return " Add more songs to use this playlist! "
+    }
+  }
 
   function selectPrevious() {
     console.log("previous");

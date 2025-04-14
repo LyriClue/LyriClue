@@ -26,9 +26,9 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
     },
   )
     .then(getResponseACB)
-    .then(testing)
+    .then(checkAndSetPlaylistsACB)
 
-    function testing(playlists: any) {
+    function checkAndSetPlaylistsACB(playlists: any) {
       //add isValidPlaylist to each playlist object
       let newItems = playlists.items.map(addParamCB)
       playlists.items = newItems

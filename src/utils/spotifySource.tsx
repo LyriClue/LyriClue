@@ -45,7 +45,7 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
       // check validity of songs, if callLyricApi gets error -> playlist is invalid and can't be used for game
       function checkPlaylistValidity(playlist: any){
         songParams.playlistId = playlist.id
-        getSongPage(songParams, model, null)
+        return getSongPage(songParams, model, null)
           .then(pageToItemArrayACB)
           .then(filterValidSongsACB)
           .then(extractSongInfoACB)

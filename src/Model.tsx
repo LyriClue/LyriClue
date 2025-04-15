@@ -31,10 +31,7 @@ interface SongParams {
 }
 
 export interface Model {
-  userName: string;
   user: any;
-  userId: string | null;
-  userPromiseState: PromiseState;
   songs: Song[];
   token: string;
   searchParams: Record<string, unknown>;
@@ -58,7 +55,6 @@ export interface Model {
   difficulty: Difficulty;
   ready: boolean;
 
-  getUserDetails(): void;
   currentPlaylistEffect(): void;
   setCurrentPlaylist(playlist: Playlist | null): void;
   setToken(newToken: string): void;
@@ -81,10 +77,7 @@ export interface Model {
 }
 
 export const model: Model = {
-  userName: "",
   user: null,
-  userId: null,
-  userPromiseState: {},
   songs: [],
   token: "",
   searchParams: {},
@@ -108,10 +101,7 @@ export const model: Model = {
   difficulty: Difficulty.medium,
   ready: true,
 
-  getUserDetails() {
-    resolvePromise(getUser(this.token), this.userPromiseState)
-  }
-  ,
+
   currentPlaylistEffect() {
     if (!this.currentPlaylist) return;
     this.songParams.playlistId = this.currentPlaylist.id;
@@ -123,7 +113,7 @@ export const model: Model = {
   },
 
   setToken(newToken: string) {
-    console.log("changed token");
+    console.log("changed token: " + newToken);
     this.token = newToken;
   },
 

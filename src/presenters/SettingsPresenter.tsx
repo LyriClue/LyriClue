@@ -34,7 +34,7 @@ export const Settings = observer(
 
     function modelHasPlaylists(model: { playlists: any }) {
       return (
-        model.playlists
+        model.playlists && true
       );
     }
 

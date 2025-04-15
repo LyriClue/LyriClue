@@ -8,8 +8,6 @@ import axios from "axios"
 // initialize Firestore
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore"
-import { getResponseACB } from "./spotifySource.js";
-import firebase from "firebase/compat/app";
 
 // Extend the Window interface to include Firestore properties
 declare global {
@@ -28,35 +26,33 @@ window.db = db;
 
 const COLLECTION = "lyriclue"; // TODO: create better names
 
-export function getFirebaseToken(token: string) {
-  // return fetch(window.location.origin + "/token", {
-  //   method: "POST",
-  //   body: JSON.stringify({
-  //     token: token
-  //   })
-  // })
-  axios.post<string>('/firebaseAdmin', { token })
+export function signIn(token: string) {
+  return axios({
+    method: 'post',
+    url: 'http://localhost:8080/token',
+    headers: {},
+    data: { token: token }
+  }).then((response) => response.data.token)
     .then(signInWithToken)
-
 }
 
-function signInWithToken(response: any) {
-  console.log(response);
+function signInWithToken(token: any) {
+  console.log("signed in with custom token");
 
-  const { token } = response.data
-  signInWithCustomToken(auth, token)
+  return signInWithCustomToken(auth, token)
 }
 
 
 export function connectToPersistence(model: any, watchFunction: any) {
-  // const fireStoreDoc = doc(db, COLLECTION, model.user.uid);
-  watchFunction(checkUpdateACB, updateFirestoreACB);
   onAuthStateChanged(auth, signInOrOutACB)
-
-
+  watchFunction(checkUpdateACB, updateFirestoreACB);
 
   function signInOrOutACB(user: any) {
+    console.log("sign in");
+
     model.user = user
+    console.log(user);
+
     if (user) {
       model.ready = false;
       const fireStoreDoc = doc(db, COLLECTION, model.user.uid);
@@ -74,7 +70,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
   }
 
   function updateFirestoreACB() {
-    if (!model.ready && model.user) {
+    if (!model.ready || !model.user) {
       return
     }
     const fireStoreDoc = doc(db, COLLECTION, model.user.uid);
@@ -100,7 +96,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
     model.difficulty = snapshot.data()?.difficulty || Difficulty.medium
     model.songs = snapshot.data()?.songs || []
     model.currentSong = snapshot.data()?.currentSong || 0
-    model.playlists = snapshot.data()?.playlists || []
+    model.playlists = snapshot.data()?.playlists || null
 
     model.ready = true;
 

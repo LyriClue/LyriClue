@@ -34,7 +34,7 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
       playlists.items = newItems
 
       // check validity of all playlists, wait for all promises to resolve then set the playlists in model
-      Promise.all(playlists.items.forEach(checkPlaylistValidity)).then(() => {
+      Promise.all(playlists.items.map(checkPlaylistValidity)).then(() => {
         model.setPlaylists(playlists)
       })
 

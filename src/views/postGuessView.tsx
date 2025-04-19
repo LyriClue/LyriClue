@@ -38,16 +38,15 @@ export function PostGuessView(props: any) {
           <br />
           <div className="relative bg-white p-4  shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] w-[500px]">
             <p className="text-center text-black text-2xl font-mono leading-10 mb-1">
-              {"Song title: " + props.songGuess}
+                {"Song title: " + props.songGuess.replaceAll("+", " ")}
             </p>
             <p className="text-center text-black text-2xl font-mono leading-10">
-              {"Artist: " + props.artistGuess}
+              {"Artist: " + props.artistGuess.replaceAll("+", " ")}
             </p>
-            <span>{props.correctSong.title}</span>
-            <span>{props.correctSong.artist}</span>
           </div>
         </div>
     )
+
   }
 
   function correctGuess() {
@@ -59,13 +58,12 @@ export function PostGuessView(props: any) {
       <br />
       <div className="relative bg-white p-4  shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] w-[500px]">
         <p className="text-center text-black text-2xl font-mono leading-10 mb-1">
-          {"Song title: " + props.songGuess}
+          {"Song title: " + props.correctSong.title}
         </p>
         <p className="text-center text-black text-2xl font-mono leading-10">
-          {"Artist: " + props.artistGuess}
+          {"Artist: " + props.correctSong.artist}
         </p>
-        <span>{props.correctSong.title}</span>
-        <span>{props.correctSong.artist}</span>
+
       </div>
     </div>
     )

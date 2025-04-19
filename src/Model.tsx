@@ -77,7 +77,7 @@ export interface Model {
 }
 
 export const model: Model = {
-  user: null,
+  user: undefined,
   songs: [],
   token: "",
   searchParams: {},

@@ -19,6 +19,12 @@ const App = observer(
       return (<SuspenseView promise={Promise.resolve("loading data")} />)
     }
 
+    if (props.model.user == null) {
+      window.history.pushState("", "", "/");
+      dispatchEvent(new PopStateEvent('popstate', {}))
+      return <AuthPresenter />
+    }
+
     return (
       <div>
         <RouterProvider router={makeRouter(props.model)} />

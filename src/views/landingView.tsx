@@ -33,6 +33,7 @@ export function LandingView(props: any) {
   );
 
   function ControlView() {
+    console.log(props.guestLogin);
     return (
       <div className="w-full md:w-2/3 flex flex-col items-center p-30">
         {/* Start Game */}
@@ -44,8 +45,11 @@ export function LandingView(props: any) {
             <button className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
               Play daily playlist
             </button>
-            <button className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
-              onClick={props.playOwnPlaylist}>
+            <button
+              className="text-xl font-mono w-[300px] h-12 rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
+              onClick={props.playOwnPlaylist}
+              disabled={props.guestLogin}
+            >
               Play my own songs
             </button>
           </div>

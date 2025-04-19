@@ -38,10 +38,10 @@ export function PostGuessView(props: any) {
           <br />
           <div className="relative bg-white p-4  shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] w-[500px]">
             <p className="text-center text-black text-2xl font-mono leading-10 mb-1">
-                {"Song title: " + props.songGuess.replaceAll("+", " ")}
+                {"Song title: " + props.songGuess}
             </p>
             <p className="text-center text-black text-2xl font-mono leading-10">
-              {"Artist: " + props.artistGuess.replaceAll("+", " ")}
+              {"Artist: " + props.artistGuess}
             </p>
           </div>
         </div>

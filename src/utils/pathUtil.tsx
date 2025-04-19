@@ -5,3 +5,9 @@ export function getParamsFromUrl() { // TODO: Move to appropriate place
     return initial
   }, {});
 }
+
+export function urlContains(param: string) {
+  const windowParams = new URLSearchParams(window.location.search)
+  return windowParams.has(param)
+
+}

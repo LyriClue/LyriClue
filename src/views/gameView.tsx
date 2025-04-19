@@ -31,7 +31,7 @@ function GameView(props: any) {
           </table>
           <div className="mb-10" />
           <progress value={props.progress} />
-          <form action={props.postGameURL} className="">
+          <form action={props.postGameURL} className="" id="answers">
             <div className="mb-4 w-screen">
               <input
                 type="text"

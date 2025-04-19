@@ -1,5 +1,4 @@
 import { StrictMode } from 'react'
-import express from 'express'
 
 // Extend the Window interface to include the myModel property
 declare global {

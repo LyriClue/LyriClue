@@ -1,5 +1,3 @@
-// import { getAuth } from "firebase-admin/auth";
-// import { initializeApp } from "firebase-admin";
 import { onAuthStateChanged, signInWithCustomToken } from "firebase/auth";
 import { Difficulty } from "../Model.js";
 import { auth, app } from "./firebaseConfig.js";

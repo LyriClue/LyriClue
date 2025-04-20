@@ -30,16 +30,4 @@ createRoot(document.getElementById('root')!).render(
 )
 window.myModel = reactiveModel
 
-reaction(checkPlaylistACB, playlistEffectACB)
 connectToPersistence(reactiveModel, reaction);
-
-function checkPlaylistACB() {
-  return reactiveModel.currentPlaylist
-}
-
-function playlistEffectACB() {
-  reactiveModel.currentPlaylistEffect()
-  console.log("ran current playlist effect");
-
-
-}

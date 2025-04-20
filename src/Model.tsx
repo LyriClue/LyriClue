@@ -30,7 +30,7 @@ interface SongParams {
   offset: number;
 }
 
-interface Model {
+export interface Model {
   songs: Song[];
   token: string;
   searchParams: Record<string, unknown>;
@@ -52,9 +52,9 @@ interface Model {
   lyricPromiseState: PromiseState;
   lyricParams: Record<string, unknown>;
   difficulty: Difficulty;
-  
-  currentPlaylistEffect(): void;
+
   setCurrentPlaylist(playlist: Playlist | null): void;
+  loadCurrentPlaylist(): void;
   setToken(newToken: string): void;
   retrievePlaylists(url?: string | null): void;
   retrieveNextPlaylistPage(): void;
@@ -70,6 +70,7 @@ interface Model {
   retrieveLyrics(): void;
   linesToShow(): number;
   startGame(): void;
+  restartGame(): void;
   nextRound(): void;
   endGame(): void;
 }
@@ -97,7 +98,8 @@ export const model: Model = {
   lyricParams: {},
   difficulty: Difficulty.medium,
 
-  currentPlaylistEffect() {
+
+  loadCurrentPlaylist() {
     if (!this.currentPlaylist) return;
     this.songParams.playlistId = this.currentPlaylist.id;
     this.retrieveSongs();
@@ -105,6 +107,7 @@ export const model: Model = {
 
   setCurrentPlaylist(playlist: Playlist | null) {
     this.currentPlaylist = playlist;
+    this.loadCurrentPlaylist()
   },
 
   setToken(newToken: string) {
@@ -183,19 +186,28 @@ export const model: Model = {
     this.songs = []
     this.startTimer()
   },
+  restartGame() {
+    if (!this.currentPlaylist) {
+      return
+    }
+    this.loadCurrentPlaylist()
+    this.startGame()
+  },
+
   nextRound() {
     this.currentSong += 1
     if (this.currentSong >= this.songs.length) {
       this.endGame()
+      return
     }
     this.startTimer()
     window.history.pushState("", "", "/game");
     dispatchEvent(new PopStateEvent('popstate', {}))
   },
-  endGame() {
-    // TODO: 
-    console.log("game has ended");
 
+  endGame() {
+    window.history.pushState("", "", "/post-game");
+    dispatchEvent(new PopStateEvent('popstate', {}))
     return
   }
 };

@@ -10,7 +10,7 @@ import { Game } from './presenters/gamePresenter.tsx';
 import { LandingPresenter } from './presenters/landingPresenter.tsx';
 import './style.css'
 import { PostGuessPresenter } from './presenters/postGuess.tsx';
-
+import { PostGamePresenter } from './presenters/PostGamePresenter.tsx';
 
 const App = observer(
   function AppRender(props: any) {
@@ -56,6 +56,10 @@ export function makeRouter(reactiveModel: any) {
     {
       path: "/post-guess",
       element: <PostGuessPresenter model={reactiveModel} />
+    },
+    {
+      path: "/post-game",
+      element: <PostGamePresenter model={reactiveModel} />
     }
 
   ])

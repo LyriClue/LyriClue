@@ -52,7 +52,7 @@ interface Model {
   lyricPromiseState: PromiseState;
   lyricParams: Record<string, unknown>;
   difficulty: Difficulty;
-  
+
   currentPlaylistEffect(): void;
   setCurrentPlaylist(playlist: Playlist | null): void;
   setToken(newToken: string): void;
@@ -200,14 +200,3 @@ export const model: Model = {
   }
 };
 
-export function isPromiseResolved(model: Model) {
-  return (
-    // Note: currentDishPromiseState doesn't exist in Model - this might be a bug
-    // @ts-ignore - Suppressing TypeScript error for original code compatibility
-    model.currentDishPromiseState?.promise &&
-    // @ts-ignore
-    model.currentDishPromiseState?.data &&
-    // @ts-ignore
-    !model.currentDishPromiseState?.error
-  );
-}

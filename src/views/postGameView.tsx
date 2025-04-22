@@ -7,15 +7,16 @@ interface PostGameProps {
 }
 export function PostGameView(props: PostGameProps) {
   return (
-    <div>
-      <div>
-        <img
+    <div className="fixed top-0 left-0 w-full h-screen z-0">
+      <img
           className="fixed top-0 left-0 w-full h-full object-cover"
           src="https://lagn9w7j0a.ufs.sh/f/P2ljk8lEtN0jrczxxbYEFvcduPT5sY8H9An067qykmOl4RNo"
           alt="Background"
         />
         <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
-        <div className="absolute top-4 left-4">
+      <div className="fixed w-full h-screen z-0">
+        
+        <div className="absolute top-4 md:left-4 text-center md:text-left w-full">
           <h1 className="text-2xl text-black mainfont [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
             LyriClue
           </h1>
@@ -30,9 +31,9 @@ export function PostGameView(props: PostGameProps) {
         {props.score}/{props.nrSongs}
         </span>
         
-        <div className=" flex flex-col md:flex-row items-center justify-center">
-          <button onClick={onReturnToMenuACB}>Return To Menu</button>
-          <button onClick={playAgainACB}>Play Again!</button>
+        <div className=" relative flex flex-col md:flex-row items-center justify-center mt-5">
+          <button onClick={onReturnToMenuACB} className="md:mr-2.5 mb-2.5 md:mb-0">Return To Menu</button>
+          <button onClick={playAgainACB} className="md:ml-2.5 mt-2.5 md:mt-0">Play Again!</button>
         </div>
 
       </div>

@@ -27,7 +27,7 @@ const COLLECTION = "lyriclue"; // TODO: create better names
 export function signIn(token: string) {
   return axios({
     method: 'post',
-    url: 'http://localhost:8080/token',
+    url: window.location.protocol + '//' + window.location.hostname + ':8080/token',
     headers: {},
     data: { token: token }
   }).then((response) => response.data.token)

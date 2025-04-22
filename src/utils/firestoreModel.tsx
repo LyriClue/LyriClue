@@ -1,8 +1,11 @@
+import { onAuthStateChanged, signInWithCustomToken } from "firebase/auth";
 import { Difficulty } from "../Model.js";
-import { app } from "./firebaseConfig.js";
+import { auth, app } from "./firebaseConfig.js";
+import axios from "axios"
 
 // initialize Firestore
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore"
 
 // Extend the Window interface to include Firestore properties
 declare global {
@@ -20,16 +23,40 @@ window.setDoc = setDoc;
 window.db = db;
 
 const COLLECTION = "lyriclue"; // TODO: create better names
-const DOC_NAME = "lyriclue-doc";
+
+export function signIn(token: string) {
+  return axios({
+    method: 'post',
+    url: 'http://localhost:8080/token',
+    headers: {},
+    data: { token: token }
+  }).then((response) => response.data.token)
+    .then(signInWithToken)
+}
+
+function signInWithToken(token: any) {
+  console.log("signed in with custom token");
+
+  return signInWithCustomToken(auth, token)
+}
+
 
 export function connectToPersistence(model: any, watchFunction: any) {
-  const fireStoreDoc = doc(db, COLLECTION, DOC_NAME);
-
+  onAuthStateChanged(auth, signInOrOutACB)
   watchFunction(checkUpdateACB, updateFirestoreACB);
 
-  model.ready = false;
-  getDoc(fireStoreDoc).then(gotDataACB);
+  function signInOrOutACB(user: any) {
+    console.log("sign in");
 
+    model.user = user
+    console.log(user);
+
+    if (user) {
+      model.ready = false;
+      const fireStoreDoc = doc(db, COLLECTION, model.user.uid);
+      getDoc(fireStoreDoc).then(gotDataACB);
+    }
+  }
 
   function checkUpdateACB() {
     return [model.token,
@@ -41,12 +68,10 @@ export function connectToPersistence(model: any, watchFunction: any) {
   }
 
   function updateFirestoreACB() {
-    if (!model.ready) {
+    if (!model.ready || !model.user) {
       return
     }
-
-
-
+    const fireStoreDoc = doc(db, COLLECTION, model.user.uid);
     setDoc(
       fireStoreDoc,
       {
@@ -69,7 +94,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
     model.difficulty = snapshot.data()?.difficulty || Difficulty.medium
     model.songs = snapshot.data()?.songs || []
     model.currentSong = snapshot.data()?.currentSong || 0
-    model.playlists = snapshot.data()?.playlists || []
+    model.playlists = snapshot.data()?.playlists || null
 
     model.ready = true;
 

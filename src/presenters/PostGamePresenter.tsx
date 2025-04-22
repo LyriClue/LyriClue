@@ -9,10 +9,13 @@ interface PostGameProps {
 
 export const PostGamePresenter = observer(
   function postGameRender(props: PostGameProps) {
-    let placeholder = 10
+    let placeholder1 = 10
+    let placeholder2 = 20
+
     return (
       <PostGameView
-        score={placeholder}
+        score={placeholder1}
+        nrSongs={placeholder2}
         returnToMenu={returnToMenuACB}
         playAgain={playAgainACB}
       />

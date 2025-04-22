@@ -1,6 +1,6 @@
 import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
-import { getPlaylistPage, getSongs } from "./utils/spotifySource";
+import { getPlaylistPage, getSongs, getUser } from "./utils/spotifySource";
 
 export enum Difficulty {
   easy = "easy",
@@ -31,6 +31,7 @@ interface SongParams {
 }
 
 export interface Model {
+  user: any;
   songs: Song[];
   token: string;
   searchParams: Record<string, unknown>;
@@ -52,6 +53,7 @@ export interface Model {
   lyricPromiseState: PromiseState;
   lyricParams: Record<string, unknown>;
   difficulty: Difficulty;
+  ready: boolean;
 
   setCurrentPlaylist(playlist: Playlist | null): void;
   loadCurrentPlaylist(): void;
@@ -76,6 +78,7 @@ export interface Model {
 }
 
 export const model: Model = {
+  user: undefined,
   songs: [],
   token: "",
   searchParams: {},
@@ -97,6 +100,8 @@ export const model: Model = {
   lyricPromiseState: {},
   lyricParams: {},
   difficulty: Difficulty.medium,
+  ready: true,
+
 
 
   loadCurrentPlaylist() {
@@ -111,7 +116,7 @@ export const model: Model = {
   },
 
   setToken(newToken: string) {
-    console.log("changed token");
+    console.log("changed token: " + newToken);
     this.token = newToken;
   },
 
@@ -212,14 +217,3 @@ export const model: Model = {
   }
 };
 
-export function isPromiseResolved(model: Model) {
-  return (
-    // Note: currentDishPromiseState doesn't exist in Model - this might be a bug
-    // @ts-ignore - Suppressing TypeScript error for original code compatibility
-    model.currentDishPromiseState?.promise &&
-    // @ts-ignore
-    model.currentDishPromiseState?.data &&
-    // @ts-ignore
-    !model.currentDishPromiseState?.error
-  );
-}

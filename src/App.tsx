@@ -15,8 +15,14 @@ import { PostGamePresenter } from './presenters/PostGamePresenter.tsx';
 const App = observer(
   function AppRender(props: any) {
 
-    if (!props.model.ready) {
+    if (!props.model.ready || props.model.user === undefined) {
       return (<SuspenseView promise={Promise.resolve("loading data")} />)
+    }
+
+    if (props.model.user == null) {
+      window.history.pushState("", "", "/");
+      dispatchEvent(new PopStateEvent('popstate', {}))
+      return <AuthPresenter />
     }
 
     return (

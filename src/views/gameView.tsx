@@ -20,7 +20,7 @@ function GameView(props: any) {
       {/* Main content */}
       <div className="relative items-center horizontal-center top-1/10">
         <div className="h-[50%] items-center justify-center mb-1/2 font-mono ">
-          <table className="mr-auto ml-auto border-spacing-x-10 text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-6xl mb-4 whitespace-pre">
+          <table className="mr-auto ml-auto border-spacing-x-10 text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-4xl mb-4 whitespace-pre">
             <tr>
               <td>...</td>
             </tr>
@@ -31,14 +31,14 @@ function GameView(props: any) {
           </table>
           <div className="mb-10" />
           <progress value={props.progress} />
-          <form action={props.postGameURL} className="">
+          <form action={props.postGameURL} className="" id="answers">
             <div className="mb-4 w-screen">
               <input
                 type="text"
                 id="title"
                 name="title"
                 placeholder="Title "
-                className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-6xl"
+                className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-4xl max-w-[calc(100vw-10px)] break-words whitespace-normal"
               />
             </div>
             <div className="mb-2" />
@@ -48,7 +48,7 @@ function GameView(props: any) {
                 id="artist"
                 name="artist"
                 placeholder="Artist "
-                className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-6xl"
+                className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-4xl max-w-[calc(100vw-10px)] break-words whitespace-normal"
               />
             </div>
             <button type="submit">Submit</button>
@@ -61,7 +61,7 @@ function GameView(props: any) {
   function renderLyrics(lyric: string[]) {
     return (
       <tr>
-        <td className="max-w-[600px] md:max-w-[1000px] break-words whitespace-normal">{lyric}</td>
+        <td className="max-w-[calc(100vw-10px)]  break-words whitespace-normal">{lyric}</td>
       </tr>
     );
   }

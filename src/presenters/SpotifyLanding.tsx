@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router"
 import { SuspenseView } from "../views/suspenseView"
 import { getTokenFromUrl } from "./AuthPresenter"
 import { useEffect } from "react";
 import { urlContains } from "../utils/pathUtil";
+import { signIn } from "../utils/firestoreModel";
 
 export function SpotifyLanding(props: { model: { setToken(newToken: string): void }; }) {
   if (urlContains("error")) {
@@ -10,15 +10,15 @@ export function SpotifyLanding(props: { model: { setToken(newToken: string): voi
     dispatchEvent(new PopStateEvent('popstate', {}))
   } else {
     props.model.setToken(getTokenFromUrl().access_token)
-    // Probably needs something like: window.location.hash = "" ,
-    // or handle the token like karaokify does
-    const navigate = useNavigate()
-    useEffect(() => {
-      navigate("/landing")
-    }, [])
+    signIn(props.model.token).then(navigateToLanding)
   }
-
+  
   return (
     <SuspenseView promise={Promise.resolve("logging in")} />
   )
+}
+
+function navigateToLanding() {
+  window.history.pushState("", "", "/landing");
+  dispatchEvent(new PopStateEvent('popstate', {}))
 }

@@ -12,8 +12,8 @@ export function AuthView(props: any) {
       <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
 
       {/* Logo */}
-      <div className="absolute top-4 left-0 w-full">
-        <h1 className="text-2xl text-black mainfont text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
+      <div className="absolute top-1/7 left-0 w-full text-6xl">
+        <h1 className="text-black mainfont text-center [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
           LyriClue
         </h1>
       </div>

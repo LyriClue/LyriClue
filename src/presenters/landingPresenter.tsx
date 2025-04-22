@@ -6,8 +6,7 @@ import { LandingView } from "../views/landingView";
 export function LandingPresenter(props: any) {
   console.log("landingview");
   return (
-    <LandingView playOwnPlaylist={PlayOwnPlaylistsACB} 
-    guestLogin = {props.model.isGuest}/>
+    <LandingView playOwnPlaylist={PlayOwnPlaylistsACB} />
   );
 
   function PlayOwnPlaylistsACB() {

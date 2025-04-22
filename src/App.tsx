@@ -35,7 +35,7 @@ export function makeRouter(reactiveModel: any) {
     },
     {
       path: "/",
-      element: <AuthPresenter model={reactiveModel}/>
+      element: <AuthPresenter />
     },
     {
       path: "/home",

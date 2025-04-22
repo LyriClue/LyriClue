@@ -2,12 +2,10 @@ import { AuthView } from "../views/AuthView"
 import { observer } from "mobx-react-lite"
 
 export const AuthPresenter = observer(
-  function AuthPresenterRender(props: { model: { setLoginState: Function, isGuest: boolean } }) {
+  function AuthPresenterRender() {
 
     return (
-      <AuthView onSpotifyLogin={onSpotifyLoginACB} 
-      guestLogin={onGuestLoginACB}
-      />
+      <AuthView onSpotifyLogin={onSpotifyLoginACB} />
     )
 
     function onSpotifyLoginACB() {
@@ -23,16 +21,8 @@ export const AuthPresenter = observer(
         response_type: "token",
         show_dialog: "true"
       })
-      props.model.setLoginState(false)
+
       window.location.assign(authEndpoint + "?" + searchparams)
-    }
-
-    function onGuestLoginACB() {
-     
-      props.model.setLoginState(true) 
-      console.log(props.model.isGuest)
-
-      window.location.assign("/landing")
     }
   }
 

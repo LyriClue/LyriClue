@@ -52,9 +52,7 @@ interface Model {
   lyricPromiseState: PromiseState;
   lyricParams: Record<string, unknown>;
   difficulty: Difficulty;
-  isGuest: boolean;
   
-  setLoginState(isGuest: boolean): void;
   currentPlaylistEffect(): void;
   setCurrentPlaylist(playlist: Playlist | null): void;
   setToken(newToken: string): void;
@@ -98,11 +96,6 @@ export const model: Model = {
   lyricPromiseState: {},
   lyricParams: {},
   difficulty: Difficulty.medium,
-  isGuest: false,
-
-  setLoginState(isGuest: boolean) {
-    this.isGuest = isGuest;
-  },
 
   currentPlaylistEffect() {
     if (!this.currentPlaylist) return;

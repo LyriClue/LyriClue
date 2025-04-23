@@ -1,10 +1,23 @@
 // import { Difficulty } from "../Model.js";
 import { getLyrics } from "./lyricSource.js";
 import { PROXY_URL } from "./spotifyApiConfig.js";
+import { Model } from "../Model.js";
 
-function getResponseACB(response: Response) {
+export function getResponseACB(response: Response) {
   if (!response.ok) throw new Error("HTTP status code: " + response.status.toString());
   return response.json();
+}
+
+export function getUser(token: string) {
+  return fetch(
+    PROXY_URL + "me",
+    {
+      headers: {
+        "Authorization": "Bearer " + token,
+      },
+    }
+  ).then(getResponseACB)
+
 }
 
 // Reference : https://developer.spotify.com/documentation/web-api/reference/get-a-list-of-current-users-playlists

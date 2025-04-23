@@ -24,6 +24,7 @@ export const Settings = observer(
                 onSelectNext={selectNextPlaylistPageACB}
                 selectPlaylist={selectPlaylistACB}
                 refreshPlaylists={refreshPlaylistsACB}
+                navigateToMenu={goToMenuACB}
               />
             </div>)
           ||
@@ -34,7 +35,7 @@ export const Settings = observer(
 
     function modelHasPlaylists(model: { playlists: any }) {
       return (
-        model.playlists
+        model.playlists && true
       );
     }
 
@@ -55,6 +56,11 @@ export const Settings = observer(
     }
     function refreshPlaylistsACB() {
       props.model.retrievePlaylists()
+    }
+
+    function goToMenuACB() {
+      window.history.pushState("", "", "/landing");
+      dispatchEvent(new PopStateEvent('popstate', {}))
     }
   }
 

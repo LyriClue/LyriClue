@@ -2,7 +2,7 @@
 export function LandingView(props: any) {
   const highscoreArray = [1, 2, 3, 4, 5];
   const myHighscoreArray = [1, 2, 3, 4, 5];
-  return (<div className="h-screen w-screen ">
+  return (<div className="h-screen w-screen">
     {/* Background image */}
     <img
       className="fixed top-0 left-0 w-full h-full object-cover"
@@ -12,14 +12,14 @@ export function LandingView(props: any) {
     <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
 
     {/* Logo */}
-    <div className="absolute top-4 left-0 w-full">
+    <div className="absolute top-4 left-0 w-full md:pl-5">
       <h1 className="text-2xl text-black mainfont text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
         LyriClue
       </h1>
     </div>
 
     {/* Main content */}
-    <div className="relative z-10 flex flex-col md:flex-row justify-between pl-4 items-center">
+    <div className="relative z-10 flex flex-col md:flex-row justify-between items-center">
       {/* High Score Section */}
       <HighscoreView highscoreArray={highscoreArray} userHighscoreArray={myHighscoreArray} />
 
@@ -58,7 +58,7 @@ export function LandingView(props: any) {
   function HighscoreView(props: { highscoreArray: number[]; userHighscoreArray: number[] }) {
 
     return (
-      <div className="flex flex-col items-center md:items-start space-y-6 mb-8 md:mb-0 pt-30 w-[300px]">
+      <div className="flex flex-col items-center md:items-start space-y-6 mb-8 md:mb-0 pt-30 w-[300px] md:pl-5">
         {/* Daily Playlist Highscores */}
         <div className="relative w-full max-w-sm">
           <div className="relative bg-white p-4  shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] w-[300px]">

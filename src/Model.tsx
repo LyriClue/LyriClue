@@ -123,11 +123,15 @@ export const model: Model = {
   },
 
   retrieveNextPlaylistPage() {
-    this.retrievePlaylists(this.playlistsPromiseState.data?.next);
+    //console.log("next playlist: " + this.playlistsPromiseState.data?.next);
+    //console.log(this.playlists.next);
+    //this.retrievePlaylists(this.playlistsPromiseState.data?.next);
+    this.retrievePlaylists(this.playlists.next);
   },
 
   retrievePreviousPlaylistPage() {
-    this.retrievePlaylists(this.playlistsPromiseState.data?.previous);
+    //this.retrievePlaylists(this.playlistsPromiseState.data?.previous);
+    this.retrievePlaylists(this.playlists.previous);
   },
 
   retrieveSongs(url: string | null = null) {

@@ -10,9 +10,9 @@ export function LandingPresenter(props: any) {
   );
 
   function PlayOwnPlaylistsACB() {
-    if (!props.model.playlists) {
-      props.model.retrievePlaylists()
-    }
+    //if (!props.model.playlists) { //for now, to check validity of playlists we must run model.retrievePlaylists
+      props.model.retrievePlaylists() 
+    //}
     window.history.pushState("", "", "/settings");
     dispatchEvent(new PopStateEvent('popstate', {}))
   }

@@ -59,6 +59,7 @@ export function PlaylistSelectionView(props: any) {
           <button
             className="px-4 py-2 bg-green-500 text-white rounded"
             onClick={selectPlaylistACB}
+            disabled={!playlist.isValidPlaylist}
           >
             Play!
           </button>

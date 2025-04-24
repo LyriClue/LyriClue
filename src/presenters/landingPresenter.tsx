@@ -6,7 +6,9 @@ import { LandingView } from "../views/landingView";
 export function LandingPresenter(props: any) {
   console.log("landingview");
   return (
-    <LandingView playOwnPlaylist={PlayOwnPlaylistsACB} />
+    <LandingView playOwnPlaylist={PlayOwnPlaylistsACB} 
+                onLogout={onLogoutACB}
+    />
   );
 
   function PlayOwnPlaylistsACB() {
@@ -14,6 +16,11 @@ export function LandingPresenter(props: any) {
       props.model.retrievePlaylists()
     }
     window.history.pushState("", "", "/settings");
+    dispatchEvent(new PopStateEvent('popstate', {}))
+  }
+  function onLogoutACB() {
+    props.model.logout()
+    window.history.pushState("", "", "/");
     dispatchEvent(new PopStateEvent('popstate', {}))
   }
 }

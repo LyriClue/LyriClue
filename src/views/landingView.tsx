@@ -115,15 +115,17 @@ export function LandingView(props: any) {
             Profile
           </h1>
           <div className="w-full flex flex-col items-center space-y-4">
-            <button className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
-              Edit Profile
-            </button>
-            <button className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
-              Settings
+            
+            <button onClick={onLogoutACB}className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
+              Log out
             </button>
           </div>
         </div>
       </div>
     )
+  }
+
+  function onLogoutACB() {
+    props.onLogout();
   }
 }

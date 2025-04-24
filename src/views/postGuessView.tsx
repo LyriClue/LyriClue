@@ -10,8 +10,8 @@ export function PostGuessView(props: any) {
       <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
 
       {/* Logo */}
-      <div className="absolute top-4 left-0 w-full">
-        <h1 className="text-2xl text-black mainfont text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
+      <div className="absolute top-4 left-0 w-full ">
+        <h1 className="text-2xl text-black mainfont md:ml-5 text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
           LyriClue
         </h1>
       </div>

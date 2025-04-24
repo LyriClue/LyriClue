@@ -16,7 +16,7 @@ export function PostGameView(props: PostGameProps) {
         <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
       <div className="fixed w-full h-screen z-0">
         
-        <div className="absolute top-4 md:left-4 text-center md:text-left w-full">
+        <div className="absolute top-4 md:ml-5 text-center md:text-left w-full">
           <h1 className="text-2xl text-black mainfont [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
             LyriClue
           </h1>

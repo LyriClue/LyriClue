@@ -44,7 +44,7 @@ export function LandingView(props: any) {
             <button className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
               Play daily playlist
             </button>
-            <button className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
+            <button disabled={props.isGuest} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
               onClick={props.playOwnPlaylist}>
               Play my own songs
             </button>

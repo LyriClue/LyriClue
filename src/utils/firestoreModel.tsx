@@ -1,4 +1,4 @@
-import { onAuthStateChanged, signInWithCustomToken } from "firebase/auth";
+import { onAuthStateChanged, signInAnonymously, signInWithCustomToken, signOut } from "firebase/auth";
 import { Difficulty } from "../Model.js";
 import { auth, app } from "./firebaseConfig.js";
 import axios from "axios"
@@ -21,6 +21,7 @@ const db = getFirestore(app);
 window.doc = doc;
 window.setDoc = setDoc;
 window.db = db;
+window.auth = auth
 
 const COLLECTION = "lyriclue"; // TODO: create better names
 
@@ -38,6 +39,14 @@ function signInWithToken(token: any) {
   console.log("signed in with custom token");
 
   return signInWithCustomToken(auth, token)
+}
+
+
+export function signInAnonymous() {
+  return signInAnonymously(auth)
+    .catch((error) =>
+      console.log(error)
+    )
 }
 
 

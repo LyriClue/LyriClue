@@ -55,6 +55,7 @@ export interface Model {
   difficulty: Difficulty;
   ready: boolean;
 
+  userIsGuest: boolean;
   currentPlaylistEffect(): void;
   setCurrentPlaylist(playlist: Playlist | null): void;
   setToken(newToken: string): void;
@@ -101,6 +102,10 @@ export const model: Model = {
   difficulty: Difficulty.medium,
   ready: true,
 
+
+  userIsGuest() {
+    return this.user.isAnonymous
+  },
 
   currentPlaylistEffect() {
     if (!this.currentPlaylist) return;

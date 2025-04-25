@@ -1,6 +1,7 @@
 // import { redirect, useNavigate } from "react-router-dom";
 import { LandingView } from "../views/landingView";
 // import { Link } from "react-router-dom"
+import { signOutUser} from "../utils/firestoreModel";
 
 
 export function LandingPresenter(props: any) {
@@ -19,8 +20,6 @@ export function LandingPresenter(props: any) {
     dispatchEvent(new PopStateEvent('popstate', {}))
   }
   function onLogoutACB() {
-    props.model.logout()
-    window.history.pushState("", "", "/");
-    dispatchEvent(new PopStateEvent('popstate', {}))
+    signOutUser();
   }
 }

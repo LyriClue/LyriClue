@@ -54,8 +54,7 @@ export interface Model {
   lyricParams: Record<string, unknown>;
   difficulty: Difficulty;
   ready: boolean;
-
-  logout(): void;
+  
   currentPlaylistEffect(): void;
   setCurrentPlaylist(playlist: Playlist | null): void;
   setToken(newToken: string): void;
@@ -101,15 +100,6 @@ export const model: Model = {
   lyricParams: {},
   difficulty: Difficulty.medium,
   ready: true,
-
-  logout() {
-    this.user = null;
-    this.token = "";
-    this.playlists = null;
-    this.songs = [];
-    this.currentPlaylist = null;
-    this.currentSong = -1;
-  },
 
   currentPlaylistEffect() {
     if (!this.currentPlaylist) return;

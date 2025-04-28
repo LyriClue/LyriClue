@@ -54,12 +54,9 @@ export interface Model {
   lyricParams: Record<string, unknown>;
   difficulty: Difficulty;
   ready: boolean;
-  currentartistGuess: string;
-  currenttitleGuess: string;
   score: number;
 
 
-  setCurrentGuess(artistGuess: string, titleGuess: string): void;
   setCurrentScore(artistGuess: string, titleGuess: string): void;
   setCurrentPlaylist(playlist: Playlist | null): void;
   loadCurrentPlaylist(): void;
@@ -107,15 +104,7 @@ export const model: Model = {
   lyricParams: {},
   difficulty: Difficulty.medium,
   ready: true,
-  currentartistGuess: "",
-  currenttitleGuess: "",
   score: 0,
-  
-  setCurrentGuess(artistGuess: string, titleGuess: string) {
-    this.currentartistGuess = artistGuess;
-    this.currenttitleGuess = titleGuess;
-    this.setCurrentScore(artistGuess, titleGuess);
-  },
 
   setCurrentScore(artistGuess: string, titleGuess: string) {
     if (artistGuess.length === 0 && titleGuess.length === 0) {
@@ -134,11 +123,6 @@ export const model: Model = {
     const guessedTitleLetters = splitToLetters(titleGuess);
     const guessedArtistLetters = splitToLetters(artistGuess);
 
-    console.log("correctTitleLetters: " + correctTitleLetters);
-    console.log("correctArtistLetters: " + correctArtistLetters);
-    console.log("guessedTitleLetters: " + guessedTitleLetters);
-    console.log("guessedArtistLetters: " + guessedArtistLetters);
-
     const isTitleCorrect = JSON.stringify(correctTitleLetters) === JSON.stringify(guessedTitleLetters);
     const isArtistCorrect = JSON.stringify(correctArtistLetters) === JSON.stringify(guessedArtistLetters);
 
@@ -149,7 +133,6 @@ export const model: Model = {
     if (isArtistCorrect) {
       this.score += 1;
     }
-    console.log("score: " + this.score);
   },
 
   loadCurrentPlaylist() {

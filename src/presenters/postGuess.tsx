@@ -1,10 +1,9 @@
 import { observer } from "mobx-react-lite";
 import { PostGuessView } from "../views/postGuessView";
 import { getParamsFromUrl } from "../utils/pathUtil";
-import { get } from "mobx";
 
 export const PostGuessPresenter = observer(
-  function postGuessRender(props: { model: { songs: [{ title: string, artist: string }], currentSong: number, startTimer: Function, nextRound: Function, setCurrentGuess: Function } }) {
+  function postGuessRender(props: { model: { songs: [{ title: string, artist: string }], currentSong: number, startTimer: Function, nextRound: Function, setCurrentScore: Function } }) {
     return (
       <PostGuessView
         artistGuess={getParamsFromUrl("artist")}
@@ -21,7 +20,7 @@ export const PostGuessPresenter = observer(
     function getGuessParams(){
       const title = getParamsFromUrl("title")
       const artist = getParamsFromUrl("artist")
-      props.model.setCurrentGuess(artist, title)
+      props.model.setCurrentScore(artist, title)
 
     }
 

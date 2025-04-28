@@ -92,7 +92,6 @@ export function connectToPersistence(model: any, watchFunction: any) {
       { merge: true },
       
     );
-    console.log(" set score: " + model.score)
   }
 
   function gotDataACB(snapshot: any) {
@@ -107,7 +106,6 @@ export function connectToPersistence(model: any, watchFunction: any) {
     model.currentPlaylist = snapshot.data()?.currentPlaylist || null
     model.playlists = snapshot.data()?.playlists || null
     model.score = snapshot.data()?.score || 0
-    console.log("gotscore: " + model.score);
 
     model.ready = true;
 

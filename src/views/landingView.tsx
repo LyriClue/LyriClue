@@ -109,9 +109,6 @@ export function LandingView(props: any) {
       if (playlistname.length > 10) {
         playlistname = playlistname.substring(0, 10) + "...";
       }
-      if (playlistname === "") {
-        return ;
-      }
       return (
         <tr key={index} className="border-b border-gray-200 last:border-0">
           <td className="py-1"> {playlistname}</td>

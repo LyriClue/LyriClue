@@ -177,11 +177,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
     model.currentPlaylist = snapshot.data()?.currentPlaylist || null
     model.playlists = snapshot.data()?.playlists || null
     model.score = snapshot.data()?.score || 0
-    model.previousGames = snapshot.data()?.previousGames || [{
-      playlistName: "",
-      score: 0,
-      difficulty: Difficulty.easy
-    }]
+    model.previousGames = snapshot.data()?.previousGames || []
 
     model.ready = true;
 

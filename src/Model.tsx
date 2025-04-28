@@ -185,25 +185,6 @@ export const model: Model = {
     }
   },
 
-  currentDifficultyEffect(){
-    switch (this.difficulty){
-      case "easy":
-        this.maxTime = 60
-        this.linesToShowTimeCap = 30
-        break;
-      case "medium":
-        this.maxTime = 35
-        this.linesToShowTimeCap = 20
-        break;
-      case "hard":
-        this.maxTime = 25
-        this.linesToShowTimeCap = 15
-        break;
-      default:
-        console.log("Something went wrong")
-    }
-  },
-
   loadCurrentPlaylist() {
     if (!this.currentPlaylist) return;
     this.songParams.playlistId = this.currentPlaylist.id;

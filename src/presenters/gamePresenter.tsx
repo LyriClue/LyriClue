@@ -37,7 +37,6 @@ function formatLyrics(model: { songs: Song[]; currentSong: any; linesToShow: () 
     while (slicedLyrics.length < 5) {
         slicedLyrics.push("...")
     }
-    console.log(slicedLyrics);
     return slicedLyrics
 }
 

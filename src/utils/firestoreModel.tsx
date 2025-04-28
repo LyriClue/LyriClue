@@ -69,7 +69,8 @@ export function getDailyPlaylists(model: Model) {
   }
   function setSongsInModel(playlist: any) {
     model.ready = true
-    model.songParams.playlistArray = playlist
+    model.songParams.playlistArray = playlist.songs
+    model.currentPlaylist = { id: "", isDailyPlaylist: true }
   }
 
   function createDailyPlaylist(allPlaylists: any) {

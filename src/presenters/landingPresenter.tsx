@@ -25,7 +25,7 @@ export function LandingPresenter(props: any) {
     console.log("playing daily");
 
     getDailyPlaylists(props.model)
-      .then(() => props.model.retrieveSongsFromArray())
+      .then(() => props.model.retrieveSongs())
       .then(() => props.model.startGame())
   }
 

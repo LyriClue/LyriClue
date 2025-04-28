@@ -1,7 +1,7 @@
 // import { Difficulty } from "../Model.js";
 import { getLyrics } from "./lyricSource.js";
 import { PROXY_URL } from "./spotifyApiConfig.js";
-import { Model } from "../Model.js";
+import { Model, SongParams } from "../Model.js";
 
 export function getResponseACB(response: Response) {
   if (!response.ok) throw new Error("HTTP status code: " + response.status.toString());
@@ -42,14 +42,7 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
     .then((playlists) => model.setPlaylists(playlists))
 }
 
-// Reference: https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks
-interface SongParams {
-  playlistId: string | null;
-  playlistArray: [] | null;
-  market: string;
-  limit: number;
-  offset: number;
-}
+// // Reference: https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks
 
 export function getSongPage(songParams: SongParams, model: { token: string; }, provided_url: string | null = null) {
   if (provided_url) {
@@ -80,7 +73,7 @@ export function getSongsFromSpotifyPlaylist(songParams: SongParams, model: any, 
 }
 
 export function getDailySongsFromArray(songParams: any, model: Model) {
-  const songs = songParams.playlistArray.songs
+  const songs = songParams.playlistArray
   console.log(songParams.playlistArray);
 
   return callLyricApi(songs, songs.length)

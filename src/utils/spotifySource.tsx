@@ -45,6 +45,7 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
 // Reference: https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks
 interface SongParams {
   playlistId: string | null;
+  playlistArray: [] | null;
   market: string;
   limit: number;
   offset: number;
@@ -68,7 +69,7 @@ export function getSongPage(songParams: SongParams, model: { token: string; }, p
     .then(getResponseACB)
 }
 
-export function getSongs(songParams: SongParams, model: any, provided_url: string | null = null) {
+export function getSongsFromSpotifyPlaylist(songParams: SongParams, model: any, provided_url: string | null = null) {
   return getSongPage(songParams, model, provided_url)
     .then(pageToItemArrayACB)
     .then(filterValidSongsACB)
@@ -76,6 +77,16 @@ export function getSongs(songParams: SongParams, model: any, provided_url: strin
     .then((songInfo) => callLyricApi(songInfo, model.numSongs))
     .then(removeNullValues)
     .then((songs) => setSongsInModel(songs, model))
+}
+
+export function getDailySongsFromArray(songParams: any, model: Model) {
+  const songs = songParams.playlistArray.songs
+  console.log(songParams.playlistArray);
+
+  return callLyricApi(songs, songs.length)
+    .then(removeNullValues)
+    .then((songs) => setSongsInModel(songs, model))
+
 }
 
 function pageToItemArrayACB(page: any) {

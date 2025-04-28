@@ -1,14 +1,15 @@
 // import { redirect, useNavigate } from "react-router-dom";
 import { LandingView } from "../views/landingView";
 // import { Link } from "react-router-dom"
-import { signOutUser} from "../utils/firestoreModel";
+import { getDailyPlaylists, signOutUser } from "../utils/firestoreModel";
 
 
 export function LandingPresenter(props: any) {
   console.log("landingview");
   return (
-    <LandingView playOwnPlaylist={PlayOwnPlaylistsACB} 
-                onLogout={onLogoutACB}
+    <LandingView playOwnPlaylist={PlayOwnPlaylistsACB}
+      playDailyPlaylist={PlayDailyPlaylistsACB}
+      onLogout={onLogoutACB}
     />
   );
 
@@ -19,6 +20,15 @@ export function LandingPresenter(props: any) {
     window.history.pushState("", "", "/settings");
     dispatchEvent(new PopStateEvent('popstate', {}))
   }
+
+  function PlayDailyPlaylistsACB() {
+    console.log("playing daily");
+
+    getDailyPlaylists(props.model)
+      .then(() => props.model.retrieveSongsFromArray())
+      .then(() => props.model.startGame())
+  }
+
   function onLogoutACB() {
     signOutUser();
   }

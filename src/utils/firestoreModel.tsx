@@ -1,5 +1,5 @@
-import { onAuthStateChanged, signInWithCustomToken } from "firebase/auth";
-import { Difficulty } from "../Model.js";
+import { onAuthStateChanged, signInAnonymously, signInWithCustomToken } from "firebase/auth";
+import { Difficulty, Model } from "../Model.js";
 import { auth, app } from "./firebaseConfig.js";
 import axios from "axios"
 
@@ -13,6 +13,7 @@ declare global {
     doc: typeof doc;
     setDoc: typeof setDoc;
     db: typeof db;
+    auth: typeof auth;
   }
 }
 const db = getFirestore(app);
@@ -21,8 +22,10 @@ const db = getFirestore(app);
 window.doc = doc;
 window.setDoc = setDoc;
 window.db = db;
+window.auth = auth
 
 const COLLECTION = "lyriclue"; // TODO: create better names
+const COLLECTIVE_COLLECTION = "lyriclue-collective"
 
 export function signIn(token: string) {
   return axios({
@@ -44,6 +47,85 @@ function signInWithToken(token: any) {
 
   return signInWithCustomToken(auth, token)
 }
+
+
+
+export function signInAnonymous() {
+  return signInAnonymously(auth)
+    .catch((error) =>
+      console.log(error)
+    )
+}
+
+
+export function getDailyPlaylists(model: Model) {
+  const dailydoc = doc(db, COLLECTIVE_COLLECTION, "daily")
+  model.ready = false
+  return getDoc(dailydoc)
+    .then(getDailyPlaylist)
+    .then(createOrReturnPlaylist)
+    .then(setSongsInModel)
+
+  function getDailyPlaylist(snapshot: any) {
+    const dailyPlaylists = snapshot.data()?.days || {}
+    return dailyPlaylists
+  }
+
+  function createOrReturnPlaylist(allPlaylists: any) {
+    let todaysPlaylist = allPlaylists[getCurrentDate()]
+    if (todaysPlaylist == null) {
+      return createDailyPlaylist(allPlaylists)
+    }
+    return todaysPlaylist
+
+  }
+  function setSongsInModel(playlist: any) {
+    model.ready = true
+    model.songParams.playlistArray = playlist.songs
+    model.currentPlaylist = { id: "", isDailyPlaylist: true }
+  }
+
+  function createDailyPlaylist(allPlaylists: any) {
+    return getDoc(dailydoc)
+      .then(getAvailableSongs)
+      .then(pickRandomSongs)
+      .then((songs) => setDailyPlaylist(songs, allPlaylists))
+  }
+
+  function getAvailableSongs(snapshot: any) {
+    return snapshot.data()?.songs || []
+  }
+
+  function pickRandomSongs(songs: []) {
+    let randomSongs: [] = []
+    const numSongs = Math.floor(Math.random() * 2) + 3 //Random number between 3 - 5
+    for (let i = 0; i < numSongs; i++) {
+      let randomIndex = Math.floor(Math.random() * songs.length)
+      randomSongs.push(songs.splice(randomIndex, 1)[0])
+    }
+    return randomSongs
+  }
+
+  function setDailyPlaylist(playlist: [], allPlaylists: any) {
+    const todaysPlaylist = { songs: playlist, highScores: [] }
+    allPlaylists[getCurrentDate()] = todaysPlaylist
+    setDoc(
+      dailydoc,
+      {
+        days: allPlaylists,
+      },
+      { merge: true },
+    );
+    return todaysPlaylist
+
+  }
+}
+function getCurrentDate(): string {
+  const today = new Date()
+  const currentDate: string = today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate()
+  return currentDate
+}
+
 
 export function connectToPersistence(model: any, watchFunction: any) {
   onAuthStateChanged(auth, signInOrOutACB)
@@ -68,6 +150,8 @@ export function connectToPersistence(model: any, watchFunction: any) {
     model.songs,
     model.currentSong,
     model.playlists,
+    model.score,
+    model.previousGames,
     ];
   }
 
@@ -85,9 +169,12 @@ export function connectToPersistence(model: any, watchFunction: any) {
         currentSong: model.currentSong,
         playlists: model.playlists,
         currentPlaylist: model.currentPlaylist,
+        score: model.score,
+        previousGames: model.previousGames,
         // TODO: Add firestore attributes to save model to
       },
       { merge: true },
+
     );
   }
 
@@ -95,13 +182,15 @@ export function connectToPersistence(model: any, watchFunction: any) {
 
 
     // TODO:  Update model Attributes according to firestore
+
     model.token = snapshot.data()?.token || ""
     model.difficulty = snapshot.data()?.difficulty || Difficulty.medium
     model.songs = snapshot.data()?.songs || []
     model.currentSong = snapshot.data()?.currentSong || 0
     model.currentPlaylist = snapshot.data()?.currentPlaylist || null
     model.playlists = snapshot.data()?.playlists || null
-
+    model.score = snapshot.data()?.score || 0
+    model.previousGames = snapshot.data()?.previousGames || []
 
     model.ready = true;
 

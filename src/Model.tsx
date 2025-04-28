@@ -1,6 +1,6 @@
 import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
-import { getPlaylistPage, getSongs, getUser } from "./utils/spotifySource";
+import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist, getUser } from "./utils/spotifySource";
 
 export enum Difficulty {
   easy = "easy",
@@ -23,11 +23,18 @@ interface PromiseState<T = any> {
   promise?: Promise<T>;
 }
 
-interface SongParams {
+export interface SongParams {
   playlistId: string | null;
+  playlistArray: Song[] | null;
   market: string;
   limit: number;
   offset: number;
+}
+
+interface OneGameInfo {
+  playlistName: string;
+  score: number;
+  difficulty: Difficulty;
 }
 
 export interface Model {
@@ -54,8 +61,12 @@ export interface Model {
   lyricParams: Record<string, unknown>;
   difficulty: Difficulty;
   ready: boolean;
+  score: number;
+  previousGames: OneGameInfo[];
 
-  
+  setPreviousGames(): void;
+  userIsGuest(): boolean;
+  setCurrentScore(artistGuess: string, titleGuess: string): void;
   setCurrentPlaylist(playlist: Playlist | null): void;
   loadCurrentPlaylist(): void;
   setToken(newToken: string): void;
@@ -85,7 +96,7 @@ export const model: Model = {
   searchParams: {},
   market: "SV",
   playlistParams: { limit: 10, offset: 0 },
-  songParams: { market: "SV", playlistId: null, limit: 50, offset: 0 },
+  songParams: { market: "SV", playlistId: null, limit: 50, offset: 0, playlistArray: null },
   searchResultsPromiseState: {},
   playlistsPromiseState: {},
   playlists: null,
@@ -102,7 +113,55 @@ export const model: Model = {
   lyricParams: {},
   difficulty: Difficulty.medium,
   ready: true,
+  score: 0,
+  previousGames: [],
 
+  setPreviousGames() {
+    const gameInfo: OneGameInfo = {
+      playlistName: this.currentPlaylist?.name || "",
+      score: this.score,
+      difficulty: this.difficulty
+    };
+    this.previousGames.unshift(gameInfo);
+    if (this.previousGames.length > 5) {
+      this.previousGames.pop();
+    }
+  },
+
+  setCurrentScore(artistGuess: string, titleGuess: string) {
+    if (artistGuess.length === 0 && titleGuess.length === 0) {
+      return;
+    }
+
+    const correctTitle = this.songs[this.currentSong].title.toLowerCase();
+    const correctArtist = this.songs[this.currentSong].artist.toLowerCase();
+
+    titleGuess = titleGuess.toLowerCase();
+    artistGuess = artistGuess.toLowerCase();
+    const splitToLetters = (str: string) => str.replace(/[^a-zA-Z]/g, "").split("");
+
+    const correctTitleLetters = splitToLetters(correctTitle);
+    const correctArtistLetters = splitToLetters(correctArtist);
+    const guessedTitleLetters = splitToLetters(titleGuess);
+    const guessedArtistLetters = splitToLetters(artistGuess);
+
+
+
+    const isTitleCorrect = JSON.stringify(correctTitleLetters) === JSON.stringify(guessedTitleLetters);
+    const isArtistCorrect = JSON.stringify(correctArtistLetters) === JSON.stringify(guessedArtistLetters);
+
+    if (isTitleCorrect) {
+      this.score += 1;
+    }
+
+    if (isArtistCorrect) {
+      this.score += 1;
+    }
+  },
+
+  userIsGuest() {
+    return this.user.isAnonymous
+  },
 
   loadCurrentPlaylist() {
     if (!this.currentPlaylist) return;
@@ -134,7 +193,11 @@ export const model: Model = {
   },
 
   retrieveSongs(url: string | null = null) {
-    resolvePromise(getSongs(this.songParams, this, url), this.songsPromiseState);
+    if (this.currentPlaylist?.isDailyPlaylist) {
+      resolvePromise(getDailySongsFromArray(this.songParams, this), this.songsPromiseState)
+    } else {
+      resolvePromise(getSongsFromSpotifyPlaylist(this.songParams, this, url), this.songsPromiseState);
+    }
   },
 
   retrieveNextsongPage() {
@@ -150,7 +213,6 @@ export const model: Model = {
   },
 
   incrementTimer(model: Model) {
-    console.log("time effect " + model.currentTime);
     model.setCurrentTime(model.currentTime + 0.1);
     if (model.currentTime >= model.maxTime) {
       model.progress = 1;
@@ -172,8 +234,6 @@ export const model: Model = {
   startTimer() {
     this.setCurrentTime(0.0);
     this.progress = 0.0;
-    console.log("start timer");
-    console.log(this.currentTime);
     this.timerID = window.setInterval(this.incrementTimer, 100, this);
   },
 
@@ -189,13 +249,21 @@ export const model: Model = {
     dispatchEvent(new PopStateEvent('popstate', {}))
     this.currentSong = 0; // Reset to the first song index
     this.songs = []
+    this.score = 0
     this.startTimer()
   },
+
   restartGame() {
     if (!this.currentPlaylist) {
       return
     }
-    this.loadCurrentPlaylist()
+    if (this.currentPlaylist.isDailyPlaylist) {
+      this.songParams.playlistArray = this.songs
+      this.retrieveSongs()
+    } else {
+      this.loadCurrentPlaylist()
+    }
+    this.score = 0
     this.startGame()
   },
 

@@ -26,13 +26,13 @@ export function AuthView(props: any) {
           Play as Guest
         </button>
       </div>
-      
+
     </div>
-   
+
   )
 
   function onGuestLoginACB() {
-    props.guestLogin()
+    props.onGuestLogin()
   }
 
   function onSpotifyLoginACB() {

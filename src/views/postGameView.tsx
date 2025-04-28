@@ -3,7 +3,6 @@ interface PostGameProps {
   score: number,
   nrSongs: number,
   playAgain: Function
-  setPreviousGames: Function
 
 }
 export function PostGameView(props: PostGameProps) {

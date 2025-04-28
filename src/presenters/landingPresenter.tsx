@@ -10,6 +10,7 @@ export function LandingPresenter(props: any) {
     <LandingView playOwnPlaylist={PlayOwnPlaylistsACB}
       playDailyPlaylist={PlayDailyPlaylistsACB}
       onLogout={onLogoutACB}
+      isGuest={props.model.userIsGuest()}
     />
   );
 

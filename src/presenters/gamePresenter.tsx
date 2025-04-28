@@ -21,11 +21,16 @@ const Game = observer(
                 {(modelHasSongs(props.model) &&
                     <GameView lyrics={formatLyrics(props.model)} postGameURL={"/post-guess"} progress={props.model.progress} />)
                     ||
-                    (<SuspenseView promise={props.model.songsPromiseState.promise} error={props.model.songsPromiseState.error} />)
+                    (<SuspenseView promise={props.model.songsPromiseState.promise} error={props.model.songsPromiseState.error} returnToSettings={changeWindow}/>)
                 }
             </div>
         )
+        function changeWindow(){
+            window.history.pushState("", "", "/settings");
+            dispatchEvent(new PopStateEvent('popstate', {}))
+        }
     }
+    
 );
 
 function formatLyrics(model: { songs: Song[]; currentSong: any; linesToShow: () => number; }) {

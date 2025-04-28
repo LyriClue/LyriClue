@@ -1,35 +1,38 @@
-
 export function LandingView(props: any) {
   const highscoreArray = [1, 2, 3, 4, 5];
   const myHighscoreArray = [1, 2, 3, 4, 5];
-  return (<div className="h-screen w-screen">
-    {/* Background image */}
-    <img
-      className="fixed top-0 left-0 w-full h-full object-cover"
-      src="https://lagn9w7j0a.ufs.sh/f/P2ljk8lEtN0jNStY88rhRy7bLpuOx8lWi1cdXHE6DMwT9Pvj"
-      alt="Background"
-    />
-    <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
+  return (
+    <div className="h-screen w-screen">
+      {/* Background image */}
+      <img
+        className="fixed top-0 left-0 w-full h-full object-cover"
+        src="https://lagn9w7j0a.ufs.sh/f/P2ljk8lEtN0jNStY88rhRy7bLpuOx8lWi1cdXHE6DMwT9Pvj"
+        alt="Background"
+      />
+      <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
 
-    {/* Logo */}
-    <div className="absolute top-4 left-0 w-full md:pl-5">
-      <h1 className="text-2xl text-black mainfont text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
-        LyriClue
-      </h1>
+      {/* Logo */}
+      <div className="absolute top-4 left-0 w-full md:pl-5">
+        <h1 className="text-2xl text-black mainfont text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
+          LyriClue
+        </h1>
+      </div>
+
+      {/* Main content */}
+      <div className="relative z-10 flex flex-col md:flex-row justify-between items-center">
+        {/* High Score Section */}
+        <HighscoreView
+          highscoreArray={highscoreArray}
+          previousGames={props.previousGames}
+        />
+
+        {/* Start game section */}
+        <ControlView />
+
+        {/* Profile Section */}
+        <ProfileSection />
+      </div>
     </div>
-
-    {/* Main content */}
-    <div className="relative z-10 flex flex-col md:flex-row justify-between items-center">
-      {/* High Score Section */}
-      <HighscoreView highscoreArray={highscoreArray} previousGames={props.previousGames}/>
-
-      {/* Start game section */}
-      <ControlView />
-
-      {/* Profile Section */}
-      <ProfileSection />
-    </div>
-  </div>
   );
 
   function ControlView() {
@@ -41,22 +44,29 @@ export function LandingView(props: any) {
             Start Game
           </h1>
           <div className="w-full flex flex-col items-center space-y-4">
-            <button onClick={props.playDailyPlaylist} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
+            <button
+              onClick={props.playDailyPlaylist}
+              className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
+            >
               Play daily playlist
             </button>
-            <button disabled={props.isGuest} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
-              onClick={props.playOwnPlaylist}>
+            <button
+              disabled={props.isGuest}
+              className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
+              onClick={props.playOwnPlaylist}
+            >
               Play my own songs
             </button>
           </div>
         </div>
-
-      </div >
+      </div>
     );
   }
 
-  function HighscoreView(props: { highscoreArray: number[]; previousGames: any}) {
-
+  function HighscoreView(props: {
+    highscoreArray: number[];
+    previousGames: any;
+  }) {
     return (
       <div className="flex flex-col items-center md:items-start space-y-6 mb-8 md:mb-0 pt-30 w-[300px] md:pl-5">
         {/* Daily Playlist Highscores */}
@@ -99,7 +109,6 @@ export function LandingView(props: any) {
           <td className="py-1">Xpts</td>
         </tr>
       );
-
     }
 
     function PreviousGamesTableCB(previousGames: any, index: number) {
@@ -112,34 +121,32 @@ export function LandingView(props: any) {
       return (
         <tr key={index} className="border-b border-gray-200 last:border-0">
           <td className="py-1"> {playlistname}</td>
-          <td className="py-1 px-2">   </td>
+          <td className="py-1 px-2"> </td>
           <td className="py-1">{difficulty + ": " + score + "pts"}</td>
         </tr>
       );
-
     }
-
-
-
   }
 
   function ProfileSection() {
     return (
-      <div className="w-96 bg-black/40 rounded-tl-3xl rounded-bl-3xl relative right-0 h-screen rounded-3xl md:rounded-tr-none md:rounded-br-none" >
+      <div className="w-96 bg-black/40 rounded-tl-3xl rounded-bl-3xl relative right-0 h-screen rounded-3xl md:rounded-tr-none md:rounded-br-none">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/40 to-black/80 rounded-3xl md:rounded-tr-none md:rounded-br-none " />
         <div className="relative z-10 flex flex-col items-center justify-center h-full p-6">
           <h1 className="text-3xl mainfont text-white mb-8 text-center [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
             Profile
           </h1>
           <div className="w-full flex flex-col items-center space-y-4">
-
-            <button onClick={onLogoutACB} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
+            <button
+              onClick={onLogoutACB}
+              className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
+            >
               Log out
             </button>
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   function onLogoutACB() {

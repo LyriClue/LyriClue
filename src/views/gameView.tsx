@@ -21,13 +21,13 @@ function GameView(props: any) {
         <div className="h-[50%] items-center justify-center mb-1/2 font-mono ">
           <table className="mr-auto ml-auto border-spacing-x-10 text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-4xl mb-4 whitespace-pre">
             <tbody>
-            <tr>
-              <td>...</td>
-            </tr>
-            {props.lyrics.map(renderLyrics)}
-            <tr>
-              <td>...</td>
-            </tr>
+              <tr>
+                <td>...</td>
+              </tr>
+              {props.lyrics.map(renderLyrics)}
+              <tr>
+                <td>...</td>
+              </tr>
             </tbody>
           </table>
           <div className="mb-10" />
@@ -62,7 +62,9 @@ function GameView(props: any) {
   function renderLyrics(lyric: string[], index: number) {
     return (
       <tr key={index}>
-        <td className="max-w-[calc(100vw-10px)] break-words whitespace-normal">{lyric}</td>
+        <td className="max-w-[calc(100vw-10px)] break-words whitespace-normal">
+          {lyric}
+        </td>
       </tr>
     );
   }

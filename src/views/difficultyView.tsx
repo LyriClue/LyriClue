@@ -1,6 +1,9 @@
 import { Difficulty } from "../Model";
 
-export function DifficultyView(props: { currentDifficulty: Difficulty; selectDifficulty: (arg0: Difficulty) => void }) {
+export function DifficultyView(props: {
+  currentDifficulty: Difficulty;
+  selectDifficulty: (arg0: Difficulty) => void;
+}) {
   return (
     <div className="relative w-full h-[30%]">
       {/* Content */}

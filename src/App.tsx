@@ -1,74 +1,70 @@
-import './App.css'
-import { Settings } from './presenters/SettingsPresenter.tsx';
-import { AuthPresenter } from './presenters/AuthPresenter.tsx'
-import { ViteDefault } from './views/viteDefault';
-import { SuspenseView } from './views/suspenseView'
+import "./App.css";
+import { Settings } from "./presenters/SettingsPresenter.tsx";
+import { AuthPresenter } from "./presenters/AuthPresenter.tsx";
+import { ViteDefault } from "./views/viteDefault";
+import { SuspenseView } from "./views/suspenseView";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { observer } from 'mobx-react-lite';
-import { SpotifyLanding } from './presenters/SpotifyLanding.tsx';
-import { Game } from './presenters/gamePresenter.tsx';
-import { LandingPresenter } from './presenters/landingPresenter.tsx';
-import './style.css'
-import { PostGuessPresenter } from './presenters/postGuess.tsx';
-import { PostGamePresenter } from './presenters/PostGamePresenter.tsx';
+import { observer } from "mobx-react-lite";
+import { SpotifyLanding } from "./presenters/SpotifyLanding.tsx";
+import { Game } from "./presenters/gamePresenter.tsx";
+import { LandingPresenter } from "./presenters/landingPresenter.tsx";
+import "./style.css";
+import { PostGuessPresenter } from "./presenters/postGuess.tsx";
+import { PostGamePresenter } from "./presenters/PostGamePresenter.tsx";
 
-const App = observer(
-  function AppRender(props: any) {
-
-    if (!props.model.ready || props.model.user === undefined) {
-      return (<SuspenseView promise={Promise.resolve("loading data")} />)
-    }
-
-    if (props.model.user == null && window.location.pathname != "/home") {
-      window.history.pushState("", "", "/");
-      dispatchEvent(new PopStateEvent('popstate', {}))
-      return <AuthPresenter />
-    }
-
-    return (
-      <div>
-        <RouterProvider router={makeRouter(props.model)} />
-      </div>
-    )
+const App = observer(function AppRender(props: any) {
+  if (!props.model.ready || props.model.user === undefined) {
+    return <SuspenseView promise={Promise.resolve("loading data")} />;
   }
-)
+
+  if (props.model.user == null && window.location.pathname != "/home") {
+    window.history.pushState("", "", "/");
+    dispatchEvent(new PopStateEvent("popstate", {}));
+    return <AuthPresenter />;
+  }
+
+  return (
+    <div>
+      <RouterProvider router={makeRouter(props.model)} />
+    </div>
+  );
+});
 
 export function makeRouter(reactiveModel: any) {
   return createBrowserRouter([
     {
       path: "/vite",
-      element: <ViteDefault />
+      element: <ViteDefault />,
     },
     {
       path: "/",
-      element: <AuthPresenter />
+      element: <AuthPresenter />,
     },
     {
       path: "/home",
-      element: <SpotifyLanding model={reactiveModel} />
+      element: <SpotifyLanding model={reactiveModel} />,
     },
     {
       path: "/settings",
-      element: <Settings model={reactiveModel} />
+      element: <Settings model={reactiveModel} />,
     },
     {
       path: "/game",
-      element: <Game model={reactiveModel} />
+      element: <Game model={reactiveModel} />,
     },
     {
       path: "/landing",
-      element: <LandingPresenter model={reactiveModel} />
+      element: <LandingPresenter model={reactiveModel} />,
     },
     {
       path: "/post-guess",
-      element: <PostGuessPresenter model={reactiveModel} />
+      element: <PostGuessPresenter model={reactiveModel} />,
     },
     {
       path: "/post-game",
-      element: <PostGamePresenter model={reactiveModel} />
-    }
-
-  ])
+      element: <PostGamePresenter model={reactiveModel} />,
+    },
+  ]);
 }
 
-export default App
+export default App;

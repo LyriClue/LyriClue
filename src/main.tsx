@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode } from "react";
 
 // Extend the Window interface to include the myModel property
 declare global {
@@ -7,27 +7,26 @@ declare global {
   }
 }
 
-import { model } from './Model.tsx'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { model } from "./Model.tsx";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.tsx";
 import { observable, configure, reaction } from "mobx";
-import { connectToPersistence } from './utils/firestoreModel.tsx'
-configure({ enforceActions: "never", });  // we don't use Mobx actions
+import { connectToPersistence } from "./utils/firestoreModel.tsx";
+configure({ enforceActions: "never" }); // we don't use Mobx actions
 
 const reactiveModel = observable(model);
 
-const metaViewport = document.createElement('meta');
+const metaViewport = document.createElement("meta");
 metaViewport.name = "viewport";
 metaViewport.content = "width=device-width, initial-scale=1";
 document.head.appendChild(metaViewport);
 
-
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App model={reactiveModel} />
   </StrictMode>,
-)
-window.myModel = reactiveModel
+);
+window.myModel = reactiveModel;
 
 connectToPersistence(reactiveModel, reaction);

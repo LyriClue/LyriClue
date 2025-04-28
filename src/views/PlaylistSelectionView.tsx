@@ -10,11 +10,11 @@ export function PlaylistSelectionView(props: any) {
 
       {/* Playlist Content */}
       <div className="relative z-20 p-8">
-        <h1 className="text-3xl mainfont text-black mb-4 [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">Choose a Playlist!</h1>
+        <h1 className="text-3xl mainfont text-black mb-4 [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
+          Choose a Playlist!
+        </h1>
         <table className="w-full mb-4 bg-black/50">
-          <tbody>
-            {props.playlists.map(renderPlaylistsCB)}
-          </tbody>
+          <tbody>{props.playlists.map(renderPlaylistsCB)}</tbody>
         </table>
         <div className="flex justify-center">
           <button
@@ -31,7 +31,6 @@ export function PlaylistSelectionView(props: any) {
           >
             Next
           </button>
-
         </div>
         <button
           className="px-4 py-2 text-white rounded mt-4"
@@ -54,9 +53,12 @@ export function PlaylistSelectionView(props: any) {
               src={playlist.images[playlist.images.length - 1].url}
               alt="Playlist"
             />
-          )) || "?"}
+          )) ||
+            "?"}
         </td>
-        <td className="font-mono [text-shadow:_0px_1px_2px_rgb(0_0_0_/_1.00)]">{playlist.name}</td>
+        <td className="font-mono [text-shadow:_0px_1px_2px_rgb(0_0_0_/_1.00)]">
+          {playlist.name}
+        </td>
         <td>
           <button
             className="px-4 py-2 bg-green-500 text-white rounded"
@@ -72,19 +74,18 @@ export function PlaylistSelectionView(props: any) {
       console.log("Selected Playlist");
       props.selectPlaylist(playlist);
     }
-
   }
 
   function selectPrevious() {
     console.log("previous");
-    props.onSelectPrevious()
+    props.onSelectPrevious();
   }
 
   function selectNext() {
     console.log("next");
-    props.onSelectNext()
+    props.onSelectNext();
   }
-  
+
   function navigateToMenu() {
     console.log("Navigating to menu");
     props.navigateToMenu();

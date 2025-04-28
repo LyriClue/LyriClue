@@ -1,11 +1,16 @@
 import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
-import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist, getUser } from "./utils/spotifySource";
+import {
+  getPlaylistPage,
+  getDailySongsFromArray,
+  getSongsFromSpotifyPlaylist,
+  getUser,
+} from "./utils/spotifySource";
 
 export enum Difficulty {
   easy = "easy",
   medium = "medium",
-  hard = "hard"
+  hard = "hard",
 }
 
 interface Playlist {
@@ -48,7 +53,7 @@ export interface Model {
   searchResultsPromiseState: PromiseState;
   playlistsPromiseState: PromiseState<any>; // Specify generic type if known
   playlists: Playlist[] | null;
-  songsPromiseState: PromiseState<any>;     // Specify generic type if known
+  songsPromiseState: PromiseState<any>; // Specify generic type if known
   timerID: number | null;
   maxTime: number;
   currentTime: number;
@@ -96,7 +101,13 @@ export const model: Model = {
   searchParams: {},
   market: "SV",
   playlistParams: { limit: 10, offset: 0 },
-  songParams: { market: "SV", playlistId: null, limit: 50, offset: 0, playlistArray: null },
+  songParams: {
+    market: "SV",
+    playlistId: null,
+    limit: 50,
+    offset: 0,
+    playlistArray: null,
+  },
   searchResultsPromiseState: {},
   playlistsPromiseState: {},
   playlists: null,
@@ -120,7 +131,7 @@ export const model: Model = {
     const gameInfo: OneGameInfo = {
       playlistName: this.currentPlaylist?.name || "",
       score: this.score,
-      difficulty: this.difficulty
+      difficulty: this.difficulty,
     };
     this.previousGames.unshift(gameInfo);
     if (this.previousGames.length > 5) {
@@ -138,17 +149,20 @@ export const model: Model = {
 
     titleGuess = titleGuess.toLowerCase();
     artistGuess = artistGuess.toLowerCase();
-    const splitToLetters = (str: string) => str.replace(/[^a-zA-Z]/g, "").split("");
+    const splitToLetters = (str: string) =>
+      str.replace(/[^a-zA-Z]/g, "").split("");
 
     const correctTitleLetters = splitToLetters(correctTitle);
     const correctArtistLetters = splitToLetters(correctArtist);
     const guessedTitleLetters = splitToLetters(titleGuess);
     const guessedArtistLetters = splitToLetters(artistGuess);
 
-
-
-    const isTitleCorrect = JSON.stringify(correctTitleLetters) === JSON.stringify(guessedTitleLetters);
-    const isArtistCorrect = JSON.stringify(correctArtistLetters) === JSON.stringify(guessedArtistLetters);
+    const isTitleCorrect =
+      JSON.stringify(correctTitleLetters) ===
+      JSON.stringify(guessedTitleLetters);
+    const isArtistCorrect =
+      JSON.stringify(correctArtistLetters) ===
+      JSON.stringify(guessedArtistLetters);
 
     if (isTitleCorrect) {
       this.score += 1;
@@ -160,7 +174,7 @@ export const model: Model = {
   },
 
   userIsGuest() {
-    return this.user.isAnonymous
+    return this.user.isAnonymous;
   },
 
   loadCurrentPlaylist() {
@@ -171,7 +185,7 @@ export const model: Model = {
 
   setCurrentPlaylist(playlist: Playlist | null) {
     this.currentPlaylist = playlist;
-    this.loadCurrentPlaylist()
+    this.loadCurrentPlaylist();
   },
 
   setToken(newToken: string) {
@@ -180,7 +194,10 @@ export const model: Model = {
   },
 
   retrievePlaylists(url: string | null = null) {
-    resolvePromise(getPlaylistPage(this.playlistParams, this, url), this.playlistsPromiseState);
+    resolvePromise(
+      getPlaylistPage(this.playlistParams, this, url),
+      this.playlistsPromiseState,
+    );
     this.playlistParams.offset = this.playlistsPromiseState.data?.offset ?? 0;
   },
 
@@ -194,9 +211,15 @@ export const model: Model = {
 
   retrieveSongs(url: string | null = null) {
     if (this.currentPlaylist?.isDailyPlaylist) {
-      resolvePromise(getDailySongsFromArray(this.songParams, this), this.songsPromiseState)
+      resolvePromise(
+        getDailySongsFromArray(this.songParams, this),
+        this.songsPromiseState,
+      );
     } else {
-      resolvePromise(getSongsFromSpotifyPlaylist(this.songParams, this, url), this.songsPromiseState);
+      resolvePromise(
+        getSongsFromSpotifyPlaylist(this.songParams, this, url),
+        this.songsPromiseState,
+      );
     }
   },
 
@@ -222,13 +245,13 @@ export const model: Model = {
     model.progress = model.currentTime / model.maxTime;
   },
   setSongs(songs: []) {
-    this.songs = songs
-    return songs
+    this.songs = songs;
+    return songs;
   },
 
   setPlaylists(playlists: any) {
-    this.playlists = playlists
-    return playlists
+    this.playlists = playlists;
+    return playlists;
   },
 
   startTimer() {
@@ -242,46 +265,45 @@ export const model: Model = {
   },
 
   linesToShow() {
-    return Math.max(Math.round(this.progress * this.maxLinesToShow), 1)
+    return Math.max(Math.round(this.progress * this.maxLinesToShow), 1);
   },
   startGame() {
     window.history.pushState("", "", "/game");
-    dispatchEvent(new PopStateEvent('popstate', {}))
+    dispatchEvent(new PopStateEvent("popstate", {}));
     this.currentSong = 0; // Reset to the first song index
-    this.songs = []
-    this.score = 0
-    this.startTimer()
+    this.songs = [];
+    this.score = 0;
+    this.startTimer();
   },
 
   restartGame() {
     if (!this.currentPlaylist) {
-      return
+      return;
     }
     if (this.currentPlaylist.isDailyPlaylist) {
-      this.songParams.playlistArray = this.songs
-      this.retrieveSongs()
+      this.songParams.playlistArray = this.songs;
+      this.retrieveSongs();
     } else {
-      this.loadCurrentPlaylist()
+      this.loadCurrentPlaylist();
     }
-    this.score = 0
-    this.startGame()
+    this.score = 0;
+    this.startGame();
   },
 
   nextRound() {
-    this.currentSong += 1
+    this.currentSong += 1;
     if (this.currentSong >= this.songs.length) {
-      this.endGame()
-      return
+      this.endGame();
+      return;
     }
-    this.startTimer()
+    this.startTimer();
     window.history.pushState("", "", "/game");
-    dispatchEvent(new PopStateEvent('popstate', {}))
+    dispatchEvent(new PopStateEvent("popstate", {}));
   },
 
   endGame() {
     window.history.pushState("", "", "/post-game");
-    dispatchEvent(new PopStateEvent('popstate', {}))
-    return
-  }
+    dispatchEvent(new PopStateEvent("popstate", {}));
+    return;
+  },
 };
-

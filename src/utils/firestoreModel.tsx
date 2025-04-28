@@ -1,11 +1,15 @@
-import { onAuthStateChanged, signInAnonymously, signInWithCustomToken } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  signInAnonymously,
+  signInWithCustomToken,
+} from "firebase/auth";
 import { Difficulty, Model } from "../Model.js";
 import { auth, app } from "./firebaseConfig.js";
-import axios from "axios"
+import axios from "axios";
 
 // initialize Firestore
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { getFirestore } from "firebase/firestore"
+import { getFirestore } from "firebase/firestore";
 
 // Extend the Window interface to include Firestore properties
 declare global {
@@ -22,19 +26,20 @@ const db = getFirestore(app);
 window.doc = doc;
 window.setDoc = setDoc;
 window.db = db;
-window.auth = auth
+window.auth = auth;
 
 const COLLECTION = "lyriclue"; // TODO: create better names
-const COLLECTIVE_COLLECTION = "lyriclue-collective"
+const COLLECTIVE_COLLECTION = "lyriclue-collective";
 
 export function signIn(token: string) {
   return axios({
-    method: 'post',
-    url: 'http://localhost:8080/token',
+    method: "post",
+    url: "http://localhost:8080/token",
     headers: {},
-    data: { token: token }
-  }).then((response) => response.data.token)
-    .then(signInWithToken)
+    data: { token: token },
+  })
+    .then((response) => response.data.token)
+    .then(signInWithToken);
 }
 
 export function signOutUser() {
@@ -45,70 +50,63 @@ export function signOutUser() {
 function signInWithToken(token: any) {
   console.log("signed in with custom token");
 
-  return signInWithCustomToken(auth, token)
+  return signInWithCustomToken(auth, token);
 }
-
-
 
 export function signInAnonymous() {
-  return signInAnonymously(auth)
-    .catch((error) =>
-      console.log(error)
-    )
+  return signInAnonymously(auth).catch((error) => console.log(error));
 }
 
-
 export function getDailyPlaylists(model: Model) {
-  const dailydoc = doc(db, COLLECTIVE_COLLECTION, "daily")
-  model.ready = false
+  const dailydoc = doc(db, COLLECTIVE_COLLECTION, "daily");
+  model.ready = false;
   return getDoc(dailydoc)
     .then(getDailyPlaylist)
     .then(createOrReturnPlaylist)
-    .then(setSongsInModel)
+    .then(setSongsInModel);
 
   function getDailyPlaylist(snapshot: any) {
-    const dailyPlaylists = snapshot.data()?.days || {}
-    return dailyPlaylists
+    const dailyPlaylists = snapshot.data()?.days || {};
+    return dailyPlaylists;
   }
 
   function createOrReturnPlaylist(allPlaylists: any) {
-    let todaysPlaylist = allPlaylists[getCurrentDate()]
+    let todaysPlaylist = allPlaylists[getCurrentDate()];
     if (todaysPlaylist == null) {
-      return createDailyPlaylist(allPlaylists)
+      return createDailyPlaylist(allPlaylists);
     }
-    return todaysPlaylist
-
+    return todaysPlaylist;
   }
   function setSongsInModel(playlist: any) {
-    model.ready = true
-    model.songParams.playlistArray = playlist.songs
-    model.currentPlaylist = { id: "", isDailyPlaylist: true }
+    model.ready = true;
+    model.songParams.playlistArray = playlist.songs;
+    model.currentPlaylist = { id: "", isDailyPlaylist: true };
   }
 
   function createDailyPlaylist(allPlaylists: any) {
     return getDoc(dailydoc)
       .then(getAvailableSongs)
       .then(pickRandomSongs)
-      .then((songs) => setDailyPlaylist(songs, allPlaylists))
+      .then((songs) => setDailyPlaylist(songs, allPlaylists));
   }
 
   function getAvailableSongs(snapshot: any) {
-    return snapshot.data()?.songs || []
+    return snapshot.data()?.songs || [];
   }
 
   function pickRandomSongs(songs: []) {
-    let randomSongs: [] = []
-    const numSongs = Math.floor(Math.random() * 2) + 3 //Random number between 3 - 5
+    let randomSongs: [] = [];
+    const numSongs = Math.floor(Math.random() * 2) + 3; //Random number between 3 - 5
     for (let i = 0; i < numSongs; i++) {
-      let randomIndex = Math.floor(Math.random() * songs.length)
-      randomSongs.push(songs.splice(randomIndex, 1)[0])
+      let randomIndex = Math.floor(Math.random() * songs.length);
+      randomSongs.push(songs.splice(randomIndex, 1)[0]);
     }
-    return randomSongs
+    return randomSongs;
   }
 
   function setDailyPlaylist(playlist: [], allPlaylists: any) {
-    const todaysPlaylist = { songs: playlist, highScores: [] }
-    allPlaylists[getCurrentDate()] = todaysPlaylist
+    const todaysPlaylist = { songs: playlist, highScores: [] };
+    allPlaylists[getCurrentDate()] = todaysPlaylist;
     setDoc(
       dailydoc,
       {
@@ -116,25 +114,24 @@ export function getDailyPlaylists(model: Model) {
       },
       { merge: true },
     );
-    return todaysPlaylist
-
+    return todaysPlaylist;
   }
 }
 function getCurrentDate(): string {
-  const today = new Date()
-  const currentDate: string = today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate()
-  return currentDate
+  const today = new Date();
+  const currentDate: string =
+    today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate();
+  return currentDate;
 }
 
-
 export function connectToPersistence(model: any, watchFunction: any) {
-  onAuthStateChanged(auth, signInOrOutACB)
+  onAuthStateChanged(auth, signInOrOutACB);
   watchFunction(checkUpdateACB, updateFirestoreACB);
 
   function signInOrOutACB(user: any) {
     console.log("sign in");
 
-    model.user = user
+    model.user = user;
     console.log(user);
 
     if (user) {
@@ -145,19 +142,20 @@ export function connectToPersistence(model: any, watchFunction: any) {
   }
 
   function checkUpdateACB() {
-    return [model.token,
-    model.difficulty,
-    model.songs,
-    model.currentSong,
-    model.playlists,
-    model.score,
-    model.previousGames,
+    return [
+      model.token,
+      model.difficulty,
+      model.songs,
+      model.currentSong,
+      model.playlists,
+      model.score,
+      model.previousGames,
     ];
   }
 
   function updateFirestoreACB() {
     if (!model.ready || !model.user) {
-      return
+      return;
     }
     const fireStoreDoc = doc(db, COLLECTION, model.user.uid);
     setDoc(
@@ -174,25 +172,21 @@ export function connectToPersistence(model: any, watchFunction: any) {
         // TODO: Add firestore attributes to save model to
       },
       { merge: true },
-
     );
   }
 
   function gotDataACB(snapshot: any) {
-
-
     // TODO:  Update model Attributes according to firestore
 
-    model.token = snapshot.data()?.token || ""
-    model.difficulty = snapshot.data()?.difficulty || Difficulty.medium
-    model.songs = snapshot.data()?.songs || []
-    model.currentSong = snapshot.data()?.currentSong || 0
-    model.currentPlaylist = snapshot.data()?.currentPlaylist || null
-    model.playlists = snapshot.data()?.playlists || null
-    model.score = snapshot.data()?.score || 0
-    model.previousGames = snapshot.data()?.previousGames || []
+    model.token = snapshot.data()?.token || "";
+    model.difficulty = snapshot.data()?.difficulty || Difficulty.medium;
+    model.songs = snapshot.data()?.songs || [];
+    model.currentSong = snapshot.data()?.currentSong || 0;
+    model.currentPlaylist = snapshot.data()?.currentPlaylist || null;
+    model.playlists = snapshot.data()?.playlists || null;
+    model.score = snapshot.data()?.score || 0;
+    model.previousGames = snapshot.data()?.previousGames || [];
 
     model.ready = true;
-
   }
 }

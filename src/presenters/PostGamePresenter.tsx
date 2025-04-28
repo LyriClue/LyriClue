@@ -17,15 +17,18 @@ export const PostGamePresenter = observer(
         nrSongs={placeholder2}
         returnToMenu={returnToMenuACB}
         playAgain={playAgainACB}
+        setPreviousGames={props.model.setPreviousGames}
       />
     )
 
 
     function returnToMenuACB() {
+      props.model.setPreviousGames()
       window.history.pushState("", "", "/landing");
       dispatchEvent(new PopStateEvent('popstate', {}))
     }
     function playAgainACB() {
+      props.model.setPreviousGames()
       props.model.restartGame()
     }
   }

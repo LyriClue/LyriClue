@@ -30,6 +30,12 @@ interface SongParams {
   offset: number;
 }
 
+interface OneGameInfo {
+  playlistName: string;
+  score: number;
+  difficulty: Difficulty;
+}
+
 export interface Model {
   user: any;
   songs: Song[];
@@ -55,8 +61,9 @@ export interface Model {
   difficulty: Difficulty;
   ready: boolean;
   score: number;
+  previousGames: OneGameInfo[];
 
-
+  setPreviousGames(): void;
   setCurrentScore(artistGuess: string, titleGuess: string): void;
   setCurrentPlaylist(playlist: Playlist | null): void;
   loadCurrentPlaylist(): void;
@@ -105,6 +112,19 @@ export const model: Model = {
   difficulty: Difficulty.medium,
   ready: true,
   score: 0,
+  previousGames: [],
+
+  setPreviousGames() {
+    const gameInfo: OneGameInfo = {
+      playlistName: this.currentPlaylist?.name || "",
+      score: this.score,
+      difficulty: this.difficulty
+    };
+    this.previousGames.unshift(gameInfo);
+    if (this.previousGames.length > 5) {
+      this.previousGames.pop();
+    }
+  },
 
   setCurrentScore(artistGuess: string, titleGuess: string) {
     if (artistGuess.length === 0 && titleGuess.length === 0) {

@@ -69,6 +69,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
     model.currentSong,
     model.playlists,
     model.score,
+    model.previousGames,
     ];
   }
 
@@ -87,6 +88,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
         playlists: model.playlists,
         currentPlaylist: model.currentPlaylist,
         score: model.score,
+        previousGames: model.previousGames,
         // TODO: Add firestore attributes to save model to
       },
       { merge: true },
@@ -106,6 +108,11 @@ export function connectToPersistence(model: any, watchFunction: any) {
     model.currentPlaylist = snapshot.data()?.currentPlaylist || null
     model.playlists = snapshot.data()?.playlists || null
     model.score = snapshot.data()?.score || 0
+    model.previousGames = snapshot.data()?.previousGames || [{
+      playlistName: "",
+      score: 0,
+      difficulty: Difficulty.easy
+    }]
 
     model.ready = true;
 

@@ -9,6 +9,7 @@ export function LandingPresenter(props: any) {
   return (
     <LandingView playOwnPlaylist={PlayOwnPlaylistsACB} 
                 onLogout={onLogoutACB}
+                previousGames={props.model.previousGames}
     />
   );
 

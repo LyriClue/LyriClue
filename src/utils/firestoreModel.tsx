@@ -94,7 +94,7 @@ export function getDailyPlaylists(model: Model) {
   }
 
   function setDailyPlaylist(playlist: [], allPlaylists: any) {
-    const todaysPlaylist = { songs: playlist, numSongs: playlist.length, highScores: [] }
+    const todaysPlaylist = { songs: playlist, highScores: [] }
     allPlaylists[getCurrentDate()] = todaysPlaylist
     setDoc(
       dailydoc,
@@ -158,7 +158,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
         // TODO: Add firestore attributes to save model to
       },
       { merge: true },
-      
+
     );
   }
 
@@ -166,7 +166,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
 
 
     // TODO:  Update model Attributes according to firestore
-    
+
     model.token = snapshot.data()?.token || ""
     model.difficulty = snapshot.data()?.difficulty || Difficulty.medium
     model.songs = snapshot.data()?.songs || []

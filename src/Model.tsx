@@ -165,6 +165,25 @@ export const model: Model = {
   userIsGuest() {
     return this.user.isAnonymous
   },
+  
+  currentDifficultyEffect(){
+    switch (this.difficulty){
+      case "easy":
+        this.maxTime = 60
+        this.linesToShowTimeCap = 30
+        break;
+      case "medium":
+        this.maxTime = 35
+        this.linesToShowTimeCap = 20
+        break;
+      case "hard":
+        this.maxTime = 25
+        this.linesToShowTimeCap = 15
+        break;
+      default:
+        console.log("Something went wrong")
+    }
+  },
 
   currentDifficultyEffect(){
     switch (this.difficulty){
@@ -272,7 +291,6 @@ export const model: Model = {
     this.currentSong = 0; // Reset to the first song index
     this.songs = []
     this.score = 0
-    this.maxTime = this.difficulty === Difficulty.easy ? 300 : this.difficulty === Difficulty.medium ? 90 : 30;
     this.startTimer()
   },
 

@@ -1,6 +1,6 @@
 import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
-import { getPlaylistPage, getSongs, getUser } from "./utils/spotifySource";
+import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist, getUser } from "./utils/spotifySource";
 
 export enum Difficulty {
   easy = "easy",
@@ -23,8 +23,9 @@ interface PromiseState<T = any> {
   promise?: Promise<T>;
 }
 
-interface SongParams {
+export interface SongParams {
   playlistId: string | null;
+  playlistArray: Song[] | null;
   market: string;
   limit: number;
   offset: number;
@@ -94,7 +95,7 @@ export const model: Model = {
   searchParams: {},
   market: "SV",
   playlistParams: { limit: 10, offset: 0 },
-  songParams: { market: "SV", playlistId: null, limit: 50, offset: 0 },
+  songParams: { market: "SV", playlistId: null, limit: 50, offset: 0, playlistArray: null },
   searchResultsPromiseState: {},
   playlistsPromiseState: {},
   playlists: null,
@@ -185,7 +186,11 @@ export const model: Model = {
   },
 
   retrieveSongs(url: string | null = null) {
-    resolvePromise(getSongs(this.songParams, this, url), this.songsPromiseState);
+    if (this.currentPlaylist?.isDailyPlaylist) {
+      resolvePromise(getDailySongsFromArray(this.songParams, this), this.songsPromiseState)
+    } else {
+      resolvePromise(getSongsFromSpotifyPlaylist(this.songParams, this, url), this.songsPromiseState);
+    }
   },
 
   retrieveNextsongPage() {
@@ -240,12 +245,18 @@ export const model: Model = {
     this.score = 0
     this.startTimer()
   },
+
   restartGame() {
     if (!this.currentPlaylist) {
       return
     }
+    if (this.currentPlaylist.isDailyPlaylist) {
+      this.songParams.playlistArray = this.songs
+      this.retrieveSongs()
+    } else {
+      this.loadCurrentPlaylist()
+    }
     this.score = 0
-    this.loadCurrentPlaylist()
     this.startGame()
   },
 

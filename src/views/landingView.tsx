@@ -41,7 +41,7 @@ export function LandingView(props: any) {
             Start Game
           </h1>
           <div className="w-full flex flex-col items-center space-y-4">
-            <button className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
+            <button onClick={props.playDailyPlaylist} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
               Play daily playlist
             </button>
             <button className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
@@ -135,8 +135,8 @@ export function LandingView(props: any) {
             Profile
           </h1>
           <div className="w-full flex flex-col items-center space-y-4">
-            
-            <button onClick={onLogoutACB}className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
+
+            <button onClick={onLogoutACB} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
               Log out
             </button>
           </div>

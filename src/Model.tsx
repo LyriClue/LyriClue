@@ -93,7 +93,7 @@ export const model: Model = {
   playlists: null,
   songsPromiseState: {},
   timerID: null,
-  maxTime: 15,
+  maxTime: 90,
   currentTime: 0.0,
   progress: 0,
   maxLinesToShow: 5,
@@ -218,6 +218,7 @@ export const model: Model = {
     this.currentSong = 0; // Reset to the first song index
     this.songs = []
     this.score = 0
+    this.maxTime = this.difficulty === Difficulty.easy ? 300 : this.difficulty === Difficulty.medium ? 90 : 30;
     this.startTimer()
   },
   restartGame() {

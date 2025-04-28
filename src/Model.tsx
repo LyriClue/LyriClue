@@ -65,6 +65,7 @@ export interface Model {
   previousGames: OneGameInfo[];
 
   setPreviousGames(): void;
+  userIsGuest: boolean;
   setCurrentScore(artistGuess: string, titleGuess: string): void;
   setCurrentPlaylist(playlist: Playlist | null): void;
   loadCurrentPlaylist(): void;
@@ -144,6 +145,8 @@ export const model: Model = {
     const guessedTitleLetters = splitToLetters(titleGuess);
     const guessedArtistLetters = splitToLetters(artistGuess);
 
+
+
     const isTitleCorrect = JSON.stringify(correctTitleLetters) === JSON.stringify(guessedTitleLetters);
     const isArtistCorrect = JSON.stringify(correctArtistLetters) === JSON.stringify(guessedArtistLetters);
 
@@ -154,6 +157,10 @@ export const model: Model = {
     if (isArtistCorrect) {
       this.score += 1;
     }
+  },
+  
+  userIsGuest() {
+    return this.user.isAnonymous
   },
 
   loadCurrentPlaylist() {

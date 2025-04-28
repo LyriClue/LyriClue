@@ -1,4 +1,5 @@
-import { onAuthStateChanged, signInWithCustomToken } from "firebase/auth";
+
+import { onAuthStateChanged, signInAnonymously, signInWithCustomToken, signOut } from "firebase/auth";
 import { Difficulty, Model } from "../Model.js";
 import { auth, app } from "./firebaseConfig.js";
 import axios from "axios"
@@ -21,6 +22,7 @@ const db = getFirestore(app);
 window.doc = doc;
 window.setDoc = setDoc;
 window.db = db;
+window.auth = auth
 
 const COLLECTION = "lyriclue"; // TODO: create better names
 const COLLECTIVE_COLLECTION = "lyriclue-collective"
@@ -45,6 +47,16 @@ function signInWithToken(token: any) {
 
   return signInWithCustomToken(auth, token)
 }
+
+
+
+export function signInAnonymous() {
+  return signInAnonymously(auth)
+    .catch((error) =>
+      console.log(error)
+    )
+}
+
 
 export function getDailyPlaylists(model: Model) {
   const dailydoc = doc(db, COLLECTIVE_COLLECTION, "daily")
@@ -113,6 +125,7 @@ function getCurrentDate(): string {
   const currentDate: string = today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate()
   return currentDate
 }
+
 
 export function connectToPersistence(model: any, watchFunction: any) {
   onAuthStateChanged(auth, signInOrOutACB)

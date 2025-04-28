@@ -7,10 +7,12 @@ import { getDailyPlaylists, signOutUser } from "../utils/firestoreModel";
 export function LandingPresenter(props: any) {
   console.log("landingview");
   return (
+
     <LandingView playOwnPlaylist={PlayOwnPlaylistsACB} 
                 onLogout={onLogoutACB}
                 previousGames={props.model.previousGames}
                 playDailyPlaylist={PlayDailyPlaylistsACB}
+                isGuest={props.model.userIsGuest()}
     />
   );
 

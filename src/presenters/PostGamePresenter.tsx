@@ -17,7 +17,6 @@ export const PostGamePresenter = observer(
         nrSongs={placeholder2}
         returnToMenu={returnToMenuACB}
         playAgain={playAgainACB}
-        setPreviousGames={props.model.setPreviousGames}
       />
     )
 

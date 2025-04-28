@@ -34,12 +34,16 @@ export function signIn(token: string) {
     .then(signInWithToken)
 }
 
+export function signOutUser() {
+  console.log("signed out");
+  return auth.signOut();
+}
+
 function signInWithToken(token: any) {
   console.log("signed in with custom token");
 
   return signInWithCustomToken(auth, token)
 }
-
 
 export function connectToPersistence(model: any, watchFunction: any) {
   onAuthStateChanged(auth, signInOrOutACB)

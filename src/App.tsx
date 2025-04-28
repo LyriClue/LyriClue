@@ -19,7 +19,7 @@ const App = observer(
       return (<SuspenseView promise={Promise.resolve("loading data")} />)
     }
 
-    if (props.model.user == null) {
+    if (props.model.user == null && window.location.pathname != "/home") {
       window.history.pushState("", "", "/");
       dispatchEvent(new PopStateEvent('popstate', {}))
       return <AuthPresenter />

@@ -55,6 +55,7 @@ export interface Model {
   difficulty: Difficulty;
   ready: boolean;
 
+  
   setCurrentPlaylist(playlist: Playlist | null): void;
   loadCurrentPlaylist(): void;
   setToken(newToken: string): void;
@@ -101,7 +102,6 @@ export const model: Model = {
   lyricParams: {},
   difficulty: Difficulty.medium,
   ready: true,
-
 
 
   loadCurrentPlaylist() {

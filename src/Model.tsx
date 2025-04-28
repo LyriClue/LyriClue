@@ -272,6 +272,7 @@ export const model: Model = {
     this.currentSong = 0; // Reset to the first song index
     this.songs = []
     this.score = 0
+    this.maxTime = this.difficulty === Difficulty.easy ? 300 : this.difficulty === Difficulty.medium ? 90 : 30;
     this.startTimer()
   },
 

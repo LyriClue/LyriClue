@@ -54,7 +54,12 @@ export interface Model {
   lyricParams: Record<string, unknown>;
   difficulty: Difficulty;
   ready: boolean;
+  currentartistGuess: string;
+  currenttitleGuess: string;
+  score: number;
 
+  setCurrentGuess(artistGuess: string, titleGuess: string): void;
+  setCurrentScore(artistGuess: string, titleGuess: string): void;
   setCurrentPlaylist(playlist: Playlist | null): void;
   loadCurrentPlaylist(): void;
   setToken(newToken: string): void;
@@ -101,8 +106,50 @@ export const model: Model = {
   lyricParams: {},
   difficulty: Difficulty.medium,
   ready: true,
+  currentartistGuess: "",
+  currenttitleGuess: "",
+  score: 0,
+  
+  setCurrentGuess(artistGuess: string, titleGuess: string) {
+    this.currentartistGuess = artistGuess;
+    this.currenttitleGuess = titleGuess;
+    this.setCurrentScore(artistGuess, titleGuess);
+  },
 
+  setCurrentScore(artistGuess: string, titleGuess: string) {
+    if (artistGuess.length === 0 && titleGuess.length === 0) {
+      return;
+    }
 
+    const correctTitle = this.songs[this.currentSong].title.toLowerCase();
+    const correctArtist = this.songs[this.currentSong].artist.toLowerCase();
+
+    titleGuess = titleGuess.toLowerCase();
+    artistGuess = artistGuess.toLowerCase();
+    const splitToLetters = (str: string) => str.replace(/[^a-zA-Z]/g, "").split("");
+
+    const correctTitleLetters = splitToLetters(correctTitle);
+    const correctArtistLetters = splitToLetters(correctArtist);
+    const guessedTitleLetters = splitToLetters(titleGuess);
+    const guessedArtistLetters = splitToLetters(artistGuess);
+
+    console.log("correctTitleLetters: " + correctTitleLetters);
+    console.log("correctArtistLetters: " + correctArtistLetters);
+    console.log("guessedTitleLetters: " + guessedTitleLetters);
+    console.log("guessedArtistLetters: " + guessedArtistLetters);
+
+    const isTitleCorrect = JSON.stringify(correctTitleLetters) === JSON.stringify(guessedTitleLetters);
+    const isArtistCorrect = JSON.stringify(correctArtistLetters) === JSON.stringify(guessedArtistLetters);
+
+    if (isTitleCorrect) {
+      this.score += 1;
+    }
+
+    if (isArtistCorrect) {
+      this.score += 1;
+    }
+    console.log("score: " + this.score);
+  },
 
   loadCurrentPlaylist() {
     if (!this.currentPlaylist) return;
@@ -150,7 +197,6 @@ export const model: Model = {
   },
 
   incrementTimer(model: Model) {
-    console.log("time effect " + model.currentTime);
     model.setCurrentTime(model.currentTime + 0.1);
     if (model.currentTime >= model.maxTime) {
       model.progress = 1;
@@ -172,8 +218,6 @@ export const model: Model = {
   startTimer() {
     this.setCurrentTime(0.0);
     this.progress = 0.0;
-    console.log("start timer");
-    console.log(this.currentTime);
     this.timerID = window.setInterval(this.incrementTimer, 100, this);
   },
 
@@ -189,12 +233,14 @@ export const model: Model = {
     dispatchEvent(new PopStateEvent('popstate', {}))
     this.currentSong = 0; // Reset to the first song index
     this.songs = []
+    this.score = 0
     this.startTimer()
   },
   restartGame() {
     if (!this.currentPlaylist) {
       return
     }
+    this.score = 0
     this.loadCurrentPlaylist()
     this.startGame()
   },

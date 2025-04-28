@@ -1,5 +1,4 @@
-
-import { onAuthStateChanged, signInAnonymously, signInWithCustomToken, signOut } from "firebase/auth";
+import { onAuthStateChanged, signInAnonymously, signInWithCustomToken } from "firebase/auth";
 import { Difficulty, Model } from "../Model.js";
 import { auth, app } from "./firebaseConfig.js";
 import axios from "axios"
@@ -14,6 +13,7 @@ declare global {
     doc: typeof doc;
     setDoc: typeof setDoc;
     db: typeof db;
+    auth: typeof auth;
   }
 }
 const db = getFirestore(app);

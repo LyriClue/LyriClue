@@ -65,7 +65,7 @@ export interface Model {
   previousGames: OneGameInfo[];
 
   setPreviousGames(): void;
-  userIsGuest: boolean;
+  userIsGuest(): boolean;
   setCurrentScore(artistGuess: string, titleGuess: string): void;
   setCurrentPlaylist(playlist: Playlist | null): void;
   loadCurrentPlaylist(): void;
@@ -158,7 +158,7 @@ export const model: Model = {
       this.score += 1;
     }
   },
-  
+
   userIsGuest() {
     return this.user.isAnonymous
   },

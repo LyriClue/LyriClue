@@ -58,6 +58,7 @@ export interface Model {
   currenttitleGuess: string;
   score: number;
 
+
   setCurrentGuess(artistGuess: string, titleGuess: string): void;
   setCurrentScore(artistGuess: string, titleGuess: string): void;
   setCurrentPlaylist(playlist: Playlist | null): void;

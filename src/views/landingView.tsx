@@ -1,23 +1,16 @@
-import { Logo } from "./ViewUtils";
+import { Background, Logo } from "./ViewUtils";
 
 export function LandingView(props: any) {
   const highscoreArray = [1, 2, 3, 4, 5];
   const myHighscoreArray = [1, 2, 3, 4, 5];
   return (<div className="h-screen w-screen">
-    {/* Background image */}
-    <img
-      className="fixed top-0 left-0 w-full h-full object-cover"
-      src="https://lagn9w7j0a.ufs.sh/f/P2ljk8lEtN0jNStY88rhRy7bLpuOx8lWi1cdXHE6DMwT9Pvj"
-      alt="Background"
-    />
-    <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
-
+    {Background()}
     {Logo()}
 
     {/* Main content */}
     <div className="relative z-10 flex flex-col md:flex-row justify-between items-center">
       {/* High Score Section */}
-      <HighscoreView highscoreArray={highscoreArray} previousGames={props.previousGames}/>
+      <HighscoreView highscoreArray={highscoreArray} previousGames={props.previousGames} />
 
       {/* Start game section */}
       <ControlView />
@@ -51,7 +44,7 @@ export function LandingView(props: any) {
     );
   }
 
-  function HighscoreView(props: { highscoreArray: number[]; previousGames: any}) {
+  function HighscoreView(props: { highscoreArray: number[]; previousGames: any }) {
 
     return (
       <div className="flex flex-col items-center md:items-start space-y-6 mb-8 md:mb-0 pt-30 w-[300px] md:pl-5">

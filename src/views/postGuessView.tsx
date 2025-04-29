@@ -1,3 +1,5 @@
+import { Logo } from "./ViewUtils"
+
 export function PostGuessView(props: any) {
   return (
     <div className="h-screen w-screen ">
@@ -9,16 +11,11 @@ export function PostGuessView(props: any) {
       />
       <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
 
-      {/* Logo */}
-      <div className="absolute top-4 left-0 w-full ">
-        <h1 className="text-2xl text-black mainfont md:ml-5 text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
-          LyriClue
-        </h1>
-      </div>
+      {Logo()}
 
       {/* Main content */}
       <div className="top-1/10 relative z-10 flex flex-col justify-between pl-4 items-center ">
-        
+
         {yourGuess()}
         {correctGuess()}
         <button onClick={props.nextRound} className="font-mono h-20 w-35 rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">

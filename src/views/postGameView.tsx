@@ -1,3 +1,5 @@
+import { Logo } from "./ViewUtils"
+
 interface PostGameProps {
   returnToMenu: Function,
   score: number,
@@ -15,13 +17,7 @@ export function PostGameView(props: PostGameProps) {
         />
         <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
       <div className="fixed w-full h-screen z-0">
-        
-        <div className="absolute top-4 md:ml-5 text-center md:text-left w-full">
-          <h1 className="text-2xl text-black mainfont [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
-            LyriClue
-          </h1>
-        </div>
-
+        {Logo()}
       </div>
       <div className=" relative z-10 flex flex-col items-center justify-center h-screen">
         <h1 className="text-3xl md:text-5xl mainfont text-black  text-center [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">

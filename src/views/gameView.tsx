@@ -1,3 +1,4 @@
+import { Logo } from "./ViewUtils";
 function GameView(props: any) {
   return (
     <div className="h-screen ">
@@ -9,13 +10,7 @@ function GameView(props: any) {
       />
       <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
 
-      {/* Logo */}
-      <div className="relative top-4 left-0 ">
-        <h1 className="text-2xl md:ml-5 text-black mainfont text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
-          LyriClue
-        </h1>
-      </div>
-
+      {Logo()}
       {/* Main content */}
       <div className="relative items-center horizontal-center top-1/10">
         <div className="h-[50%] items-center justify-center mb-1/2 font-mono ">

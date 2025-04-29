@@ -1,3 +1,4 @@
+import { Logo } from "./ViewUtils";
 
 export function LandingView(props: any) {
   const highscoreArray = [1, 2, 3, 4, 5];
@@ -11,12 +12,7 @@ export function LandingView(props: any) {
     />
     <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
 
-    {/* Logo */}
-    <div className="absolute top-4 left-0 w-full md:pl-5">
-      <h1 className="text-2xl text-black mainfont text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
-        LyriClue
-      </h1>
-    </div>
+    {Logo()}
 
     {/* Main content */}
     <div className="relative z-10 flex flex-col md:flex-row justify-between items-center">

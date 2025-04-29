@@ -21,10 +21,21 @@ const Game = observer(
                 {(modelHasSongs(props.model) &&
                     <GameView lyrics={formatLyrics(props.model)} postGameURL={"/post-guess"} progress={props.model.progress} />)
                     ||
-                    (<SuspenseView promise={props.model.songsPromiseState.promise} error={props.model.songsPromiseState.error} returnToSettings={changeWindow}/>)
+                    (<SuspenseView promise={props.model.songsPromiseState.promise} error={props.model.songsPromiseState.error} invalidPlaylistError = {checkError}/>)
                 }
             </div>
         )
+        function checkError(){
+            if (props.model.songsPromiseState?.error.message === "songParams is undefined") {
+                return (
+                <div>
+                    <span>Chosen playlist is invalid </span>
+                    <button onClick={() => changeWindow()}>Return</button>
+                </div>
+                );
+            }
+            return null;
+        }
         function changeWindow(){
             window.history.pushState("", "", "/settings");
             dispatchEvent(new PopStateEvent('popstate', {}))

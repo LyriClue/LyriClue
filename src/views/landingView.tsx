@@ -110,8 +110,11 @@ export function LandingView(props: any) {
           <h1 className="text-3xl mainfont text-white mb-8 text-center [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
             Profile
           </h1>
+          <div>
+            <img src={props.profilePicture} alt="No Image" className="w-50 aspect-square rounded-full mb-4" />
+            <p className="text-xl mainfont mb-8">{props.displayName}</p>
+          </div>
           <div className="w-full flex flex-col items-center space-y-4">
-
             <button onClick={onLogoutACB} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
               Log out
             </button>

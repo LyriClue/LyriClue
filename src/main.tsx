@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-import { model } from './Model.tsx'
+import { Difficulty, model } from './Model.tsx'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
@@ -30,4 +30,11 @@ createRoot(document.getElementById('root')!).render(
 )
 window.myModel = reactiveModel
 
+function checkDifficultyACB(){
+  return [reactiveModel.difficulty]
+}
+function difficultyACB(){
+  return reactiveModel.currentDifficultyEffect()
+}
+reaction(checkDifficultyACB, difficultyACB)
 connectToPersistence(reactiveModel, reaction);

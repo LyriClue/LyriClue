@@ -51,6 +51,7 @@ export interface Model {
   songsPromiseState: PromiseState<any>;     // Specify generic type if known
   timerID: number | null;
   maxTime: number;
+  linesToShowTimeCap: number;
   currentTime: number;
   progress: number;
   maxLinesToShow: number;
@@ -87,6 +88,7 @@ export interface Model {
   restartGame(): void;
   nextRound(): void;
   endGame(): void;
+  currentDifficultyEffect(): void;
 }
 
 export const model: Model = {
@@ -102,7 +104,8 @@ export const model: Model = {
   playlists: null,
   songsPromiseState: {},
   timerID: null,
-  maxTime: 15,
+  maxTime: 30,
+  linesToShowTimeCap: 20,
   currentTime: 0.0,
   progress: 0,
   maxLinesToShow: 5,
@@ -161,6 +164,25 @@ export const model: Model = {
 
   userIsGuest() {
     return this.user.isAnonymous
+  },
+  
+  currentDifficultyEffect(){
+    switch (this.difficulty){
+      case "easy":
+        this.maxTime = 60
+        this.linesToShowTimeCap = 30
+        break;
+      case "medium":
+        this.maxTime = 35
+        this.linesToShowTimeCap = 20
+        break;
+      case "hard":
+        this.maxTime = 25
+        this.linesToShowTimeCap = 15
+        break;
+      default:
+        console.log("Something went wrong")
+    }
   },
 
   loadCurrentPlaylist() {
@@ -242,7 +264,7 @@ export const model: Model = {
   },
 
   linesToShow() {
-    return Math.max(Math.round(this.progress * this.maxLinesToShow), 1)
+    return Math.max(Math.round(Math.min(1, this.currentTime/this.linesToShowTimeCap) * this.maxLinesToShow), 1)
   },
   startGame() {
     window.history.pushState("", "", "/game");

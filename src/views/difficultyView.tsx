@@ -37,14 +37,14 @@ export function DifficultyView(props: { currentDifficulty: Difficulty; selectDif
 
   function selectEasyACB() {
     props.selectDifficulty(Difficulty.easy);
-    console.log(props.currentDifficulty);
+    //console.log(props.currentDifficulty);
   }
   function selectMediumACB() {
     props.selectDifficulty(Difficulty.medium);
-    console.log(props.currentDifficulty);
+    //console.log(props.currentDifficulty);
   }
   function selectHardACB() {
     props.selectDifficulty(Difficulty.hard);
-    console.log(props.currentDifficulty);
+    //console.log(props.currentDifficulty);
   }
 }

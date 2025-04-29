@@ -48,37 +48,27 @@ export function LandingView(props: any) {
 
     return (
       <div className="flex flex-col items-center md:items-start space-y-6 mb-8 md:mb-0 pt-30 w-[300px] md:pl-5">
-        {/* Daily Playlist Highscores */}
-        <div className="relative w-full max-w-sm">
-          <div className="relative bg-white p-4  shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] w-[300px]">
-            <p className="text-center text-black text-2xl font-mono leading-10 mb-1">
-              High Score
-            </p>
-            <p className="text-center text-black text-sm  font-mono leading-snug mb-3">
-              Daily playlist
-            </p>
-            <table className="w-full text-black text-sm  font-mono leading-snug">
-              <tbody>{props.highscoreArray.map(HighScoreTableCB)}</tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* My Own Songs Highscores */}
-        <div className="relative w-full max-w-sm">
-          <div className="relative bg-white p-4  shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] w-[300px]">
-            <p className="text-center text-black text-2xl font-mono leading-10 mb-1">
-              Previous Games
-            </p>
-            <p className="text-center text-black text-sm  font-mono leading-snug mb-3">
-              My own Playlists
-            </p>
-            <table className="w-full text-black text-sm  font-mono leading-snug">
-              <tbody>{props.previousGames.map(PreviousGamesTableCB)}</tbody>
-            </table>
-          </div>
-        </div>
+        {HighScoreTableComponent("High Score", "Daily Playlist", props.highscoreArray.map(HighScoreTableCB))}
+        {HighScoreTableComponent("Previous Games", "My Own Playlists", props.previousGames.map(PreviousGamesTableCB))}
       </div>
     );
+
+
+    function HighScoreTableComponent(title: string, subTitle: string, elements: any) {
+      return <div className="relative w-full max-w-sm">
+        <div className="relative bg-white p-4  shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] w-[300px]">
+          <p className="text-center text-black text-2xl font-mono leading-10 mb-1">
+            {title}
+          </p>
+          <p className="text-center text-black text-sm  font-mono leading-snug mb-3">
+            {subTitle}
+          </p>
+          <table className="w-full text-black text-sm  font-mono leading-snug">
+            <tbody>{elements}</tbody>
+          </table>
+        </div>
+      </div>
+    }
 
     function HighScoreTableCB(index: number) {
       return (

@@ -68,7 +68,7 @@ export interface Model {
   setPreviousGames(): void;
   userIsGuest(): boolean;
   setCurrentScore(artistGuess: string, titleGuess: string): void;
-  setCurrentPlaylist(playlist: Playlist | null): void;
+  setCurrentPlaylist(playlist: Playlist, isDaily: boolean): void;
   loadCurrentPlaylist(): void;
   setToken(newToken: string): void;
   retrievePlaylists(url?: string | null): void;
@@ -120,6 +120,9 @@ export const model: Model = {
   previousGames: [],
 
   setPreviousGames() {
+    if (this.currentPlaylist?.isDailyPlaylist) {
+      return
+    }
     const gameInfo: OneGameInfo = {
       playlistName: this.currentPlaylist?.name || "",
       score: this.score,
@@ -165,9 +168,9 @@ export const model: Model = {
   userIsGuest() {
     return this.user.isAnonymous
   },
-  
-  currentDifficultyEffect(){
-    switch (this.difficulty){
+
+  currentDifficultyEffect() {
+    switch (this.difficulty) {
       case "easy":
         this.maxTime = 60
         this.linesToShowTimeCap = 30
@@ -191,7 +194,8 @@ export const model: Model = {
     this.retrieveSongs();
   },
 
-  setCurrentPlaylist(playlist: Playlist | null) {
+  setCurrentPlaylist(playlist: Playlist, isDaily: boolean = false) {
+    playlist.isDailyPlaylist = isDaily
     this.currentPlaylist = playlist;
     this.loadCurrentPlaylist()
   },
@@ -264,7 +268,7 @@ export const model: Model = {
   },
 
   linesToShow() {
-    return Math.max(Math.round(Math.min(1, this.currentTime/this.linesToShowTimeCap) * this.maxLinesToShow), 1)
+    return Math.max(Math.round(Math.min(1, this.currentTime / this.linesToShowTimeCap) * this.maxLinesToShow), 1)
   },
   startGame() {
     window.history.pushState("", "", "/game");

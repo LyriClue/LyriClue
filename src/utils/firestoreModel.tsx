@@ -128,17 +128,16 @@ export function setDaily(newsongs: any) {
 
   function addNewSongs(oldsongs: any) {
     let allSongs = [...oldsongs, ...newsongs]
-    allSongs = allSongs.filter((obj1, i, arr) =>
+    const allSongsNoDuplicates = allSongs.filter((obj1, i, arr) =>
       arr.findIndex(obj2 =>
         (obj1.artist === obj2.artist) && (obj1.title == obj2.title)
       ) === i
     )
-    console.log(allSongs);
 
     setDoc(
       dailydoc,
       {
-        songs: allSongs
+        songs: allSongsNoDuplicates
       },
       { merge: true },
     );

@@ -2,6 +2,7 @@
 import { getLyrics } from "./lyricSource.js";
 import { PROXY_URL } from "./spotifyApiConfig.js";
 import { Model, SongParams } from "../Model.js";
+import { setDaily } from "./firestoreModel.js";
 
 export function getResponseACB(response: Response) {
   if (!response.ok) throw new Error("HTTP status code: " + response.status.toString());
@@ -39,10 +40,28 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
     },
   )
     .then(getResponseACB)
-    .then((playlists) => model.setPlaylists(playlists))
 }
 
+export function getFeaturedPlaylists(model: any) {
+  const playlistID = "6uq3YH1LdO60A4LFW2FntV"
+  // const playlistID = "5Yy0lPTviSKbNIn75VjvdO"
+  return fetch(
+    PROXY_URL + "playlists/" + playlistID + "/tracks?limit=100",
+    {
+      headers: {
+        "Authorization": "Bearer " + model.token,
+      }
+    }
+  ).then(getResponseACB)
+    .then(pageToItemArrayACB)
+    .then(filterValidSongsACB)
+    .then(extractSongInfoACB)
+    .then((songInfo) => callLyricApi(songInfo, 30))
+    .then((songs) => setDaily(songs))
+
+}
 // // Reference: https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks
+
 
 export function getSongPage(songParams: SongParams, model: { token: string; }, provided_url: string | null = null) {
   if (provided_url) {
@@ -116,7 +135,8 @@ function callLyricApi(songs: { artist: any; title: any; }[], numSongs: number) {
 
   function filterValidLyric(song: { artist: string, title: string, lyrics: string }) {
     if (song.lyrics) {
-      return song
+      // return song
+      return { artist: song.artist, title: song.title }
     }
     if (songs.length == 0) {
       throw new Error("Ran out of songs")

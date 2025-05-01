@@ -120,6 +120,33 @@ export function getDailyPlaylists(model: Model) {
 
   }
 }
+export function setDaily(newsongs: any) {
+  const dailydoc = doc(db, COLLECTIVE_COLLECTION, "daily")
+  getDoc(dailydoc)
+    .then(getAvailableSongs)
+    .then(addNewSongs)
+
+  function addNewSongs(oldsongs: any) {
+    let allSongs = [...oldsongs, ...newsongs]
+    allSongs = allSongs.filter((obj1, i, arr) =>
+      arr.findIndex(obj2 =>
+        (obj1.artist === obj2.artist) && (obj1.title == obj2.title)
+      ) === i
+    )
+    console.log(allSongs);
+
+    setDoc(
+      dailydoc,
+      {
+        songs: allSongs
+      },
+      { merge: true },
+    );
+  }
+}
+function getAvailableSongs(snapshot: any) {
+  return snapshot.data()?.songs || []
+}
 function getCurrentDate(): string {
   const today = new Date()
   const currentDate: string = today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate()

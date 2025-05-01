@@ -1,6 +1,6 @@
 import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
-import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist, getUser } from "./utils/spotifySource";
+import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist, getUser, getFeaturedPlaylists } from "./utils/spotifySource";
 
 export enum Difficulty {
   easy = "easy",
@@ -165,9 +165,9 @@ export const model: Model = {
   userIsGuest() {
     return this.user.isAnonymous
   },
-  
-  currentDifficultyEffect(){
-    switch (this.difficulty){
+
+  currentDifficultyEffect() {
+    switch (this.difficulty) {
       case "easy":
         this.maxTime = 60
         this.linesToShowTimeCap = 30
@@ -264,7 +264,7 @@ export const model: Model = {
   },
 
   linesToShow() {
-    return Math.max(Math.round(Math.min(1, this.currentTime/this.linesToShowTimeCap) * this.maxLinesToShow), 1)
+    return Math.max(Math.round(Math.min(1, this.currentTime / this.linesToShowTimeCap) * this.maxLinesToShow), 1)
   },
   startGame() {
     window.history.pushState("", "", "/game");
@@ -304,6 +304,12 @@ export const model: Model = {
     window.history.pushState("", "", "/post-game");
     dispatchEvent(new PopStateEvent('popstate', {}))
     return
+  }
+  ,
+  fetchFeatured() {
+    const res = getFeaturedPlaylists(this)
+    console.log(res);
+
   }
 };
 

@@ -98,7 +98,7 @@ export function getDailyPlaylists(model: Model) {
 
   function pickRandomSongs(songs: []) {
     let randomSongs: [] = []
-    const numSongs = Math.floor(Math.random() * 2) + 3 //Random number between 3 - 5
+    const numSongs = Math.floor(Math.random() * 3) + 4 //Random number between 4 - 7
     for (let i = 0; i < numSongs; i++) {
       let randomIndex = Math.floor(Math.random() * songs.length)
       randomSongs.push(songs.splice(randomIndex, 1)[0])

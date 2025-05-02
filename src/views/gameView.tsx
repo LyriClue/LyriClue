@@ -1,20 +1,11 @@
+import { Background, Logo } from "./ViewUtils";
+
 function GameView(props: any) {
   return (
     <div className="h-screen ">
-      {/* Background image */}
-      <img
-        className="fixed top-0 left-0 w-full h-full object-cover"
-        src="https://lagn9w7j0a.ufs.sh/f/P2ljk8lEtN0jNStY88rhRy7bLpuOx8lWi1cdXHE6DMwT9Pvj"
-        alt="Background"
-      />
-      <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
 
-      {/* Logo */}
-      <div className="absolute top-4 left-0 ">
-        <h1 className="text-2xl md:ml-5 text-black mainfont text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
-          LyriClue
-        </h1>
-      </div>
+      {Background()}
+      {Logo("absolute")}
 
       <div className="absolute top-4 right-0">
         <h1 className=" text-2xl md:ml-5 mainfont text-black  [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)] md:text-right">

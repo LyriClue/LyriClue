@@ -1,12 +1,9 @@
+import { Background } from "./ViewUtils";
+
 export function PlaylistSelectionView(props: any) {
   return (
     <div className="relative w-full h-[30%]">
-      <img
-        className="fixed top-0 left-0 w-full h-full object-cover z-0"
-        src="https://lagn9w7j0a.ufs.sh/f/P2ljk8lEtN0jNStY88rhRy7bLpuOx8lWi1cdXHE6DMwT9Pvj"
-        alt="Background"
-      />
-      <div className="fixed top-0 left-0 w-full h-full bg-zinc-300/20 z-10" />
+      {Background()}
 
       {/* Playlist Content */}
       <div className="relative z-20 p-8">
@@ -84,7 +81,7 @@ export function PlaylistSelectionView(props: any) {
     console.log("next");
     props.onSelectNext()
   }
-  
+
   function navigateToMenu() {
     console.log("Navigating to menu");
     props.navigateToMenu();

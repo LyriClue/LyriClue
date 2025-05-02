@@ -22,12 +22,12 @@ export const PostGamePresenter = observer(
 
 
     function returnToMenuACB() {
-      props.model.setPreviousGames()
+      props.model.storeGameResult()
       window.history.pushState("", "", "/landing");
       dispatchEvent(new PopStateEvent('popstate', {}))
     }
     function playAgainACB() {
-      props.model.setPreviousGames()
+      props.model.storeGameResult()
       props.model.restartGame()
     }
   }

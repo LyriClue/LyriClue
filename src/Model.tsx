@@ -1,3 +1,4 @@
+import { setDailyHighscore } from "./utils/firestoreModel";
 import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
 import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist, getUser } from "./utils/spotifySource";
@@ -37,6 +38,12 @@ interface OneGameInfo {
   difficulty: Difficulty;
 }
 
+export interface HighScore {
+  userId: string;
+  userName: string;
+  score: number;
+}
+
 export interface Model {
   user: any;
   songs: Song[];
@@ -64,8 +71,9 @@ export interface Model {
   ready: boolean;
   score: number;
   previousGames: OneGameInfo[];
+  highScores: HighScore[];
 
-  setPreviousGames(): void;
+  storeGameResult(): void;
   userIsGuest(): boolean;
   setCurrentScore(artistGuess: string, titleGuess: string): void;
   setCurrentPlaylist(playlist: Playlist, isDaily: boolean): void;
@@ -120,9 +128,11 @@ export const model: Model = {
   ready: true,
   score: 0,
   previousGames: [],
+  highScores: [],
 
-  setPreviousGames() {
+  storeGameResult() {
     if (this.currentPlaylist?.isDailyPlaylist) {
+      setDailyHighscore(this.user.displayName, this.score, this.user.uid)
       return
     }
     const gameInfo: OneGameInfo = {

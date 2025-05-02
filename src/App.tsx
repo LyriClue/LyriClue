@@ -22,7 +22,7 @@ const App = observer(
     if (props.model.user == null && window.location.pathname != "/home") {
       window.history.pushState("", "", "/");
       dispatchEvent(new PopStateEvent('popstate', {}))
-      return <AuthPresenter />
+      return <AuthPresenter model={props.model} />
     }
 
     return (
@@ -41,7 +41,7 @@ export function makeRouter(reactiveModel: any) {
     },
     {
       path: "/",
-      element: <AuthPresenter />
+      element: <AuthPresenter model={reactiveModel} />
     },
     {
       path: "/home",

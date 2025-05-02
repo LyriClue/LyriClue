@@ -90,6 +90,7 @@ export interface Model {
   endGame(): void;
   currentDifficultyEffect(): void;
   isPlaylistPromiseResolved(): boolean;
+  updateProfileInfo(name: string, profilePic: string): void
 }
 
 export const model: Model = {
@@ -317,6 +318,9 @@ export const model: Model = {
       this.playlistsPromiseState.data &&
       !this.playlistsPromiseState.error
     );
+  },
+  updateProfileInfo(name: string, profilePic: string) {
+    this.user = { ...this.user, displayName: name, photoURL: profilePic }
   }
 };
 

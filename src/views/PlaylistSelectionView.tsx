@@ -8,11 +8,13 @@ export function PlaylistSelectionView(props: any) {
       {/* Playlist Content */}
       <div className="relative z-20 p-8">
         <h1 className="text-3xl mainfont text-black mb-4 [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">Choose a Playlist!</h1>
-        <table className="w-full mb-4 bg-black/50">
-          <tbody>
-            {props.playlists.map(renderPlaylistsCB)}
-          </tbody>
-        </table>
+        <div className="rounded-xl p-3 bg-black/70 mb-4">
+          <table className="divide-y divide-black-200 border-spacing-y-2 ">
+            <tbody>
+              {props.playlists.map(renderPlaylistsCB)}
+            </tbody>
+          </table>
+        </div>
         <div className="flex justify-center">
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300 mr-2.5"
@@ -36,25 +38,24 @@ export function PlaylistSelectionView(props: any) {
         >
           Back to Menu
         </button>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 
   function renderPlaylistsCB(playlist: any) {
     return (
-      <tr key={playlist.id}>
+      <tr key={playlist.id} className="py-5 first:border-t-0 border-t-1 border-y-black/30">
         <td>
           {(playlist.images && (
             <img
-              height="50"
-              width="50"
               src={playlist.images[playlist.images.length - 1].url}
               alt="Playlist"
+              className="h-12 w-12 aspect-square"
             />
           )) || "?"}
         </td>
-        <td className="font-mono [text-shadow:_0px_1px_2px_rgb(0_0_0_/_1.00)]">{playlist.name}</td>
-        <td>
+        <td className="px-3 font-mono [text-shadow:_0px_1px_2px_rgb(0_0_0_/_1.00)]">{playlist.name}</td>
+        <td className="py-1">
           <button
             className="px-4 py-2 bg-green-500 text-white rounded"
             onClick={selectPlaylistACB}

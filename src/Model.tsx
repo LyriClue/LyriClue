@@ -89,6 +89,7 @@ export interface Model {
   nextRound(): void;
   endGame(): void;
   currentDifficultyEffect(): void;
+  isPlaylistPromiseResolved(): boolean;
 }
 
 export const model: Model = {
@@ -165,9 +166,9 @@ export const model: Model = {
   userIsGuest() {
     return this.user.isAnonymous
   },
-  
-  currentDifficultyEffect(){
-    switch (this.difficulty){
+
+  currentDifficultyEffect() {
+    switch (this.difficulty) {
       case "easy":
         this.maxTime = 60
         this.linesToShowTimeCap = 30
@@ -264,7 +265,7 @@ export const model: Model = {
   },
 
   linesToShow() {
-    return Math.max(Math.round(Math.min(1, this.currentTime/this.linesToShowTimeCap) * this.maxLinesToShow), 1)
+    return Math.max(Math.round(Math.min(1, this.currentTime / this.linesToShowTimeCap) * this.maxLinesToShow), 1)
   },
   startGame() {
     window.history.pushState("", "", "/game");
@@ -304,6 +305,14 @@ export const model: Model = {
     window.history.pushState("", "", "/post-game");
     dispatchEvent(new PopStateEvent('popstate', {}))
     return
+  },
+
+  isPlaylistPromiseResolved() {
+    return (
+      this.playlistsPromiseState.promise &&
+      this.playlistsPromiseState.data &&
+      !this.playlistsPromiseState.error
+    );
   }
 };
 

@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite"
 import { SuspenseView } from "../views/suspenseView"
 // import { Difficulty } from "../Model"
 import { DifficultyView } from "../views/difficultyView"
+import { Model } from "../Model"
 
 
 export const Settings = observer(
@@ -33,11 +34,15 @@ export const Settings = observer(
       </div>
     )
 
-    function modelHasPlaylists(model: { playlists: any }) {
+    function modelHasPlaylists(model: Model) {
+
+      let promise = model.isPlaylistPromiseResolved()
+      const promiseDoesNotExist = promise === undefined // HACK: Since isPromiseResolved returns null when loading
       return (
-        model.playlists && true
-      );
+        (model.playlists && promiseDoesNotExist) || promise
+      )
     }
+
 
     function selectNextPlaylistPageACB() {
       props.model.retrieveNextPlaylistPage()

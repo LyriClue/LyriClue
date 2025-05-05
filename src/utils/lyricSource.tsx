@@ -5,7 +5,9 @@ function getResponseACB(response: Response) {
   return response.json();
 }
 
-function errorACB() {
+function errorACB(e) {
+  console.log(e);
+
   return null
 }
 
@@ -17,7 +19,15 @@ export function getLyrics(songParams: { artist?: any; title?: any; }) {
   // new URLSearchParams(pageParams)
   return fetch(
     url,
-  )
-    .then(getResponseACB).catch(errorACB)
+  ).then(getResponseACB).then(removeOddities).then(splitLyrics).catch(errorACB)
+
+  function splitLyrics(res: { lyrics: string }) {
+    return res.lyrics.split(/\n|\r/).filter((line: string) => line != "")
+  }
+  function removeOddities(res: { lyrics: string }) {
+    res.lyrics = res.lyrics.replace(/\[(\w|[,.-_]|\s)*\]/, "")
+    res.lyrics = res.lyrics.replace(/\(feat.*\)/, "")
+    return res
+  }
 }
 

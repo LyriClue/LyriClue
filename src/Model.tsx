@@ -159,7 +159,8 @@ export const model: Model = {
       return;
     }
 
-    const correctTitle = this.songs[this.currentSong].title.toLowerCase();
+    const removeFeat = (str: string) => str.replace(/\(feat.*\)/g, "")
+    const correctTitle = removeFeat(this.songs[this.currentSong].title.toLowerCase());
     const correctArtist = this.songs[this.currentSong].artist.toLowerCase();
 
     titleGuess = titleGuess.toLowerCase();

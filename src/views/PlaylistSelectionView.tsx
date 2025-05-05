@@ -1,9 +1,7 @@
-import { Background } from "./ViewUtils";
 
 export function PlaylistSelectionView(props: any) {
   return (
     <div className="relative w-full h-[30%]">
-      {Background()}
 
       {/* Playlist Content */}
       <div className="relative z-20 p-8">

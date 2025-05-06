@@ -40,9 +40,9 @@ const Game = observer(
 function formatLyrics(model: { songs: Song[]; currentSong: any; linesToShow: () => number; }) {
     const songs = model.songs
     const currentSong = model.currentSong
-    const lyric = songs[currentSong].lyrics.lyrics
-    const splitLyrics = lyric.split("\n").filter((line: string) => line != "")
-    const slicedLyrics = splitLyrics.slice(0, model.linesToShow())
+
+    const lyrics = songs[currentSong].lyrics
+    const slicedLyrics = lyrics.slice(0, model.linesToShow())
     while (slicedLyrics.length < 5) {
         slicedLyrics.push("...")
     }

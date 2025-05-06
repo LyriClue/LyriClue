@@ -11,22 +11,34 @@ import { LandingPresenter } from './presenters/landingPresenter.tsx';
 import './style.css'
 import { PostGuessPresenter } from './presenters/postGuess.tsx';
 import { PostGamePresenter } from './presenters/PostGamePresenter.tsx';
+import { Background } from './views/ViewUtils.tsx';
 
 const App = observer(
   function AppRender(props: any) {
 
     if (!props.model.ready || props.model.user === undefined) {
-      return (<SuspenseView promise={Promise.resolve("loading data")} />)
+      return (
+        <div>
+          {Background()}
+          <SuspenseView promise={Promise.resolve("loading data")} />
+        </div>
+      )
     }
 
     if (props.model.user == null && window.location.pathname != "/home") {
       window.history.pushState("", "", "/");
       dispatchEvent(new PopStateEvent('popstate', {}))
-      return <AuthPresenter model={props.model} />
+      return (
+        <div>
+          {Background()}
+          <AuthPresenter model={props.model} />
+        </div>
+      )
     }
 
     return (
       <div>
+        {Background()}
         <RouterProvider router={makeRouter(props.model)} />
       </div>
     )

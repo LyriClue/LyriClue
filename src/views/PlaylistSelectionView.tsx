@@ -1,13 +1,14 @@
-import { Background } from "./ViewUtils";
+
+import { blackText } from "./ViewUtils";
 
 export function PlaylistSelectionView(props: any) {
   return (
     <div className="relative w-full h-[30%]">
-      {Background()}
 
       {/* Playlist Content */}
       <div className="relative z-20 p-8">
-        <h1 className="text-3xl mainfont text-black mb-4 [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">Choose a Playlist!</h1>
+
+        <h1 className={blackText + "text-3xl  mb-4"}">Choose a Playlist!</h1>
         <div className="rounded-xl p-3 bg-black/70 mb-4">
           <table className="divide-y divide-black-200 border-spacing-y-2 ">
             <tbody>
@@ -15,6 +16,7 @@ export function PlaylistSelectionView(props: any) {
             </tbody>
           </table>
         </div>
+                                                     
         <div className="flex justify-center">
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300 mr-2.5"

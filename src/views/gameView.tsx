@@ -1,21 +1,20 @@
-import { Background, Logo } from "./ViewUtils";
+import { blackText, Logo } from "./ViewUtils";
 
 function GameView(props: any) {
   return (
     <div className="h-screen ">
 
-      {Background()}
       {Logo("absolute")}
 
       <div className="absolute top-4 right-0">
-        <h1 className=" text-2xl md:ml-5 mainfont text-black  [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)] md:text-right">
+        <h1 className={" text-2xl md:ml-5 md:text-right" + blackText}>
           Score: {props.score} / {props.maxScore}
         </h1>
       </div>
 
       {/* Main content */}
       <div className="relative items-center horizontal-center top-1/10">
-        <h1 className=" text-2xl py-4 mainfont text-black  [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)] ">
+        <h1 className={blackText + " text-2xl py-4 "}>
           Song {props.currentSong} / {props.numSongs}
         </h1>
         <div className="h-[50%] items-center justify-center mb-1/2 font-mono ">

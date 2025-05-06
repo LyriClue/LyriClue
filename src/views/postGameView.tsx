@@ -1,4 +1,5 @@
-import { Background, Logo } from "./ViewUtils"
+import { blackText, Logo } from "./ViewUtils"
+
 
 interface PostGameProps {
   returnToMenu: Function,
@@ -10,15 +11,14 @@ interface PostGameProps {
 export function PostGameView(props: PostGameProps) {
   return (
     <div className="fixed top-0 left-0 w-full h-screen z-0">
-      {Background()}
       <div className="fixed w-full h-screen z-0">
         {Logo()}
       </div>
       <div className=" relative z-10 flex flex-col items-center justify-center h-screen">
-        <h1 className="text-3xl md:text-5xl mainfont text-black  text-center [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
+        <h1 className={"text-3xl md:text-5xl    text-center" + blackText}>
           Your Score:
         </h1>
-        <span className="mt-10 mb-10 text-6xl text-black mainfont text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
+        <span className={"mt-10 mb-10 text-6xl   text-center md:text-left " + blackText} >
           {props.score}/{props.nrSongs}
         </span>
 

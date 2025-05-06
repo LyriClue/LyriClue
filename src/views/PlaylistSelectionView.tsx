@@ -8,7 +8,7 @@ export function PlaylistSelectionView(props: any) {
       {/* Playlist Content */}
       <div className="relative z-20 p-8">
 
-        <h1 className={blackText + "text-3xl  mb-4"}">Choose a Playlist!</h1>
+        <h1 className={blackText + "text-3xl  mb-4"}>Choose a Playlist!</h1>
         <div className="rounded-xl p-3 bg-black/70 mb-4">
           <table className="divide-y divide-black-200 border-spacing-y-2 ">
             <tbody>

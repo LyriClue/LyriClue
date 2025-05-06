@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { GameView } from "../views/gameView.tsx";
 import { SuspenseView } from "../views/suspenseView.tsx";
+import { ErrorView } from "../views/ErrorView.tsx";
 import { Model } from "../Model.tsx";
 
 interface Song {
@@ -35,12 +36,11 @@ const Game = observer(
             </div>
         )
         function checkError(){
-            if (props.model.songsPromiseState?.error.message === "songParams is undefined") {
+            if (props.model.songsPromiseState?.error.message) {
                 return (
-                <div>
-                    <span>Chosen playlist is invalid </span>
-                    <button onClick={() => changeWindow()}>Return</button>
-                </div>
+                    <ErrorView
+                        returnToMenu={changeWindow}
+                    />
                 );
             }
             return null;

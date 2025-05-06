@@ -16,10 +16,16 @@ export function Background() {
 }
 
 export function Logo(position: string = "relative") {
-  return (<div className={position + " top-4 left-0 "}>
-    <h1 className={"text-2xl md:ml-5  text-center md:text-left " + blackText}>
-      LyriClue
-    </h1>
-  </div >
+  return (
+    <div onClick={NavigateToLanding} className={position + " top-0 left-0 cursor-pointer "}>
+      <h1 className={"p-4 hover:text-stone-700 rounded-lg text-2xl md:ml-5 text-center md:text-left" + blackText}>
+        LyriClue
+      </h1>
+    </div >
   )
+
+  function NavigateToLanding() {
+    window.history.pushState("", "", "/landing");
+    dispatchEvent(new PopStateEvent('popstate', {}))
+  }
 }

@@ -2,37 +2,40 @@
 import { LandingView } from "../views/landingView";
 // import { Link } from "react-router-dom"
 import { getDailyPlaylists, signOutUser } from "../utils/firestoreModel";
+import { observer } from "mobx-react-lite";
 
 
-export function LandingPresenter(props: any) {
-  console.log("landingview");
-  return (
+export const LandingPresenter = observer(
+  function LandingPresenterRender(props: any) {
+    return (
+      <LandingView playOwnPlaylist={PlayOwnPlaylistsACB}
+        onLogout={onLogoutACB}
+        previousGames={props.model.previousGames}
+        playDailyPlaylist={PlayDailyPlaylistsACB}
+        isGuest={props.model.userIsGuest()}
+        profilePicture={props.model.user.photoURL}
+        displayName={props.model.user.displayName}
+      />
+    );
 
-    <LandingView playOwnPlaylist={PlayOwnPlaylistsACB} 
-                onLogout={onLogoutACB}
-                previousGames={props.model.previousGames}
-                playDailyPlaylist={PlayDailyPlaylistsACB}
-                isGuest={props.model.userIsGuest()}
-    />
-  );
-
-  function PlayOwnPlaylistsACB() {
-    if (!props.model.playlists) {
-      props.model.retrievePlaylists()
+    function PlayOwnPlaylistsACB() {
+      if (!props.model.playlists) {
+        props.model.retrievePlaylists()
+      }
+      window.history.pushState("", "", "/settings");
+      dispatchEvent(new PopStateEvent('popstate', {}))
     }
-    window.history.pushState("", "", "/settings");
-    dispatchEvent(new PopStateEvent('popstate', {}))
-  }
 
-  function PlayDailyPlaylistsACB() {
-    console.log("playing daily");
+    function PlayDailyPlaylistsACB() {
+      console.log("playing daily");
 
-    getDailyPlaylists(props.model)
-      .then(() => props.model.retrieveSongs())
-      .then(() => props.model.startGame())
-  }
+      getDailyPlaylists(props.model)
+        .then(() => props.model.retrieveSongs())
+        .then(() => props.model.startGame())
+    }
 
-  function onLogoutACB() {
-    signOutUser();
+    function onLogoutACB() {
+      signOutUser();
+    }
   }
-}
+)

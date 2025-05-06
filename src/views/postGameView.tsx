@@ -1,3 +1,4 @@
+import { Difficulty } from "../Model"
 import { Background, Logo } from "./ViewUtils"
 
 interface PostGameProps {
@@ -5,7 +6,8 @@ interface PostGameProps {
   score: number,
   nrSongs: number,
   playAgain: Function
-
+  difficulty: Difficulty
+  songs: any[]
 }
 export function PostGameView(props: PostGameProps) {
   return (
@@ -21,6 +23,22 @@ export function PostGameView(props: PostGameProps) {
         <span className="mt-10 mb-10 text-6xl text-black mainfont text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
           {props.score}/{props.nrSongs}
         </span>
+        <div>
+          <span className="">
+            Difficulty = {props.difficulty}
+          </span>
+          <div>
+            <span>
+              Songs Played:
+            </span>
+            <table>
+              <tbody className="font-mono [text-shadow:_0px_1px_2px_rgb(0_0_0_/_1.00)] text-xl">
+                {props.songs.map(songTablerowCB)}
+              </tbody>
+            </table>
+          </div>
+
+        </div>
 
         <div className=" relative flex flex-col md:flex-row items-center justify-center mt-5">
           <button onClick={onReturnToMenuACB} className="md:mr-2.5 mb-2.5 md:mb-0">Return To Menu</button>
@@ -36,5 +54,19 @@ export function PostGameView(props: PostGameProps) {
 
   function onReturnToMenuACB() {
     props.returnToMenu()
+  }
+
+  function songTablerowCB(song: any) {
+    console.log(song)
+    return (
+      <tr>
+        <td >
+          {song.title}
+        </td>
+        <td>
+          {song.artist}
+        </td>
+      </tr>
+    )
   }
 }

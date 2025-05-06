@@ -17,6 +17,9 @@ export const PostGamePresenter = observer(
         nrSongs={placeholder2}
         returnToMenu={returnToMenuACB}
         playAgain={playAgainACB}
+        difficulty={props.model.difficulty}
+        songs={props.model.songs}
+
       />
     )
 

@@ -1,10 +1,9 @@
-import { Background, blackText, Logo } from "./ViewUtils";
+import { blackText, Logo } from "./ViewUtils";
 
 function GameView(props: any) {
   return (
     <div className="h-screen ">
 
-      {Background()}
       {Logo("absolute")}
 
       <div className="absolute top-4 right-0">

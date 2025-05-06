@@ -1,4 +1,4 @@
-import { Background, Logo } from "./ViewUtils"
+import { Background, blackText, Logo } from "./ViewUtils"
 
 export function PostGuessView(props: any) {
   return (
@@ -22,7 +22,7 @@ export function PostGuessView(props: any) {
   function songInformationComponent(header: string, title: string, artist: string) {
     return (
       <div className="w-full md:w-2/3 flex flex-col items-center p-10">
-        <h2 className="text-6xl text-black mainfont text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
+        <h2 className={blackText + "text-6xl text-center md:text-left "}>
           {header}
         </h2>
         <br />

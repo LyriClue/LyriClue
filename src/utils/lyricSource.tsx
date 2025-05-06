@@ -25,7 +25,7 @@ export function getLyrics(songParams: { artist?: any; title?: any; }) {
     return res.lyrics.split(/\n|\r/).filter((line: string) => line != "")
   }
   function removeOddities(res: { lyrics: string }) {
-    res.lyrics = res.lyrics.replace(/\[(\w|[,.-_]|\s)*\]/, "")
+    res.lyrics = res.lyrics.replace(/\[.*\]/, "")
     res.lyrics = res.lyrics.replace(/\(feat.*\)/, "")
     return res
   }

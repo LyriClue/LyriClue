@@ -9,7 +9,7 @@ interface PostGameProps {
 
 export const PostGamePresenter = observer(
   function postGameRender(props: PostGameProps) {
-    let placeholder2 = 20
+    let placeholder2 = 10
 
     return (
       <PostGameView

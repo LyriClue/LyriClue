@@ -18,24 +18,35 @@ export function PostGameView(props: PostGameProps) {
       </div>
       <div className=" relative z-10 flex flex-col items-center justify-center h-screen">
         <h1 className={"text-3xl md:text-5xl    text-center" + blackText}>
-          Your Score:
+          Results:
         </h1>
+        <span className={blackText + "text-2xl"}>
+          Difficulty:  {props.difficulty}
+        </span>
         <span className={"mt-10 mb-10 text-6xl   text-center md:text-left " + blackText} >
           {props.score}/{props.nrSongs}
         </span>
         <div>
-          <span className="">
-            Difficulty = {props.difficulty}
-          </span>
-          <div>
-            <span>
+
+          <div className="mt-2 ">
+            <span className={blackText + "text-3xl"}>
               Songs Played:
             </span>
-            <table>
-              <tbody className="font-mono [text-shadow:_0px_1px_2px_rgb(0_0_0_/_1.00)] text-xl">
-                {props.songs.map(songTablerowCB)}
-              </tbody>
-            </table>
+            <div className="rounded-xl p-3 bg-black/70 mb-4">
+              <table className="divide-y divide-black-200 border-spacing-y-2 font-mono">
+                <tbody>
+                  <tr>
+                    <th className="px-4 py-2">
+                      Title
+                    </th>
+                    <th>
+                      Artist
+                    </th>
+                  </tr>
+                  {props.songs.map(songTablerowCB)}
+                </tbody>
+              </table>
+            </div>
           </div>
 
         </div>
@@ -56,11 +67,10 @@ export function PostGameView(props: PostGameProps) {
     props.returnToMenu()
   }
 
-  function songTablerowCB(song: any) {
-    console.log(song)
+  function songTablerowCB(song: any, index: number) {
     return (
-      <tr>
-        <td >
+      <tr key={index} className="text-center">
+        <td className="px-4 py-1">
           {song.title}
         </td>
         <td>

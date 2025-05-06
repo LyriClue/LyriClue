@@ -1,4 +1,4 @@
-import { Background } from "./ViewUtils";
+import { Background, blackText } from "./ViewUtils";
 
 export function PlaylistSelectionView(props: any) {
   return (
@@ -7,7 +7,7 @@ export function PlaylistSelectionView(props: any) {
 
       {/* Playlist Content */}
       <div className="relative z-20 p-8">
-        <h1 className="text-3xl mainfont text-black mb-4 [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">Choose a Playlist!</h1>
+        <h1 className={blackText + "text-3xl  mb-4"}>Choose a Playlist!</h1>
         <table className="w-full mb-4 bg-black/50">
           <tbody>
             {props.playlists.map(renderPlaylistsCB)}

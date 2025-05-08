@@ -28,12 +28,11 @@ window.auth = auth
 const COLLECTION = "lyriclue"; // TODO: create better names
 const COLLECTIVE_COLLECTION = "lyriclue-collective"
 
-export function signIn(code: string, model: Model) {
+export function signIn(accessToken: string, model: Model) {
   return axios({
     method: 'post',
-    url: 'http://localhost:8080/token',
-    headers: {},
-    data: { code: code, redirectUri: window.location.origin + window.location.pathname }
+    url: window.location.protocol + '//' + window.location.hostname + ':8080/auth/user',
+    headers: { token: accessToken }
   }).then((res) => signInWithToken(res, model))
 }
 
@@ -58,28 +57,17 @@ function signInWithToken(res: any, model: Model) {
 }
 
 export function getRefreshToken(model: Model) {
-  const refreshToken = localStorage.getItem('refresh_token');
-  const url = "https://accounts.spotify.com/api/token";
-  const payload = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: new URLSearchParams({
-      grant_type: 'refresh_token',
-      refresh_token: refreshToken,
-      client_id: clientId
-    }),
-  }
-  fetch(url, payload)
-    .then((res) => res.json())
-    .then((body) => {
-      model.token = body.access_token
-      if (body.refresh_token) {
-        localStorage.setItem('refresh_token', body.refresh_token);
-      }
+  const refreshToken = localStorage.getItem('refreshToken');
+  return axios({
+    method: 'post',
+    url: window.location.protocol + '//' + window.location.hostname + ':8080/auth/refresh',
+    headers: { refreshToken: refreshToken }
+  }).then((res) => {
+    localStorage.setItem("accessToken", res.data.accessToken)
+    if (res.data.refreshToken) {
+      localStorage.setItem("refreshToken", res.data.refreshToken)
     }
-    )
+  })
 }
 
 export function signInAnonymous(model: { user: User, updateProfileInfo: Function }) {
@@ -220,13 +208,13 @@ export function connectToPersistence(model: any, watchFunction: any) {
   }
 
   function checkUpdateACB() {
-    return [model.token,
-    model.difficulty,
-    model.songs,
-    model.currentSong,
-    model.playlists,
-    model.score,
-    model.previousGames,
+    return [
+      model.difficulty,
+      model.songs,
+      model.currentSong,
+      model.playlists,
+      model.score,
+      model.previousGames,
     ];
   }
 
@@ -238,7 +226,6 @@ export function connectToPersistence(model: any, watchFunction: any) {
     setDoc(
       fireStoreDoc,
       {
-        token: model.token,
         difficulty: model.difficulty,
         songs: model.songs,
         currentSong: model.currentSong,
@@ -261,7 +248,6 @@ export function connectToPersistence(model: any, watchFunction: any) {
 
     // TODO:  Update model Attributes according to firestore
 
-    model.token = snapshot.data()?.token || ""
     model.difficulty = snapshot.data()?.difficulty || Difficulty.medium
     model.songs = snapshot.data()?.songs || []
     model.currentSong = snapshot.data()?.currentSong || 0

@@ -1,4 +1,4 @@
-import { setDailyHighscore } from "./utils/firestoreModel";
+import { setDailyHighscore, getRefreshToken } from "./utils/firestoreModel";
 import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
 import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist, getUser } from "./utils/spotifySource";
@@ -101,7 +101,8 @@ export interface Model {
   endGame(): void;
   currentDifficultyEffect(): void;
   isPlaylistPromiseResolved(): boolean;
-  updateProfileInfo(name: string, profilePic: string): void
+  updateProfileInfo(name: string, profilePic: string): void;
+  reauthenticateUser(): void;
 }
 
 export const model: Model = {
@@ -135,13 +136,13 @@ export const model: Model = {
   PlaylistErrorMessage: "",
 
   setPlaylistErrorMessage(message: string) {
-    this.PlaylistErrorMessage = message
+    this.PlaylistErrorMessage = message;
   },
 
   storeGameResult() {
     if (this.currentPlaylist?.isDailyPlaylist) {
-      setDailyHighscore(this.user.displayName, this.score, this.user.uid)
-      return
+      setDailyHighscore(this.user.displayName, this.score, this.user.uid);
+      return;
     }
     const gameInfo: OneGameInfo = {
       playlistName: this.currentPlaylist?.name || "",
@@ -159,7 +160,7 @@ export const model: Model = {
       return;
     }
 
-    const removeFeat = (str: string) => str.replace(/\(feat.*\)/g, "")
+    const removeFeat = (str: string) => str.replace(/\(feat.*\)/g, "");
     const correctTitle = removeFeat(this.songs[this.currentSong].title.toLowerCase());
     const correctArtist = this.songs[this.currentSong].artist.toLowerCase();
 
@@ -187,25 +188,25 @@ export const model: Model = {
   },
 
   userIsGuest() {
-    return this.user.isAnonymous
+    return this.user.isAnonymous;
   },
 
   currentDifficultyEffect() {
     switch (this.difficulty) {
       case "easy":
-        this.maxTime = 60
-        this.linesToShowTimeCap = 30
+        this.maxTime = 60;
+        this.linesToShowTimeCap = 30;
         break;
       case "medium":
-        this.maxTime = 35
-        this.linesToShowTimeCap = 20
+        this.maxTime = 35;
+        this.linesToShowTimeCap = 20;
         break;
       case "hard":
-        this.maxTime = 25
-        this.linesToShowTimeCap = 15
+        this.maxTime = 25;
+        this.linesToShowTimeCap = 15;
         break;
       default:
-        console.log("Something went wrong")
+        console.log("Something went wrong");
     }
   },
 
@@ -216,9 +217,9 @@ export const model: Model = {
   },
 
   setCurrentPlaylist(playlist: Playlist, isDaily: boolean = false) {
-    playlist.isDailyPlaylist = isDaily
+    playlist.isDailyPlaylist = isDaily;
     this.currentPlaylist = playlist;
-    this.loadCurrentPlaylist()
+    this.loadCurrentPlaylist();
   },
 
   setToken(newToken: string) {
@@ -241,7 +242,7 @@ export const model: Model = {
 
   retrieveSongs(url: string | null = null) {
     if (this.currentPlaylist?.isDailyPlaylist) {
-      resolvePromise(getDailySongsFromArray(this.songParams, this), this.songsPromiseState)
+      resolvePromise(getDailySongsFromArray(this.songParams, this), this.songsPromiseState);
     } else {
       resolvePromise(getSongsFromSpotifyPlaylist(this.songParams, this, url), this.songsPromiseState);
     }
@@ -269,13 +270,13 @@ export const model: Model = {
     model.progress = model.currentTime / model.maxTime;
   },
   setSongs(songs: []) {
-    this.songs = songs
-    return songs
+    this.songs = songs;
+    return songs;
   },
 
   setPlaylists(playlists: any) {
-    this.playlists = playlists
-    return playlists
+    this.playlists = playlists;
+    return playlists;
   },
 
   startTimer() {
@@ -289,47 +290,47 @@ export const model: Model = {
   },
 
   linesToShow() {
-    return Math.max(Math.round(Math.min(1, this.currentTime / this.linesToShowTimeCap) * this.maxLinesToShow), 1)
+    return Math.max(Math.round(Math.min(1, this.currentTime / this.linesToShowTimeCap) * this.maxLinesToShow), 1);
   },
   startGame() {
     window.history.pushState("", "", "/game");
-    dispatchEvent(new PopStateEvent('popstate', {}))
+    dispatchEvent(new PopStateEvent('popstate', {}));
     this.currentSong = 0; // Reset to the first song index
-    this.songs = []
-    this.score = 0
-    this.PlaylistErrorMessage = ""
-    this.startTimer()
+    this.songs = [];
+    this.score = 0;
+    this.PlaylistErrorMessage = "";
+    this.startTimer();
   },
 
   restartGame() {
     if (!this.currentPlaylist) {
-      return
+      return;
     }
     if (this.currentPlaylist.isDailyPlaylist) {
-      this.songParams.playlistArray = this.songs
-      this.retrieveSongs()
+      this.songParams.playlistArray = this.songs;
+      this.retrieveSongs();
     } else {
-      this.loadCurrentPlaylist()
+      this.loadCurrentPlaylist();
     }
-    this.score = 0
-    this.startGame()
+    this.score = 0;
+    this.startGame();
   },
 
   nextRound() {
-    this.currentSong += 1
+    this.currentSong += 1;
     if (this.currentSong >= this.songs.length) {
-      this.endGame()
-      return
+      this.endGame();
+      return;
     }
-    this.startTimer()
+    this.startTimer();
     window.history.pushState("", "", "/game");
-    dispatchEvent(new PopStateEvent('popstate', {}))
+    dispatchEvent(new PopStateEvent('popstate', {}));
   },
 
   endGame() {
     window.history.pushState("", "", "/post-game");
-    dispatchEvent(new PopStateEvent('popstate', {}))
-    return
+    dispatchEvent(new PopStateEvent('popstate', {}));
+    return;
   },
 
   isPlaylistPromiseResolved() {
@@ -340,7 +341,13 @@ export const model: Model = {
     );
   },
   updateProfileInfo(name: string, profilePic: string) {
-    this.user = { ...this.user, displayName: name, photoURL: profilePic }
+    this.user = { ...this.user, displayName: name, photoURL: profilePic };
+  },
+  reauthenticateUser() {
+    getRefreshToken(this);
+  },
+  setPreviousGames: function (): void {
+    throw new Error("Function not implemented.");
   }
 };
 

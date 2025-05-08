@@ -1,6 +1,6 @@
 import { SuspenseView } from "../views/suspenseView"
 import { getTokenFromUrl } from "./AuthPresenter"
-import { urlContains } from "../utils/pathUtil";
+import { getParamsFromUrl, urlContains } from "../utils/pathUtil";
 import { signIn } from "../utils/firestoreModel";
 import { Model } from "../Model";
 
@@ -9,8 +9,8 @@ export function SpotifyLanding(props: { model: Model; }) {
     window.history.pushState("", "", "/");
     dispatchEvent(new PopStateEvent('popstate', {}))
   } else {
-    props.model.setToken(getTokenFromUrl().access_token)
-    signIn(props.model.token, props.model).then(navigateToLanding)
+    const code = getParamsFromUrl("code")
+    signIn(code, props.model).then(navigateToLanding)
   }
 
   return (

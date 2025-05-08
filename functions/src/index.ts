@@ -4,7 +4,6 @@ import cors from "cors";
 import { initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import admin from "firebase-admin";
-import { FirebaseError } from "firebase/app";
 import { getUser } from "../../src/utils/spotifySource.tsx";
 import fs from "fs";
 import { clientId, clientSecret } from "../../src/utils/spotifyApiConfig.js";
@@ -15,16 +14,6 @@ const serviceAccount = JSON.parse(
     "utf8",
   ),
 );
-function generateRandomString(length: number) {
-  let text = "";
-  const possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-}
 
 function getApp() {
   let app;
@@ -37,7 +26,7 @@ function getApp() {
       },
       "my-app",
     );
-  } catch (error) {
+  } catch {
     app = admin.app("my-app");
   }
   return app;
@@ -47,8 +36,7 @@ const app = express();
 app.use(cors({ origin: true }));
 app.use(express.json());
 
-// const redirect_uri = "http:localhost:8080/auth/callback";
-const redirect_uri = "http://localhost:5173/home";
+const redirect_uri = "http://localhost:8080/auth/callback";
 app.get("/auth/login", (req, res) => {
   const scopes = "playlist-read-private user-top-read";
   res.redirect(
@@ -58,12 +46,15 @@ app.get("/auth/login", (req, res) => {
         client_id: clientId,
         scope: scopes,
         redirect_uri: redirect_uri,
+        show_dialog: "true",
       }),
   );
 });
 
 app.get("/auth/callback", function (req, res) {
+  console.log("Entered Callback");
   const code = req.query.code?.toString() || "";
+
   const body = new URLSearchParams({
     code: code,
     redirect_uri: redirect_uri,
@@ -75,103 +66,81 @@ app.get("/auth/callback", function (req, res) {
     Authorization:
       "Basic " + Buffer.from(clientId + ":" + clientSecret).toString("base64"),
   };
-
   fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     body,
     headers,
   })
     .then((res) => res.json())
-    .then((res) => {
-      console.log("spotify token: " + res.access_token);
-      const access_token = res.access_token;
-      window.localStorage.setItem("accessToken", access_token);
-      return fetch("/auth/user");
+    .then((response) => {
+      console.log("spotify token exists: " + Boolean(response.access_token));
+      const accessToken = response.access_token;
+      const refreshToken = response.refresh_token;
+      if (!accessToken || !refreshToken) {
+        throw new Error("login failed");
+      }
+      res.redirect(
+        "http://localhost:5173/home?" +
+          new URLSearchParams({ accessToken, refreshToken }),
+      );
+    })
+    .catch(() => {
+      res.redirect(
+        "http://localhost:5173/home?" +
+          new URLSearchParams({ error: "unauthorized" }),
+      );
     });
 });
 
-app.get("/auth/user", (req, res) => {
+app.post("/auth/user", async (req, res) => {
   console.log("fetching userId");
   const auth = getAuth(getApp());
-  getUser(req.body.token)
-    .then((user) => {
-      console.log("creating custom token");
-      return auth.createCustomToken(user.id), user;
-    })
-    .then((firebaseToken, user) => {
-      console.log("firebase token: " + firebaseToken);
-      console.log("returning from request");
-      res.status(200).send({
-        token: firebaseToken,
-        images: user.images,
-        displayName: user.display_name,
-      });
-    });
+  const user = await getUser(req.headers.token as string);
+  console.log("creating custom token");
+  const firebaseToken = await auth.createCustomToken(user.id);
+  console.log("firebasetoken exists: " + Boolean(firebaseToken));
+  console.log("returning from request");
+  res.status(200).send({
+    token: firebaseToken,
+    images: user.images,
+    displayName: user.display_name,
+  });
 });
 
-app.get("/auth/token", (req, res) => {
-  res.json({
-    access_token: access_token,
+app.post("/auth/refresh", async (req, res) => {
+  console.log("retrieved refresh request");
+  const refreshToken = req.headers.refreshtoken;
+
+  const body = new URLSearchParams({
+    refresh_token: refreshToken as string,
+    grant_type: "refresh_token",
   });
+  try {
+    const response = await fetch("https://accounts.spotify.com/api/token", {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        Authorization:
+          "Basic " +
+          Buffer.from(clientId + ":" + clientSecret).toString("base64"),
+      },
+      body,
+    });
+    const data = await response.json();
+    const { access_token, refreshToken } = data;
+    res.status(200).send({ accessToken: access_token, refreshToken });
+  } catch (_err) {
+    const err = _err as Error;
+    console.error("Error while refreshing a token", err);
+    res.status(500).json({
+      error: err.message,
+    });
+  }
 });
 
 app.get("test_token", (req, res) => {
   const ret = "Test Response";
   res.json({ ret });
-});
-
-app.post("/token", async (req, res) => {
-  console.log("recieved /token request");
-
-  const body = new URLSearchParams({
-    code: req.body.code,
-    redirect_uri: req.body.redirectUri,
-    grant_type: "authorization_code",
-  });
-
-  // console.log(body);
-
-  const headers = {
-    "content-type": "application/x-www-form-urlencoded",
-    Authorization:
-      "Basic " + Buffer.from(clientId + ":" + clientSecret).toString("base64"),
-  };
-  // console.log(headers);
-
-  const tokenResponse = await fetch("https://accounts.spotify.com/api/token", {
-    method: "POST",
-    body,
-    headers,
-  }).then((res) => res.json());
-  console.log("spotify token: " + tokenResponse.access_token);
-
-  // body = response.body;
-  // body = response.body as SignUpData;
-  // console.log(body);
-  // console.log(body.access_token);
-
-  console.log("fetching userId");
-
-  const user = await getUser(tokenResponse.access_token);
-
-  const auth = getAuth(getApp());
-  try {
-    console.log("creating custom token");
-
-    const token = await auth.createCustomToken(user.id);
-    console.log("firebase token: " + token);
-
-    console.log("returning from request");
-
-    res.status(200).send({
-      token: token,
-      images: user.images,
-      displayName: user.display_name,
-    });
-  } catch (error) {
-    if (error instanceof FirebaseError)
-      res.status(400).json({ message: error.message });
-  }
 });
 
 const PORT = 8080;

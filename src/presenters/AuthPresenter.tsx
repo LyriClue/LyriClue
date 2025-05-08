@@ -12,30 +12,7 @@ export const AuthPresenter = observer(
     )
 
     function onSpotifyLoginACB() {
-      //   axios({
-      //     method: 'get',
-      //     url: 'http://localhost:8080/login',
-      //     headers: {},
-      //   }).then((res) => console.log(res))
-      // }
-
-
-      // const authEndpoint = "https://accounts.spotify.com/authorize";
-      // const redirectUri = `${window.location.origin}/home`;
-      // const clientId = "0f96e0b07475401cb8595b62238e4d2f"
-      // const scopes =
-      //   "playlist-read-private user-top-read"
-      // const searchparams = new URLSearchParams({
-      //   client_id: clientId,
-      //   scope: scopes,
-      //   redirect_uri: redirectUri,
-      //   response_type: "code",
-      //   show_dialog: "true"
-      // })
-
-      // window.location.assign(authEndpoint + "?" + searchparams)
-      // fetch("http://localhost:8080/auth/login")
-      window.location.assign("http://localhost:8080/auth/login")
+      window.location.assign(window.location.protocol + '//' + window.location.hostname + ':8080/auth/login')
     }
 
     function onGuestLoginACB() {

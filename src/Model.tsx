@@ -41,7 +41,6 @@ interface OneGameInfo {
 export interface Model {
   user: any;
   songs: Song[];
-  token: string;
   searchParams: Record<string, unknown>;
   market: string;
   playlistParams: { limit: number; offset: number };
@@ -71,7 +70,6 @@ export interface Model {
   setCurrentScore(artistGuess: string, titleGuess: string): void;
   setCurrentPlaylist(playlist: Playlist, isDaily: boolean): void;
   loadCurrentPlaylist(): void;
-  setToken(newToken: string): void;
   retrievePlaylists(url?: string | null): void;
   retrieveNextPlaylistPage(): void;
   retrievePreviousPlaylistPage(): void;
@@ -92,13 +90,12 @@ export interface Model {
   currentDifficultyEffect(): void;
   isPlaylistPromiseResolved(): boolean;
   updateProfileInfo(name: string, profilePic: string): void;
-  reauthenticateUser(): void;
+  reauthenticateUser(): Promise<any>;
 }
 
 export const model: Model = {
   user: undefined,
   songs: [],
-  token: "",
   searchParams: {},
   market: "SV",
   playlistParams: { limit: 10, offset: 0 },
@@ -204,10 +201,6 @@ export const model: Model = {
     this.loadCurrentPlaylist()
   },
 
-  setToken(newToken: string) {
-    console.log("changed token: " + newToken);
-    this.token = newToken;
-  },
 
   retrievePlaylists(url: string | null = null) {
     resolvePromise(getPlaylistPage(this.playlistParams, this, url), this.playlistsPromiseState);
@@ -325,7 +318,7 @@ export const model: Model = {
     this.user = { ...this.user, displayName: name, photoURL: profilePic }
   },
   reauthenticateUser() {
-    getRefreshToken(this)
+    return getRefreshToken(this)
   }
 
 };

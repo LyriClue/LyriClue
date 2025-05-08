@@ -20,14 +20,8 @@ export function getUser(token: string) {
 
 }
 
-function reauthenticateUser(e: { status: number, message: string }, model: Model) {
-  if (e.status == 401) {
-    model.reauthenticateUser()
-  }
-}
-
 // Reference : https://developer.spotify.com/documentation/web-api/reference/get-a-list-of-current-users-playlists
-export function getPlaylistPage(pageParams: { limit: number; offset: number }, model: any, provided_url: string | null) {
+export function getPlaylistPage(pageParams: { limit: number; offset: number }, model: any, provided_url: string | null): Promise<any> {
   if (provided_url) {
     var url: string = provided_url
   } else {
@@ -40,18 +34,21 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
     url,
     {
       headers: {
-        "Authorization": "Bearer " + model.token,
+        "Authorization": "Bearer " + window.localStorage.getItem("accessToken"),
       },
     },
   )
     .then(getResponseACB)
     .then((playlists) => model.setPlaylists(playlists))
-    .catch((e) => reauthenticateUser(e, model))
+    .catch((e) => {
+      model.reauthenticateUser(e, model).then(() => { getPlaylistPage(pageParams, model, provided_url) })
+    }
+    )
 }
 
 // // Reference: https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks
 
-export function getSongPage(songParams: SongParams, model: Model, provided_url: string | null = null) {
+export function getSongPage(songParams: SongParams, model: Model, provided_url: string | null = null): Promise<any> {
   if (provided_url) {
     var url: string = provided_url
   } else {
@@ -62,12 +59,13 @@ export function getSongPage(songParams: SongParams, model: Model, provided_url: 
     url,
     {
       headers: {
-        "Authorization": "Bearer " + model.token,
+        "Authorization": "Bearer " + window.localStorage.getItem("accessToken"),
       },
     },
   )
     .then(getResponseACB)
-    .catch((e) => reauthenticateUser(e, model))
+    .catch(() => model.reauthenticateUser())
+    .then(() => getSongPage(songParams, model, provided_url))
 }
 
 export function getSongsFromSpotifyPlaylist(songParams: SongParams, model: any, provided_url: string | null = null) {
@@ -78,7 +76,6 @@ export function getSongsFromSpotifyPlaylist(songParams: SongParams, model: any, 
     .then((songInfo) => callLyricApi(songInfo, model.numSongs))
     .then(removeNullValues)
     .then((songs) => setSongsInModel(songs, model))
-    .catch((e) => reauthenticateUser(e, model))
 }
 
 export function getDailySongsFromArray(songParams: any, model: Model) {

@@ -1,3 +1,4 @@
+import { getRefreshToken } from "./utils/firestoreModel";
 import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
 import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist, getUser } from "./utils/spotifySource";
@@ -90,7 +91,8 @@ export interface Model {
   endGame(): void;
   currentDifficultyEffect(): void;
   isPlaylistPromiseResolved(): boolean;
-  updateProfileInfo(name: string, profilePic: string): void
+  updateProfileInfo(name: string, profilePic: string): void;
+  reauthenticateUser(): void;
 }
 
 export const model: Model = {
@@ -321,6 +323,10 @@ export const model: Model = {
   },
   updateProfileInfo(name: string, profilePic: string) {
     this.user = { ...this.user, displayName: name, photoURL: profilePic }
+  },
+  reauthenticateUser() {
+    getRefreshToken(this)
   }
+
 };
 

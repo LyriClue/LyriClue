@@ -1,7 +1,7 @@
 // import { Difficulty } from "../Model.js";
 import { getLyrics } from "./lyricSource.js";
 import { PROXY_URL } from "./spotifyApiConfig.js";
-import { Model, SongParams } from "../Model.js";
+import { model, Model, SongParams } from "../Model.js";
 
 export function getResponseACB(response: Response) {
   if (!response.ok) throw new Error("HTTP status code: " + response.status.toString());
@@ -18,6 +18,12 @@ export function getUser(token: string) {
     }
   ).then(getResponseACB)
 
+}
+
+function reauthenticateUser(e: { status: number, message: string }, model: Model) {
+  if (e.status == 401) {
+    model.reauthenticateUser()
+  }
 }
 
 // Reference : https://developer.spotify.com/documentation/web-api/reference/get-a-list-of-current-users-playlists
@@ -40,11 +46,12 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
   )
     .then(getResponseACB)
     .then((playlists) => model.setPlaylists(playlists))
+    .catch((e) => reauthenticateUser(e, model))
 }
 
 // // Reference: https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks
 
-export function getSongPage(songParams: SongParams, model: { token: string; }, provided_url: string | null = null) {
+export function getSongPage(songParams: SongParams, model: Model, provided_url: string | null = null) {
   if (provided_url) {
     var url: string = provided_url
   } else {
@@ -60,6 +67,7 @@ export function getSongPage(songParams: SongParams, model: { token: string; }, p
     },
   )
     .then(getResponseACB)
+    .catch((e) => reauthenticateUser(e, model))
 }
 
 export function getSongsFromSpotifyPlaylist(songParams: SongParams, model: any, provided_url: string | null = null) {
@@ -70,6 +78,7 @@ export function getSongsFromSpotifyPlaylist(songParams: SongParams, model: any, 
     .then((songInfo) => callLyricApi(songInfo, model.numSongs))
     .then(removeNullValues)
     .then((songs) => setSongsInModel(songs, model))
+    .catch((e) => reauthenticateUser(e, model))
 }
 
 export function getDailySongsFromArray(songParams: any, model: Model) {

@@ -6,6 +6,7 @@ import axios from "axios"
 // initialize Firestore
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore"
+import { clientId } from "./spotifyApiConfig.js";
 
 // Extend the Window interface to include Firestore properties
 declare global {
@@ -27,12 +28,12 @@ window.auth = auth
 const COLLECTION = "lyriclue"; // TODO: create better names
 const COLLECTIVE_COLLECTION = "lyriclue-collective"
 
-export function signIn(token: string, model: Model) {
+export function signIn(code: string, model: Model) {
   return axios({
     method: 'post',
     url: 'http://localhost:8080/token',
     headers: {},
-    data: { token: token }
+    data: { code: code, redirectUri: window.location.origin + window.location.pathname }
   }).then((res) => signInWithToken(res, model))
 }
 
@@ -42,15 +43,13 @@ export function signOutUser() {
 }
 
 function signInWithToken(res: any, model: Model) {
-  const token = res.data.token
-  return signInWithCustomToken(auth, token).then(
+  return signInWithCustomToken(auth, res.data.token).then(
     (credentials) => {
       updateProfile(credentials.user,
         {
           displayName: res.data.displayName,
           photoURL: res.data.images[0].url
         })
-
     }
   ).then(
     () =>
@@ -58,7 +57,30 @@ function signInWithToken(res: any, model: Model) {
   )
 }
 
-
+export function getRefreshToken(model: Model) {
+  const refreshToken = localStorage.getItem('refresh_token');
+  const url = "https://accounts.spotify.com/api/token";
+  const payload = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+      client_id: clientId
+    }),
+  }
+  fetch(url, payload)
+    .then((res) => res.json())
+    .then((body) => {
+      model.token = body.access_token
+      if (body.refresh_token) {
+        localStorage.setItem('refresh_token', body.refresh_token);
+      }
+    }
+    )
+}
 
 export function signInAnonymous(model: { user: User, updateProfileInfo: Function }) {
   const userName = "Guest"

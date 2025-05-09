@@ -1,3 +1,4 @@
+import { getRefreshToken } from "./utils/firestoreModel";
 import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
 import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist, getUser } from "./utils/spotifySource";
@@ -40,7 +41,6 @@ interface OneGameInfo {
 export interface Model {
   user: any;
   songs: Song[];
-  token: string;
   searchParams: Record<string, unknown>;
   market: string;
   playlistParams: { limit: number; offset: number };
@@ -72,7 +72,6 @@ export interface Model {
   setCurrentScore(artistGuess: string, titleGuess: string): void;
   setCurrentPlaylist(playlist: Playlist, isDaily: boolean): void;
   loadCurrentPlaylist(): void;
-  setToken(newToken: string): void;
   retrievePlaylists(url?: string | null): void;
   retrieveNextPlaylistPage(): void;
   retrievePreviousPlaylistPage(): void;
@@ -92,13 +91,13 @@ export interface Model {
   endGame(): void;
   currentDifficultyEffect(): void;
   isPlaylistPromiseResolved(): boolean;
-  updateProfileInfo(name: string, profilePic: string): void
+  updateProfileInfo(name: string, profilePic: string): void;
+  reauthenticateUser(): Promise<any>;
 }
 
 export const model: Model = {
   user: undefined,
   songs: [],
-  token: "",
   searchParams: {},
   market: "SV",
   playlistParams: { limit: 10, offset: 0 },
@@ -209,10 +208,6 @@ export const model: Model = {
     this.loadCurrentPlaylist()
   },
 
-  setToken(newToken: string) {
-    console.log("changed token: " + newToken);
-    this.token = newToken;
-  },
 
   retrievePlaylists(url: string | null = null) {
     resolvePromise(getPlaylistPage(this.playlistParams, this, url), this.playlistsPromiseState);
@@ -329,6 +324,10 @@ export const model: Model = {
   },
   updateProfileInfo(name: string, profilePic: string) {
     this.user = { ...this.user, displayName: name, photoURL: profilePic }
+  },
+  reauthenticateUser() {
+    return getRefreshToken(this)
   }
+
 };
 

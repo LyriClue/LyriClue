@@ -1,7 +1,7 @@
 // import { Difficulty } from "../Model.js";
 import { getLyrics } from "./lyricSource.js";
 import { PROXY_URL } from "./spotifyApiConfig.js";
-import { Model, SongParams } from "../Model.js";
+import { model, Model, SongParams } from "../Model.js";
 
 export function getResponseACB(response: Response) {
   if (!response.ok) throw new Error("HTTP status code: " + response.status.toString());
@@ -21,7 +21,7 @@ export function getUser(token: string) {
 }
 
 // Reference : https://developer.spotify.com/documentation/web-api/reference/get-a-list-of-current-users-playlists
-export function getPlaylistPage(pageParams: { limit: number; offset: number }, model: any, provided_url: string | null) {
+export function getPlaylistPage(pageParams: { limit: number; offset: number }, model: any, provided_url: string | null): Promise<any> {
   if (provided_url) {
     var url: string = provided_url
   } else {
@@ -34,17 +34,21 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
     url,
     {
       headers: {
-        "Authorization": "Bearer " + model.token,
+        "Authorization": "Bearer " + window.localStorage.getItem("accessToken"),
       },
     },
   )
     .then(getResponseACB)
     .then((playlists) => model.setPlaylists(playlists))
+    .catch((e) => {
+      model.reauthenticateUser(e, model).then(() => { getPlaylistPage(pageParams, model, provided_url) })
+    }
+    )
 }
 
 // // Reference: https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks
 
-export function getSongPage(songParams: SongParams, model: { token: string; }, provided_url: string | null = null) {
+export function getSongPage(songParams: SongParams, model: Model, provided_url: string | null = null): Promise<any> {
   if (provided_url) {
     var url: string = provided_url
   } else {
@@ -55,11 +59,13 @@ export function getSongPage(songParams: SongParams, model: { token: string; }, p
     url,
     {
       headers: {
-        "Authorization": "Bearer " + model.token,
+        "Authorization": "Bearer " + window.localStorage.getItem("accessToken"),
       },
     },
   )
     .then(getResponseACB)
+    .catch(() => model.reauthenticateUser())
+    .then(() => getSongPage(songParams, model, provided_url))
 }
 
 export function getSongsFromSpotifyPlaylist(songParams: SongParams, model: any, provided_url: string | null = null) {

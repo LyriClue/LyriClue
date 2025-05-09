@@ -30,10 +30,10 @@ createRoot(document.getElementById('root')!).render(
 )
 window.myModel = reactiveModel
 
-function checkDifficultyACB(){
+function checkDifficultyACB() {
   return [reactiveModel.difficulty]
 }
-function difficultyACB(){
+function difficultyACB() {
   return reactiveModel.currentDifficultyEffect()
 }
 reaction(checkDifficultyACB, difficultyACB)

@@ -74,6 +74,9 @@ export interface Model {
   highScores: HighScore[];
 
   storeGameResult(): void;
+  PlaylistErrorMessage: string;
+  setPlaylistErrorMessage(message: string): void;
+  setPreviousGames(): void;
   userIsGuest(): boolean;
   setCurrentScore(artistGuess: string, titleGuess: string): void;
   setCurrentPlaylist(playlist: Playlist, isDaily: boolean): void;
@@ -129,6 +132,11 @@ export const model: Model = {
   score: 0,
   previousGames: [],
   highScores: [],
+  PlaylistErrorMessage: "",
+
+  setPlaylistErrorMessage(message: string) {
+    this.PlaylistErrorMessage = message
+  },
 
   storeGameResult() {
     if (this.currentPlaylist?.isDailyPlaylist) {
@@ -288,6 +296,7 @@ export const model: Model = {
     this.currentSong = 0; // Reset to the first song index
     this.songs = []
     this.score = 0
+    this.PlaylistErrorMessage = ""
     this.startTimer()
   },
 

@@ -1,11 +1,11 @@
 import { HighScore } from "../Model";
-import { Background, Logo } from "./ViewUtils";
+import {Background,  blackText, Logo, whiteText } from "./ViewUtils";
+
 
 export function LandingView(props: any) {
   const highscoreArray = [1, 2, 3, 4, 5];
   const myHighscoreArray = [1, 2, 3, 4, 5];
   return (<div className="h-screen w-screen">
-    {Background()}
     {Logo("absolute")}
 
     {/* Main content */}
@@ -27,7 +27,7 @@ export function LandingView(props: any) {
       <div className="w-full md:w-2/3 flex flex-col items-center p-30">
         {/* Start Game */}
         <div className="w-full max-w-md flex flex-col items-center mb-12">
-          <h1 className="text-3xl md:text-5xl mainfont text-black mb-8 text-center [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
+          <h1 className={blackText + "text-3xl md:text-5xl  mb-8 text-center "}>
             Start Game
           </h1>
           <div className="w-full flex flex-col items-center space-y-4">
@@ -108,12 +108,12 @@ export function LandingView(props: any) {
       <div className="w-96 bg-black/40 rounded-tl-3xl rounded-bl-3xl relative right-0 h-screen rounded-3xl md:rounded-tr-none md:rounded-br-none" >
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/40 to-black/80 rounded-3xl md:rounded-tr-none md:rounded-br-none " />
         <div className="relative z-10 flex flex-col items-center justify-center h-full p-6">
-          <h1 className="text-3xl mainfont text-white mb-8 text-center [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
+          <h1 className={whiteText + "text-3xl mb-8 text-center "}>
             Profile
           </h1>
           <div>
             <img src={props.profilePicture} alt="No Image" className="w-50 aspect-square rounded-full mb-4" />
-            <p className="text-xl mainfont mb-8">{props.displayName}</p>
+            <p className={whiteText + "text-xl  mb-8"}>{props.displayName}</p>
           </div>
           <div className="w-full flex flex-col items-center space-y-4">
             <button onClick={onLogoutACB} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">

@@ -1,4 +1,4 @@
-import { blackText, Logo } from "./ViewUtils"
+import {  blackText, Logo } from "./ViewUtils"
 
 
 interface PostGameProps {
@@ -6,7 +6,8 @@ interface PostGameProps {
   score: number,
   nrSongs: number,
   playAgain: Function
-
+  difficulty: Difficulty
+  songs: any[]
 }
 export function PostGameView(props: PostGameProps) {
   return (
@@ -16,11 +17,38 @@ export function PostGameView(props: PostGameProps) {
       </div>
       <div className=" relative z-10 flex flex-col items-center justify-center h-screen">
         <h1 className={"text-3xl md:text-5xl    text-center" + blackText}>
-          Your Score:
+          Results:
         </h1>
+        <span className={blackText + "text-2xl"}>
+          Difficulty:  {props.difficulty}
+        </span>
         <span className={"mt-10 mb-10 text-6xl   text-center md:text-left " + blackText} >
           {props.score}/{props.nrSongs}
         </span>
+        <div>
+
+          <div className="mt-2 ">
+            <span className={blackText + "text-3xl"}>
+              Songs Played:
+            </span>
+            <div className="rounded-xl p-3 bg-black/70 mb-4">
+              <table className="divide-y divide-black-200 border-spacing-y-2 font-mono">
+                <tbody>
+                  <tr>
+                    <th className="px-4 py-2">
+                      Title
+                    </th>
+                    <th>
+                      Artist
+                    </th>
+                  </tr>
+                  {props.songs.map(songTablerowCB)}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
 
         <div className=" relative flex flex-col md:flex-row items-center justify-center mt-5">
           <button onClick={onReturnToMenuACB} className="md:mr-2.5 mb-2.5 md:mb-0">Return To Menu</button>
@@ -36,5 +64,18 @@ export function PostGameView(props: PostGameProps) {
 
   function onReturnToMenuACB() {
     props.returnToMenu()
+  }
+
+  function songTablerowCB(song: any, index: number) {
+    return (
+      <tr key={index} className="text-center">
+        <td className="px-4 py-1">
+          {song.title}
+        </td>
+        <td>
+          {song.artist}
+        </td>
+      </tr>
+    )
   }
 }

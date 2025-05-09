@@ -91,11 +91,11 @@ export function setDailyHighscore(userName: string, score: number, userId: strin
 
   function setHighscore(allPlaylists: any) {
     const todaysPlaylist = allPlaylists[getCurrentDate()]
-    const todaysHighScore = todaysPlaylist.highScores
+    const todaysHighScore = todaysPlaylist.highScores || []
+
+    todaysHighScore.push({ userId: userId, userName: userName, score: score })
     const newHighScores = todaysHighScore
-      .push({ userId: userId, userName: userName, score: score })
-      .filter((obj1: HighScore, i: number, arr: HighScore[]) =>
-        arr.findIndex((obj2: HighScore) => (obj1.userId === obj2.userId)) === i) //de-duplicates the highscore array
+      .filter((obj1: HighScore, i: number, arr: HighScore[]) => arr.findIndex((obj2: HighScore) => (obj1.userId === obj2.userId)) === i) //de-duplicates the highscore array
       .sort((a: HighScore, b: HighScore) => b.score - a.score)
       .slice(0, 5)
     allPlaylists[getCurrentDate()] = { ...todaysPlaylist, highScores: newHighScores }

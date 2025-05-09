@@ -18,6 +18,7 @@ export const Settings = observer(
           (modelHasPlaylists(props.model) &&
             <div>
               < PlaylistSelectionView
+                errorMessage={props.model.PlaylistErrorMessage}
                 playlists={props.model.playlists.items}
                 previous={props.model.playlists.previous}
                 next={props.model.playlists.next}

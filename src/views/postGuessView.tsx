@@ -1,9 +1,9 @@
-import { Background, blackText, Logo } from "./ViewUtils"
+import { blackText, Logo } from "./ViewUtils"
+
 
 export function PostGuessView(props: any) {
   return (
     <div className="h-screen w-screen ">
-      {Background()}
       {Logo()}
 
       {/* Main content */}

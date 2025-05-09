@@ -1,5 +1,5 @@
-import { Difficulty } from "../Model"
-import { Background, blackText, Logo } from "./ViewUtils"
+import {  blackText, Logo } from "./ViewUtils"
+
 
 interface PostGameProps {
   returnToMenu: Function,
@@ -12,7 +12,6 @@ interface PostGameProps {
 export function PostGameView(props: PostGameProps) {
   return (
     <div className="fixed top-0 left-0 w-full h-screen z-0">
-      {Background()}
       <div className="fixed w-full h-screen z-0">
         {Logo()}
       </div>

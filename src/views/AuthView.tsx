@@ -1,11 +1,11 @@
-import { Background, blackText } from "./ViewUtils";
+
+import {blackText } from "./ViewUtils";
 
 export function AuthView(props: any) {
   console.log("auth view");
 
   return (
     <div className="h-screen w-screen ">
-      {Background()}
 
       {/* Logo */}
       <div className="absolute top-1/7 left-0 w-full text-6xl">

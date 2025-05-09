@@ -1,4 +1,5 @@
 import {  blackText, Logo } from "./ViewUtils"
+import { Difficulty } from "../Model"
 
 
 interface PostGameProps {

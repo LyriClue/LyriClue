@@ -23,6 +23,7 @@ export const LandingPresenter = observer(
         props.model.retrievePlaylists()
       }
       window.history.pushState("", "", "/settings");
+      props.model.setPlaylistErrorMessage("");
       dispatchEvent(new PopStateEvent('popstate', {}))
     }
 

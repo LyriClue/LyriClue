@@ -5,7 +5,7 @@ import { Difficulty } from "../Model"
 interface PostGameProps {
   returnToMenu: Function,
   score: number,
-  nrSongs: number,
+  totalAvailablePoints: number,
   playAgain: Function
   difficulty: Difficulty
   songs: any[]
@@ -23,8 +23,8 @@ export function PostGameView(props: PostGameProps) {
         <span className={blackText + "text-2xl"}>
           Difficulty:  {props.difficulty}
         </span>
-        <span className={"mt-10 mb-10 text-6xl   text-center md:text-left " + blackText} >
-          {props.score}/{props.nrSongs}
+        <span className="mt-10 mb-10 text-6xl text-black mainfont text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
+        {props.score}/{props.totalAvailablePoints}
         </span>
         <div>
 

@@ -13,7 +13,7 @@ export const PostGamePresenter = observer(
     return (
       <PostGameView
         score={props.model.score}
-        nrSongs={props.model.songs.length * 2}
+        totalAvailablePoints={props.model.songs.length * 2}
         returnToMenu={returnToMenuACB}
         playAgain={playAgainACB}
         difficulty={props.model.difficulty}

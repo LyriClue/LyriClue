@@ -1,4 +1,5 @@
 import { blackText, Logo } from "./ViewUtils";
+import "../style.css"
 
 function GameView(props: any) {
   return (
@@ -30,7 +31,7 @@ function GameView(props: any) {
             </tbody>
           </table>
           <div className="mb-10" />
-          <progress value={props.progress} />
+          <progress value={props.progress} className="w-72 h-4 rounded overflow-hidden" />
           <form action={props.postGameURL} className="" id="answers">
             <div className="mb-4 w-screen">
               <input

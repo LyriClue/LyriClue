@@ -64,7 +64,7 @@ export interface Model {
   ready: boolean;
   score: number;
   previousGames: OneGameInfo[];
-  PlaylistErrorMessage: string | null;
+  PlaylistErrorMessage: string;
 
   setPlaylistErrorMessage(message: string): void;
   setPreviousGames(): void;
@@ -122,7 +122,7 @@ export const model: Model = {
   ready: true,
   score: 0,
   previousGames: [],
-  PlaylistErrorMessage: null,
+  PlaylistErrorMessage: "",
 
   setPlaylistErrorMessage(message: string) {
     this.PlaylistErrorMessage = message

@@ -16,7 +16,7 @@ export function PlaylistSelectionView(props: any) {
             </tbody>
           </table>
         </div>
-                                                     
+
         <div className="flex justify-center">
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300 mr-2.5"
@@ -45,7 +45,7 @@ export function PlaylistSelectionView(props: any) {
   );
 
   function showErrorMessage() {
-    if (props.errorMessage!== null || props.errorMessage !== "") {
+    if (props.errorMessage !== "") {
       return (
         <div className="text-red-600 font-mono">
           <span>Invalid playlist. Please choose another playlist</span>

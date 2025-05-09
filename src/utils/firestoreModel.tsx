@@ -1,4 +1,4 @@
-import { onAuthStateChanged, signInAnonymously, signInWithCustomToken } from "firebase/auth";
+import { onAuthStateChanged, signInAnonymously, signInWithCustomToken, updateProfile, User } from "firebase/auth";
 import { Difficulty, Model } from "../Model.js";
 import { auth, app } from "./firebaseConfig.js";
 import axios from "axios"
@@ -27,14 +27,13 @@ window.auth = auth
 const COLLECTION = "lyriclue"; // TODO: create better names
 const COLLECTIVE_COLLECTION = "lyriclue-collective"
 
-export function signIn(token: string) {
+export function signIn(token: string, model: Model) {
   return axios({
     method: 'post',
     url: 'http://localhost:8080/token',
     headers: {},
     data: { token: token }
-  }).then((response) => response.data.token)
-    .then(signInWithToken)
+  }).then((res) => signInWithToken(res, model))
 }
 
 export function signOutUser() {
@@ -42,16 +41,38 @@ export function signOutUser() {
   return auth.signOut();
 }
 
-function signInWithToken(token: any) {
-  console.log("signed in with custom token");
+function signInWithToken(res: any, model: Model) {
+  const token = res.data.token
+  return signInWithCustomToken(auth, token).then(
+    (credentials) => {
+      updateProfile(credentials.user,
+        {
+          displayName: res.data.displayName,
+          photoURL: res.data.images[0].url
+        })
 
-  return signInWithCustomToken(auth, token)
+    }
+  ).then(
+    () =>
+      model.updateProfileInfo(res.data.displayName, res.data.images[0].url)
+  )
 }
 
 
 
-export function signInAnonymous() {
-  return signInAnonymously(auth)
+export function signInAnonymous(model: { user: User, updateProfileInfo: Function }) {
+  const userName = "Guest"
+  const profilePic = "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
+  return signInAnonymously(auth).then(
+    (credentials) => {
+      updateProfile(credentials.user,
+        {
+          displayName: userName,
+          photoURL: profilePic
+        });
+    }).then(() => {
+      model.updateProfileInfo(userName, profilePic)
+    })
     .catch((error) =>
       console.log(error)
     )
@@ -82,7 +103,7 @@ export function getDailyPlaylists(model: Model) {
   function setSongsInModel(playlist: any) {
     model.ready = true
     model.songParams.playlistArray = playlist.songs
-    model.currentPlaylist = { id: "", isDailyPlaylist: true }
+    model.setCurrentPlaylist(playlist, true)
   }
 
   function createDailyPlaylist(allPlaylists: any) {
@@ -98,7 +119,7 @@ export function getDailyPlaylists(model: Model) {
 
   function pickRandomSongs(songs: []) {
     let randomSongs: [] = []
-    const numSongs = Math.floor(Math.random() * 2) + 3 //Random number between 3 - 5
+    const numSongs = Math.floor(Math.random() * 3) + 4 //Random number between 4 - 7
     for (let i = 0; i < numSongs; i++) {
       let randomIndex = Math.floor(Math.random() * songs.length)
       randomSongs.push(songs.splice(randomIndex, 1)[0])

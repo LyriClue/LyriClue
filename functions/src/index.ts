@@ -58,7 +58,11 @@ app.post("/token", async (req, res) => {
     const token = await auth.createCustomToken(user.id);
     console.log("returning from request");
 
-    res.status(200).send({ token });
+    res.status(200).send({
+      token: token,
+      images: user.images,
+      displayName: user.display_name,
+    });
   } catch (error) {
     if (error instanceof FirebaseError)
       res.status(400).json({ message: error.message });

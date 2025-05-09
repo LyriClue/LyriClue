@@ -51,6 +51,7 @@ export interface Model {
   songsPromiseState: PromiseState<any>;     // Specify generic type if known
   timerID: number | null;
   maxTime: number;
+  linesToShowTimeCap: number;
   currentTime: number;
   progress: number;
   maxLinesToShow: number;
@@ -63,11 +64,13 @@ export interface Model {
   ready: boolean;
   score: number;
   previousGames: OneGameInfo[];
+  PlaylistErrorMessage: string;
 
+  setPlaylistErrorMessage(message: string): void;
   setPreviousGames(): void;
   userIsGuest(): boolean;
   setCurrentScore(artistGuess: string, titleGuess: string): void;
-  setCurrentPlaylist(playlist: Playlist | null): void;
+  setCurrentPlaylist(playlist: Playlist, isDaily: boolean): void;
   loadCurrentPlaylist(): void;
   setToken(newToken: string): void;
   retrievePlaylists(url?: string | null): void;
@@ -87,6 +90,9 @@ export interface Model {
   restartGame(): void;
   nextRound(): void;
   endGame(): void;
+  currentDifficultyEffect(): void;
+  isPlaylistPromiseResolved(): boolean;
+  updateProfileInfo(name: string, profilePic: string): void
 }
 
 export const model: Model = {
@@ -102,7 +108,8 @@ export const model: Model = {
   playlists: null,
   songsPromiseState: {},
   timerID: null,
-  maxTime: 15,
+  maxTime: 30,
+  linesToShowTimeCap: 20,
   currentTime: 0.0,
   progress: 0,
   maxLinesToShow: 5,
@@ -115,8 +122,16 @@ export const model: Model = {
   ready: true,
   score: 0,
   previousGames: [],
+  PlaylistErrorMessage: "",
+
+  setPlaylistErrorMessage(message: string) {
+    this.PlaylistErrorMessage = message
+  },
 
   setPreviousGames() {
+    if (this.currentPlaylist?.isDailyPlaylist) {
+      return
+    }
     const gameInfo: OneGameInfo = {
       playlistName: this.currentPlaylist?.name || "",
       score: this.score,
@@ -163,13 +178,33 @@ export const model: Model = {
     return this.user.isAnonymous
   },
 
+  currentDifficultyEffect() {
+    switch (this.difficulty) {
+      case "easy":
+        this.maxTime = 60
+        this.linesToShowTimeCap = 30
+        break;
+      case "medium":
+        this.maxTime = 35
+        this.linesToShowTimeCap = 20
+        break;
+      case "hard":
+        this.maxTime = 25
+        this.linesToShowTimeCap = 15
+        break;
+      default:
+        console.log("Something went wrong")
+    }
+  },
+
   loadCurrentPlaylist() {
     if (!this.currentPlaylist) return;
     this.songParams.playlistId = this.currentPlaylist.id;
     this.retrieveSongs();
   },
 
-  setCurrentPlaylist(playlist: Playlist | null) {
+  setCurrentPlaylist(playlist: Playlist, isDaily: boolean = false) {
+    playlist.isDailyPlaylist = isDaily
     this.currentPlaylist = playlist;
     this.loadCurrentPlaylist()
   },
@@ -242,7 +277,7 @@ export const model: Model = {
   },
 
   linesToShow() {
-    return Math.max(Math.round(this.progress * this.maxLinesToShow), 1)
+    return Math.max(Math.round(Math.min(1, this.currentTime / this.linesToShowTimeCap) * this.maxLinesToShow), 1)
   },
   startGame() {
     window.history.pushState("", "", "/game");
@@ -250,6 +285,7 @@ export const model: Model = {
     this.currentSong = 0; // Reset to the first song index
     this.songs = []
     this.score = 0
+    this.PlaylistErrorMessage = ""
     this.startTimer()
   },
 
@@ -282,6 +318,17 @@ export const model: Model = {
     window.history.pushState("", "", "/post-game");
     dispatchEvent(new PopStateEvent('popstate', {}))
     return
+  },
+
+  isPlaylistPromiseResolved() {
+    return (
+      this.playlistsPromiseState.promise &&
+      this.playlistsPromiseState.data &&
+      !this.playlistsPromiseState.error
+    );
+  },
+  updateProfileInfo(name: string, profilePic: string) {
+    this.user = { ...this.user, displayName: name, photoURL: profilePic }
   }
 };
 

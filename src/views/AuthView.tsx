@@ -1,19 +1,15 @@
+
+import {blackText } from "./ViewUtils";
+
 export function AuthView(props: any) {
   console.log("auth view");
 
   return (
     <div className="h-screen w-screen ">
-      {/* Background image */}
-      <img
-        className="fixed top-0 left-0 w-full h-full object-cover"
-        src="https://lagn9w7j0a.ufs.sh/f/P2ljk8lEtN0jNStY88rhRy7bLpuOx8lWi1cdXHE6DMwT9Pvj"
-        alt="Background"
-      />
-      <div className="w-full h-full left-0 top-0 fixed bg-zinc-300/20" />
 
       {/* Logo */}
       <div className="absolute top-1/7 left-0 w-full text-6xl">
-        <h1 className="text-black mainfont text-center [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
+        <h1 className={blackText + " text-center"}>
           LyriClue
         </h1>
       </div>

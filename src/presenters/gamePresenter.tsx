@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { GameView } from "../views/gameView.tsx";
 import { SuspenseView } from "../views/suspenseView.tsx";
-import { ErrorView } from "../views/ErrorView.tsx";
 import { Model } from "../Model.tsx";
 
 interface Song {
@@ -36,16 +35,15 @@ const Game = observer(
             </div>
         )
         function checkError(){
-            if (props.model.songsPromiseState?.error.message) {
-                return (
-                    <ErrorView
-                        returnToMenu={changeWindow}
-                    />
-                );
+            if (props.model.songsPromiseState?.error?.message) {
+                console.log("Error: ", props.model.songsPromiseState.error.message);
+                props.model.setPlaylistErrorMessage(props.model.songsPromiseState.error.message);
+                changeWindow()
+            } else {
+                props.model.setPlaylistErrorMessage("");
             }
-            return null;
         }
-        function changeWindow(){
+        function changeWindow() {
             window.history.pushState("", "", "/settings");
             dispatchEvent(new PopStateEvent('popstate', {}))
         }

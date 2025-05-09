@@ -1,5 +1,5 @@
 import { onAuthStateChanged, signInAnonymously, signInWithCustomToken, updateProfile, User } from "firebase/auth";
-import { Difficulty, Model } from "../Model.js";
+import { Difficulty, HighScore, Model } from "../Model.js";
 import { auth, app } from "./firebaseConfig.js";
 import axios from "axios"
 
@@ -79,6 +79,36 @@ export function signInAnonymous(model: { user: User, updateProfileInfo: Function
 }
 
 
+function getDailyPlaylist(snapshot: any) {
+  const dailyPlaylists = snapshot.data()?.days || {}
+  return dailyPlaylists
+}
+export function setDailyHighscore(userName: string, score: number, userId: string) {
+  const dailydoc = doc(db, COLLECTIVE_COLLECTION, "daily")
+  return getDoc(dailydoc)
+    .then(getDailyPlaylist)
+    .then(setHighscore)
+
+  function setHighscore(allPlaylists: any) {
+    const todaysPlaylist = allPlaylists[getCurrentDate()]
+    const todaysHighScore = todaysPlaylist.highScores || []
+
+    todaysHighScore.push({ userId: userId, userName: userName, score: score })
+    const newHighScores = todaysHighScore
+      .filter((obj1: HighScore, i: number, arr: HighScore[]) => arr.findIndex((obj2: HighScore) => (obj1.userId === obj2.userId)) === i) //de-duplicates the highscore array
+      .sort((a: HighScore, b: HighScore) => b.score - a.score)
+      .slice(0, 5)
+    allPlaylists[getCurrentDate()] = { ...todaysPlaylist, highScores: newHighScores }
+    setDoc(
+      dailydoc,
+      {
+        days: allPlaylists,
+      },
+      { merge: true },
+    );
+  }
+}
+
 export function getDailyPlaylists(model: Model) {
   const dailydoc = doc(db, COLLECTIVE_COLLECTION, "daily")
   model.ready = false
@@ -87,10 +117,6 @@ export function getDailyPlaylists(model: Model) {
     .then(createOrReturnPlaylist)
     .then(setSongsInModel)
 
-  function getDailyPlaylist(snapshot: any) {
-    const dailyPlaylists = snapshot.data()?.days || {}
-    return dailyPlaylists
-  }
 
   function createOrReturnPlaylist(allPlaylists: any) {
     let todaysPlaylist = allPlaylists[getCurrentDate()]
@@ -160,8 +186,14 @@ export function connectToPersistence(model: any, watchFunction: any) {
 
     if (user) {
       model.ready = false;
-      const fireStoreDoc = doc(db, COLLECTION, model.user.uid);
-      getDoc(fireStoreDoc).then(gotDataACB);
+      const personalDoc = doc(db, COLLECTION, model.user.uid);
+      const collectiveDoc = doc(db, COLLECTIVE_COLLECTION, "daily");
+      Promise.all(
+        [getDoc(personalDoc).then(gotDataACB),
+        getDoc(collectiveDoc).then(getHighscores)
+        ]
+      ).then(() => model.ready = true)
+
     }
   }
 
@@ -198,6 +230,9 @@ export function connectToPersistence(model: any, watchFunction: any) {
 
     );
   }
+  function getHighscores(snapshot: any) {
+    model.highScores = snapshot.data()?.days[getCurrentDate()].highScores
+  }
 
   function gotDataACB(snapshot: any) {
 
@@ -213,7 +248,6 @@ export function connectToPersistence(model: any, watchFunction: any) {
     model.score = snapshot.data()?.score || 0
     model.previousGames = snapshot.data()?.previousGames || []
 
-    model.ready = true;
 
   }
 }

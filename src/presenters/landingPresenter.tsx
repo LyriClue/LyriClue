@@ -15,6 +15,7 @@ export const LandingPresenter = observer(
         isGuest={props.model.userIsGuest()}
         profilePicture={props.model.user.photoURL}
         displayName={props.model.user.displayName}
+        highScores={props.model.highScores}
       />
     );
 

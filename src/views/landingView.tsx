@@ -1,4 +1,5 @@
-import { blackText, Logo, whiteText } from "./ViewUtils";
+import { HighScore } from "../Model";
+import { Background, blackText, Logo, whiteText } from "./ViewUtils";
 
 
 export function LandingView(props: any) {
@@ -10,7 +11,7 @@ export function LandingView(props: any) {
     {/* Main content */}
     <div className="relative z-10 flex flex-col md:flex-row justify-between items-center">
       {/* High Score Section */}
-      <HighscoreView highscoreArray={highscoreArray} previousGames={props.previousGames} />
+      <HighscoreView highScores={props.highScores} previousGames={props.previousGames} />
 
       {/* Start game section */}
       <ControlView />
@@ -44,11 +45,11 @@ export function LandingView(props: any) {
     );
   }
 
-  function HighscoreView(props: { highscoreArray: number[]; previousGames: any }) {
+  function HighscoreView(props: { highScores: HighScore[]; previousGames: any }) {
 
     return (
       <div className="flex flex-col items-center md:items-start space-y-6 mb-8 md:mb-0 pt-30 w-[300px] md:pl-5">
-        {HighScoreTableComponent("High Score", "Daily Playlist", props.highscoreArray.map(HighScoreTableCB))}
+        {HighScoreTableComponent("High Score", "Daily Playlist", props.highScores.map(HighScoreTableCB))}
         {HighScoreTableComponent("Previous Games", "My Own Playlists", props.previousGames.map(PreviousGamesTableCB))}
       </div>
     );
@@ -70,12 +71,12 @@ export function LandingView(props: any) {
       </div>
     }
 
-    function HighScoreTableCB(index: number) {
+    function HighScoreTableCB(highScore: HighScore) {
       return (
-        <tr key={index} className="border-b border-gray-200 last:border-0">
-          <td className="py-1">Person {index}</td>
+        <tr key={highScore.userId} className="border-b border-gray-200 last:border-0">
+          <td className="py-1">{highScore.userName}</td>
           <td className="py-1 px-2">......</td>
-          <td className="py-1">Xpts</td>
+          <td className="py-1">{highScore.score} pts</td>
         </tr>
       );
 

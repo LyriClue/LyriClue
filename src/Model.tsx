@@ -285,7 +285,7 @@ export const model: Model = {
     this.currentSong = 0; // Reset to the first song index
     this.songs = []
     this.score = 0
-    this.PlaylistErrorMessage = null
+    this.PlaylistErrorMessage = ""
     this.startTimer()
   },
 

@@ -30,7 +30,7 @@ const COLLECTIVE_COLLECTION = "lyriclue-collective"
 export function signIn(token: string, model: Model) {
   return axios({
     method: 'post',
-    url: 'http://localhost:8080/token',
+    url: window.location.protocol + '//' + window.location.hostname + ':8080/token',
     headers: {},
     data: { token: token }
   }).then((res) => signInWithToken(res, model))

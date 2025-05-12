@@ -39,6 +39,7 @@ function GameView(props: any) {
                 id="title"
                 name="title"
                 placeholder="Title "
+                autoFocus
                 className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-4xl max-w-[calc(100vw-10px)] break-words whitespace-normal"
               />
             </div>

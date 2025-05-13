@@ -34,12 +34,6 @@ export function PlaylistSelectionView(props: any) {
           </button>
 
         </div>
-        <button
-          className="px-4 py-2 text-white rounded mt-4"
-          onClick={navigateToMenu}
-        >
-          Back to Menu
-        </button>
       </div >
     </div >
   );

@@ -81,13 +81,13 @@ app.get("/auth/callback", function (req, res) {
         throw new Error("login failed");
       }
       res.redirect(
-        "http://localhost:5173/home?" +
+        `${req.protocol}://${req.hostname}:5173/home?` +
           new URLSearchParams({ accessToken, refreshToken }),
       );
     })
     .catch(() => {
       res.redirect(
-        "http://localhost:5173/home?" +
+        `${req.protocol}://${req.hostname}:5173/home?` +
           new URLSearchParams({ error: "unauthorized" }),
       );
     });

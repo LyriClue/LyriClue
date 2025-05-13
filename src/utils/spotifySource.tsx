@@ -21,7 +21,7 @@ export function getUser(token: string) {
 }
 
 // Reference : https://developer.spotify.com/documentation/web-api/reference/get-a-list-of-current-users-playlists
-export function getPlaylistPage(pageParams: { limit: number; offset: number }, model: any, provided_url: string | null): Promise<any> {
+export function getPlaylistPage(pageParams: { limit: number; offset: number }, model: any, provided_url: string | null, retry: boolean = false): Promise<any> {
   if (provided_url) {
     var url: string = provided_url
   } else {
@@ -40,15 +40,18 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
   )
     .then(getResponseACB)
     .then((playlists) => model.setPlaylists(playlists))
-    .catch((e) => {
-      model.reauthenticateUser(e, model).then(() => { getPlaylistPage(pageParams, model, provided_url) })
-    }
-    )
+    .catch((_e) => {
+      model.reauthenticateUser().then(() => {
+        if (!retry) {
+          getPlaylistPage(pageParams, model, provided_url, retry = true)
+        }
+      })
+    })
 }
 
 // // Reference: https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks
 
-export function getSongPage(songParams: SongParams, model: Model, provided_url: string | null = null): Promise<any> {
+export function getSongPage(songParams: SongParams, model: Model, provided_url: string | null = null, retry: boolean = false): Promise<any> {
   if (provided_url) {
     var url: string = provided_url
   } else {
@@ -64,8 +67,9 @@ export function getSongPage(songParams: SongParams, model: Model, provided_url: 
     },
   )
     .then(getResponseACB)
-    .catch(() => model.reauthenticateUser())
-    .then(() => getSongPage(songParams, model, provided_url))
+    .catch((_e) => {
+      model.reauthenticateUser().then(() => { if (!retry) { getSongPage(songParams, model, provided_url, retry = true) } })
+    })
 }
 
 export function getSongsFromSpotifyPlaylist(songParams: SongParams, model: any, provided_url: string | null = null) {

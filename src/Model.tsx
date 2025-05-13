@@ -342,5 +342,6 @@ export const model: Model = {
   setPreviousGames: function (): void {
     throw new Error("Function not implemented.");
   }
+
 };
 

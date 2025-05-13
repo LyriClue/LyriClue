@@ -298,7 +298,7 @@ export const model: Model = {
 
   },
   startGame() {
-    window.history.pushState("", "", "/game");
+    window.history.replaceState("", "", "/game");
     dispatchEvent(new PopStateEvent('popstate', {}));
     this.currentSong = 0; // Reset to the first song index
     // this.songs = []
@@ -359,7 +359,7 @@ export const model: Model = {
   reauthenticateUser() {
     return getRefreshToken(this);
   },
-  setPreviousGames: function (): void {
+  setPreviousGames: function(): void {
     throw new Error("Function not implemented.");
   }
 

@@ -3,9 +3,11 @@ import { PostGuessView } from "../views/postGuessView";
 import { getParamsFromUrl } from "../utils/pathUtil";
 
 export const PostGuessPresenter = observer(
-  function postGuessRender(props: { model: { songs: [{ title: string, artist: string }], currentSong: number, startTimer: Function, nextRound: Function, setCurrentScore: Function } }) {
+  function postGuessRender(props: { model: { score:number, numSongs: number, songs: [{ title: string, artist: string }], currentSong: number, startTimer: Function, nextRound: Function, setCurrentScore: Function } }) {
     return (
       <PostGuessView
+        score={props.model.score}
+        maxScore={props.model.numSongs * 2}
         artistGuess={getParamsFromUrl("artist")}
         songGuess={getParamsFromUrl("title")}
         correctSong={{ "artist": props.model.songs[props.model.currentSong].artist, "title": props.model.songs[props.model.currentSong].title }}

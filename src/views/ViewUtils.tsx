@@ -29,3 +29,13 @@ export function Logo(position: string = "relative") {
     dispatchEvent(new PopStateEvent('popstate', {}))
   }
 }
+
+export function Score(score: number, maxScore: number) {
+  return (
+    <div className="absolute top-4 right-0">
+        <h1 className={" text-2xl md:ml-5 md:text-right" + blackText}>
+          Score: {score} / {maxScore}
+        </h1>
+      </div>
+  )
+}

@@ -12,6 +12,7 @@ export const PostGuessPresenter = observer(
         nextRound={nextRoundACB}
         openSpotify={openSpotifyACB}
         isGuest={props.model.isGuest}
+        hideSpotifyButton={hideSpotifyButton()}
       />
     )
     function nextRoundACB() {
@@ -21,6 +22,9 @@ export const PostGuessPresenter = observer(
     function openSpotifyACB() {
       window.open("https://open.spotify.com/track/" + props.model.songs[props.model.currentSong].id, '_blank').focus();
 
+    }
+    function hideSpotifyButton() {
+      return props.model.isGuest || !props.model.songs[props.model.currentSong].id
     }
 
     function getGuessParams() {

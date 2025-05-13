@@ -26,7 +26,7 @@ const Game = observer(
                         postGameURL={"/post-guess"}
                         progress={props.model.progress}
                         score={props.model.score}
-                        maxScore={props.model.numSongs * 2}
+                        maxScore={props.model.songs.length * 2}
                         currentSong={props.model.currentSong + 1}
                         numSongs={props.model.songs.length} />)
                     ||

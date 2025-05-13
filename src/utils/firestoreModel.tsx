@@ -231,7 +231,7 @@ export function connectToPersistence(model: any, watchFunction: any) {
     );
   }
   function getHighscores(snapshot: any) {
-    model.highScores = snapshot.data()?.days[getCurrentDate()].highScores
+    model.highScores = snapshot.data()?.days[getCurrentDate()]?.highScores || []
   }
 
   function gotDataACB(snapshot: any) {

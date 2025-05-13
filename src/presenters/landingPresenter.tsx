@@ -30,6 +30,7 @@ export const LandingPresenter = observer(
 
     function PlayDailyPlaylistsACB() {
       console.log("playing daily");
+      props.model.difficulty = "medium";
 
       getDailyPlaylists(props.model)
         .then(() => props.model.retrieveSongs())

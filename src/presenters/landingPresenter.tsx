@@ -33,7 +33,6 @@ export const LandingPresenter = observer(
 
       getDailyPlaylists(props.model)
         .then(() => props.model.retrieveSongs())
-        .then(() => props.model.startGame())
     }
 
     function onLogoutACB() {

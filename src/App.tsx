@@ -12,6 +12,7 @@ import './style.css'
 import { PostGuessPresenter } from './presenters/postGuess.tsx';
 import { PostGamePresenter } from './presenters/PostGamePresenter.tsx';
 import { Background } from './views/ViewUtils.tsx';
+import { Countdown } from './presenters/CountdownPresenter.tsx';
 
 const App = observer(
   function AppRender(props: any) {
@@ -62,6 +63,10 @@ export function makeRouter(reactiveModel: any) {
     {
       path: "/settings",
       element: <Settings model={reactiveModel} />
+    },
+    {
+      path: "/countdown",
+      element: <Countdown model={reactiveModel} />
     },
     {
       path: "/game",

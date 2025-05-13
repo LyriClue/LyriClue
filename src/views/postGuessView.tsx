@@ -11,7 +11,7 @@ export function PostGuessView(props: any) {
       {/* Main content */}
       <div className="top-1/10 relative z-10 flex flex-col justify-between pl-4 items-center ">
 
-        {songInformationComponent("Your Guess:", props.maxScore, props.artistGuess)}
+        {songInformationComponent("Your Guess:", props.songGuess, props.artistGuess)}
         {songInformationComponent("Correct Answer", props.correctSong.title, props.correctSong.artist)}
         <button onClick={props.nextRound} className="font-mono h-20 w-35 rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
           Next Song

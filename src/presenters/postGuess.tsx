@@ -20,8 +20,7 @@ export const PostGuessPresenter = observer(
       props.model.nextRound()
     }
     function openSpotifyACB() {
-      window.open("https://open.spotify.com/track/" + props.model.songs[props.model.currentSong].id, '_blank').focus();
-
+      window.open("https://open.spotify.com/track/" + props.model.songs[props.model.currentSong].id, '_blank')?.focus();
     }
     function hideSpotifyButton() {
       return props.model.isGuest || !props.model.songs[props.model.currentSong].id

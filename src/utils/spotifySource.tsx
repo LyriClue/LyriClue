@@ -1,7 +1,7 @@
 // import { Difficulty } from "../Model.js";
 import { getLyrics } from "./lyricSource.js";
 import { PROXY_URL } from "./spotifyApiConfig.js";
-import { Model, SongParams } from "../Model.js";
+import { model, Model, SongParams } from "../Model.js";
 
 export function getResponseACB(response: Response) {
   if (!response.ok) throw new Error("HTTP status code: " + response.status.toString());
@@ -21,7 +21,7 @@ export function getUser(token: string) {
 }
 
 // Reference : https://developer.spotify.com/documentation/web-api/reference/get-a-list-of-current-users-playlists
-export function getPlaylistPage(pageParams: { limit: number; offset: number }, model: any, provided_url: string | null) {
+export function getPlaylistPage(pageParams: { limit: number; offset: number }, model: any, provided_url: string | null, retry: boolean = false): Promise<any> {
   if (provided_url) {
     var url: string = provided_url
   } else {
@@ -34,17 +34,24 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
     url,
     {
       headers: {
-        "Authorization": "Bearer " + model.token,
+        "Authorization": "Bearer " + window.localStorage.getItem("accessToken"),
       },
     },
   )
     .then(getResponseACB)
     .then((playlists) => model.setPlaylists(playlists))
+    .catch((_e) => {
+      model.reauthenticateUser().then(() => {
+        if (!retry) {
+          getPlaylistPage(pageParams, model, provided_url, retry = true)
+        }
+      })
+    })
 }
 
 // // Reference: https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks
 
-export function getSongPage(songParams: SongParams, model: { token: string; }, provided_url: string | null = null) {
+export function getSongPage(songParams: SongParams, model: Model, provided_url: string | null = null, retry: boolean = false): Promise<any> {
   if (provided_url) {
     var url: string = provided_url
   } else {
@@ -55,11 +62,14 @@ export function getSongPage(songParams: SongParams, model: { token: string; }, p
     url,
     {
       headers: {
-        "Authorization": "Bearer " + model.token,
+        "Authorization": "Bearer " + window.localStorage.getItem("accessToken"),
       },
     },
   )
     .then(getResponseACB)
+    .catch((_e) => {
+      model.reauthenticateUser().then(() => { if (!retry) { getSongPage(songParams, model, provided_url, retry = true) } })
+    })
 }
 
 export function getSongsFromSpotifyPlaylist(songParams: SongParams, model: any, provided_url: string | null = null) {

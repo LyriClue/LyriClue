@@ -6,6 +6,7 @@ import axios from "axios"
 // initialize Firestore
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore"
+import { clientId } from "./spotifyApiConfig.js";
 
 // Extend the Window interface to include Firestore properties
 declare global {
@@ -27,12 +28,11 @@ window.auth = auth
 const COLLECTION = "lyriclue"; // TODO: create better names
 const COLLECTIVE_COLLECTION = "lyriclue-collective"
 
-export function signIn(token: string, model: Model) {
+export function signIn(accessToken: string, model: Model) {
   return axios({
     method: 'post',
-    url: 'http://localhost:8080/token',
-    headers: {},
-    data: { token: token }
+    url: window.location.protocol + '//' + window.location.hostname + ':8080/auth/user',
+    headers: { token: accessToken }
   }).then((res) => signInWithToken(res, model))
 }
 
@@ -42,15 +42,13 @@ export function signOutUser() {
 }
 
 function signInWithToken(res: any, model: Model) {
-  const token = res.data.token
-  return signInWithCustomToken(auth, token).then(
+  return signInWithCustomToken(auth, res.data.token).then(
     (credentials) => {
       updateProfile(credentials.user,
         {
           displayName: res.data.displayName,
           photoURL: res.data.images[0].url
         })
-
     }
   ).then(
     () =>
@@ -58,7 +56,19 @@ function signInWithToken(res: any, model: Model) {
   )
 }
 
-
+export function getRefreshToken(model: Model) {
+  const refreshToken = localStorage.getItem('refreshToken');
+  return axios({
+    method: 'post',
+    url: window.location.protocol + '//' + window.location.hostname + ':8080/auth/refresh',
+    headers: { refreshToken: refreshToken }
+  }).then((res) => {
+    localStorage.setItem("accessToken", res.data.accessToken)
+    if (res.data.refreshToken) {
+      localStorage.setItem("refreshToken", res.data.refreshToken)
+    }
+  })
+}
 
 export function signInAnonymous(model: { user: User, updateProfileInfo: Function }) {
   const userName = "Guest"
@@ -198,13 +208,13 @@ export function connectToPersistence(model: any, watchFunction: any) {
   }
 
   function checkUpdateACB() {
-    return [model.token,
-    model.difficulty,
-    model.songs,
-    model.currentSong,
-    model.playlists,
-    model.score,
-    model.previousGames,
+    return [
+      model.difficulty,
+      model.songs,
+      model.currentSong,
+      model.playlists,
+      model.score,
+      model.previousGames,
     ];
   }
 
@@ -216,7 +226,6 @@ export function connectToPersistence(model: any, watchFunction: any) {
     setDoc(
       fireStoreDoc,
       {
-        token: model.token,
         difficulty: model.difficulty,
         songs: model.songs,
         currentSong: model.currentSong,
@@ -239,7 +248,6 @@ export function connectToPersistence(model: any, watchFunction: any) {
 
     // TODO:  Update model Attributes according to firestore
 
-    model.token = snapshot.data()?.token || ""
     model.difficulty = snapshot.data()?.difficulty || Difficulty.medium
     model.songs = snapshot.data()?.songs || []
     model.currentSong = snapshot.data()?.currentSong || 0

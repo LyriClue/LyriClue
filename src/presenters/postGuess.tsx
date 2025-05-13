@@ -3,21 +3,27 @@ import { PostGuessView } from "../views/postGuessView";
 import { getParamsFromUrl } from "../utils/pathUtil";
 
 export const PostGuessPresenter = observer(
-  function postGuessRender(props: { model: { songs: [{ title: string, artist: string }], currentSong: number, startTimer: Function, nextRound: Function, setCurrentScore: Function } }) {
+  function postGuessRender(props: { model: Model }) {
     return (
       <PostGuessView
         artistGuess={getParamsFromUrl("artist")}
         songGuess={getParamsFromUrl("title")}
         correctSong={{ "artist": props.model.songs[props.model.currentSong].artist, "title": props.model.songs[props.model.currentSong].title }}
         nextRound={nextRoundACB}
+        openSpotify={openSpotifyACB}
+        isGuest={props.model.isGuest}
       />
     )
     function nextRoundACB() {
       getGuessParams();
       props.model.nextRound()
     }
+    function openSpotifyACB() {
+      window.open("https://open.spotify.com/track/" + props.model.songs[props.model.currentSong].id, '_blank').focus();
 
-    function getGuessParams(){
+    }
+
+    function getGuessParams() {
       const title = getParamsFromUrl("title")
       const artist = getParamsFromUrl("artist")
       props.model.setCurrentScore(artist, title)

@@ -128,8 +128,8 @@ function extractSongInfoACB(items: any[]) {
   return items.map(itemToInfoACB)
 }
 
-function itemToInfoACB(item: { track: { artists: { name: any; }[]; name: any; }; }) {
-  return { "artist": item.track.artists[0].name, "title": item.track.name }
+function itemToInfoACB(item: { track: { artists: { name: any; }[]; name: any; id: string }; }) {
+  return { "artist": item.track.artists[0].name, "title": item.track.name, "id": item.track.id }
 }
 
 function callLyricApi(songs: { artist: any; title: any; }[], numSongs: number) {

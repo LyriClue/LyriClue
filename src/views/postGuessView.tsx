@@ -1,10 +1,12 @@
-import { blackText, Logo } from "./ViewUtils"
+import { blackText, Logo, Score } from "./ViewUtils"
 
 
 export function PostGuessView(props: any) {
   return (
-    <div className="h-screen w-screen ">
+    <div className="h-screen w-screen">
       {Logo()}
+
+      {Score(props.score, props.maxScore)}
 
       {/* Main content */}
       <div className="relative z-10 flex flex-col justify-between items-center ">

@@ -30,25 +30,12 @@ const Game = observer(
                         currentSong={props.model.currentSong + 1}
                         numSongs={props.model.songs.length} />)
                     ||
-                    (<SuspenseView promise={props.model.songsPromiseState.promise} error={props.model.songsPromiseState.error} invalidPlaylistError = {checkError}/>)
+                    (<SuspenseView promise={props.model.songsPromiseState.promise} error={props.model.songsPromiseState.error} />)
                 }
             </div>
         )
-        function checkError(){
-            if (props.model.songsPromiseState?.error?.message) {
-                console.log("Error: ", props.model.songsPromiseState.error.message);
-                props.model.setPlaylistErrorMessage(props.model.songsPromiseState.error.message);
-                changeWindow()
-            } else {
-                props.model.setPlaylistErrorMessage("");
-            }
-        }
-        function changeWindow() {
-            window.history.pushState("", "", "/settings");
-            dispatchEvent(new PopStateEvent('popstate', {}))
-        }
     }
-    
+
 );
 
 function formatLyrics(model: { songs: Song[]; currentSong: any; linesToShow: () => number; }) {

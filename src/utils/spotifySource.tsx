@@ -72,6 +72,10 @@ export function getSongsFromSpotifyPlaylist(songParams: SongParams, model: any, 
     .then(removeNullValues)
     .then((songs) => setSongsInModel(songs, model))
     .then(() => model.startCountdown())
+    .catch((e) => {
+      model.setPlaylistErrorMessage(e);
+      throw new Error(e) //have to throw a new one to catch in resolvePromise
+    })
     .finally(() =>
       model.ready = true
     )

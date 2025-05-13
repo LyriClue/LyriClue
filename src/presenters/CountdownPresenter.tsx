@@ -15,19 +15,9 @@ export const Countdown = observer(
     return (
       (modelHasSongs(props.model) &&
         < CountdownView currentValue={formatTimer(props.model.currentTime)} />) ||
-      (<SuspenseView promise={props.model.songsPromiseState.promise} error={props.model.songsPromiseState.error} invalidPlaylistError={checkError} />)
+      (<SuspenseView promise={props.model.songsPromiseState.promise} error={props.model.songsPromiseState.error} />)
     )
 
-    function checkError() {
-      if (props.model.songsPromiseState?.error?.message) {
-        console.log("Error: ", props.model.songsPromiseState.error.message);
-        props.model.setPlaylistErrorMessage(props.model.songsPromiseState.error.message);
-        window.history.pushState("", "", "/settings");
-        dispatchEvent(new PopStateEvent('popstate', {}))
-      } else {
-        props.model.setPlaylistErrorMessage("");
-      }
-    }
 
     function formatTimer(value: number) {
       return 3 - value

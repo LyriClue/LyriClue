@@ -54,7 +54,6 @@ app.get("/auth/login", (req, res) => {
 app.get("/auth/callback", function (req, res) {
   console.log("Entered Callback");
   const redirect_uri = `${req.protocol}://${req.hostname}:8080/auth/callback`;
-  console.log(redirect_uri);
   const code = req.query.code?.toString() || "";
 
   const body = new URLSearchParams({

@@ -108,14 +108,17 @@ export function LandingView(props: any) {
       <div className="w-96 bg-black/40 rounded-tl-3xl rounded-bl-3xl relative right-0 h-screen rounded-3xl md:rounded-tr-none md:rounded-br-none" >
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/40 to-black/80 rounded-3xl md:rounded-tr-none md:rounded-br-none " />
         <div className="relative z-10 flex flex-col items-center justify-center h-full p-6">
-          <h1 className={whiteText + "text-3xl mb-8 text-center "}>
+
+          <h1 className={whiteText + "flex-none text-3xl  mb-8 text-center "}>
             Profile
           </h1>
-          <div>
-            <img src={props.profilePicture} alt="No Image" className="w-50 aspect-square rounded-full mb-4" />
-            <p className={whiteText + "text-xl  mb-8"}>{props.displayName}</p>
+          <div className="flex-1 grow flex flex-col items-center justify-center">
+            <div>
+              <img src={props.profilePicture} alt="Profile Picture" className=" w-50 aspect-square rounded-full mb-4" />
+              <p className={whiteText + "text-xl mb-8"}>{props.displayName}</p>
+            </div>
           </div>
-          <div className="w-full flex flex-col items-center space-y-4">
+          <div className="flex-none w-full items-center space-y-4">
             <button onClick={onLogoutACB} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
               Log out
             </button>

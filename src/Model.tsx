@@ -332,7 +332,7 @@ export const model: Model = {
       this.endGame()
       return
     }
-    this.startTimer()
+    this.startTimer(this.maxTime)
     window.history.pushState("", "", "/game");
     dispatchEvent(new PopStateEvent('popstate', {}))
   },

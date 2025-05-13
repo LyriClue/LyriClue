@@ -36,8 +36,8 @@ const app = express();
 app.use(cors({ origin: true }));
 app.use(express.json());
 
-const redirect_uri = "http://localhost:8080/auth/callback";
 app.get("/auth/login", (req, res) => {
+  const redirect_uri = `${req.protocol}://${req.hostname}:8080/auth/callback`;
   const scopes = "playlist-read-private user-top-read";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
@@ -53,6 +53,8 @@ app.get("/auth/login", (req, res) => {
 
 app.get("/auth/callback", function (req, res) {
   console.log("Entered Callback");
+  const redirect_uri = `${req.protocol}://${req.hostname}:8080/auth/callback`;
+  console.log(redirect_uri);
   const code = req.query.code?.toString() || "";
 
   const body = new URLSearchParams({

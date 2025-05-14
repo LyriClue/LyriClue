@@ -47,6 +47,7 @@ function GameView(props: any) {
               />
             </div>
             <button type="submit">Submit</button>
+            <button className="ml-4">Skip</button>
           </form>
         </div>
       </div>

@@ -29,7 +29,7 @@ export function PostGuessView(props: any) {
   function songInformationComponent(header: string, title: string, artist: string) {
     return (
       <div className="w-full md:w-2/3 flex flex-col items-center p-10">
-        <h2 className={blackText + "text-6xl text-center md:text-left "}>
+        <h2 className={blackText + "text-6xl text-center md:text-left py-2"}>
           {header}
         </h2>
         <br />

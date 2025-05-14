@@ -52,10 +52,7 @@ export const Settings = observer(
       props.model.retrievePreviousPlaylistPage()
     }
     function selectPlaylistACB(playlist: any) {
-      console.log("set current playlist: ", playlist);
       props.model.setCurrentPlaylist(playlist)
-      props.model.startGame()
-
     }
     function selectDifficulty(difficulty: any) {
       props.model.difficulty = difficulty

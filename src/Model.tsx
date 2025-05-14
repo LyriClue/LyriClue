@@ -71,6 +71,7 @@ export interface Model {
   score: number;
   previousGames: OneGameInfo[];
   highScores: HighScore[];
+  showGlobalSuspense: boolean,
 
   storeGameResult(): void;
   PlaylistErrorMessage: string;
@@ -87,10 +88,11 @@ export interface Model {
   retrieveNextsongPage(): void;
   retrieveprevioussongPage(): void;
   setCurrentTime(time: number): void;
-  incrementTimer(model: Model): void;
+  incrementTimer(model: Model, delay: number, maxTime: number): void;
+  startCountdown(): void;
   setSongs(songs: Song[]): Song[];
   setPlaylists(playlists: Playlist[]): Playlist[];
-  startTimer(): void;
+  startTimer(maxTime?: number, delay?: number): void;
   retrieveLyrics(): void;
   linesToShow(): number;
   startGame(): void;
@@ -99,6 +101,7 @@ export interface Model {
   endGame(): void;
   currentDifficultyEffect(): void;
   isPlaylistPromiseResolved(): boolean;
+  isPromiseResolved(promiseState: { promise?: any, data?: any, error?: any }): boolean
   updateProfileInfo(name: string, profilePic: string): void;
   reauthenticateUser(): Promise<any>;
 }
@@ -131,6 +134,7 @@ export const model: Model = {
   previousGames: [],
   highScores: [],
   PlaylistErrorMessage: "",
+  showGlobalSuspense: false,
 
   setPlaylistErrorMessage(message: string) {
     this.PlaylistErrorMessage = message;
@@ -191,15 +195,15 @@ export const model: Model = {
   currentDifficultyEffect() {
     switch (this.difficulty) {
       case "easy":
-        this.maxTime = 60;
-        this.linesToShowTimeCap = 30;
+        this.maxTime = 45;
+        this.linesToShowTimeCap = 15;
         break;
       case "medium":
-        this.maxTime = 35;
-        this.linesToShowTimeCap = 20;
+        this.maxTime = 30;
+        this.linesToShowTimeCap = 15;
         break;
       case "hard":
-        this.maxTime = 25;
+        this.maxTime = 20;
         this.linesToShowTimeCap = 15;
         break;
       default:
@@ -252,18 +256,23 @@ export const model: Model = {
     this.currentTime = time;
   },
 
-  incrementTimer(model: Model) {
-    model.setCurrentTime(model.currentTime + 0.1);
-    if (model.currentTime >= model.maxTime) {
+  incrementTimer(model: Model, delay: number, maxTime: number) {
+    model.setCurrentTime(model.currentTime + delay);
+    if (model.currentTime >= maxTime) {
       model.progress = 1;
       clearInterval(model.timerID!);
       model.timerID = null;
     }
-    model.progress = model.currentTime / model.maxTime;
+    model.progress = model.currentTime / maxTime;
   },
   setSongs(songs: []) {
-    this.songs = songs;
-    return songs;
+    function addHasBeenScoredCB(song: any){
+      song = {...song, hasBeenScored: false}
+      return song
+    }
+    
+    this.songs = songs.map(addHasBeenScoredCB)
+    return songs
   },
 
   setPlaylists(playlists: any) {
@@ -271,10 +280,13 @@ export const model: Model = {
     return playlists;
   },
 
-  startTimer() {
+  startTimer(maxTime = 10, delay = 100) {
+    if (this.timerID) {
+      clearInterval(this.timerID)
+    }
     this.setCurrentTime(0.0);
     this.progress = 0.0;
-    this.timerID = window.setInterval(this.incrementTimer, 100, this);
+    this.timerID = window.setInterval(this.incrementTimer, delay, this, delay / 1000, maxTime);
   },
 
   retrieveLyrics() {
@@ -284,14 +296,21 @@ export const model: Model = {
   linesToShow() {
     return Math.max(Math.round(Math.min(1, this.currentTime / this.linesToShowTimeCap) * this.maxLinesToShow), 1);
   },
+  startCountdown() {
+    window.history.pushState("", "", "/countdown");
+    dispatchEvent(new PopStateEvent('popstate', {}))
+    this.startTimer(3, 1000)
+    return true
+
+  },
   startGame() {
-    window.history.pushState("", "", "/game");
+    window.history.replaceState("", "", "/game");
     dispatchEvent(new PopStateEvent('popstate', {}));
     this.currentSong = 0; // Reset to the first song index
-    this.songs = [];
-    this.score = 0;
-    this.PlaylistErrorMessage = "";
-    this.startTimer();
+    // this.songs = []
+    this.score = 0
+    this.PlaylistErrorMessage = ""
+    this.startTimer(this.maxTime)
   },
 
   restartGame() {
@@ -314,7 +333,8 @@ export const model: Model = {
       this.endGame();
       return;
     }
-    this.startTimer();
+
+    this.startTimer(this.maxTime)
     window.history.pushState("", "", "/game");
     dispatchEvent(new PopStateEvent('popstate', {}));
   },
@@ -323,6 +343,13 @@ export const model: Model = {
     window.history.pushState("", "", "/post-game");
     dispatchEvent(new PopStateEvent('popstate', {}));
     return;
+  },
+  isPromiseResolved(promiseState: { promise?: any, data?: any, error?: any }) {
+    return (
+      promiseState.promise &&
+      promiseState.data &&
+      !promiseState.error
+    );
   },
 
   isPlaylistPromiseResolved() {
@@ -338,7 +365,7 @@ export const model: Model = {
   reauthenticateUser() {
     return getRefreshToken(this);
   },
-  setPreviousGames: function (): void {
+  setPreviousGames: function(): void {
     throw new Error("Function not implemented.");
   }
 

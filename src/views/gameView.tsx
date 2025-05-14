@@ -1,17 +1,13 @@
-import { blackText, Logo } from "./ViewUtils";
+import { blackText, Logo, Score } from "./ViewUtils";
 import "../style.css"
 
 function GameView(props: any) {
   return (
-    <div className="h-screen ">
+    <div className="h-screen">
 
       {Logo("absolute")}
 
-      <div className="absolute top-4 right-0">
-        <h1 className={" text-2xl md:ml-5 md:text-right" + blackText}>
-          Score: {props.score} / {props.maxScore}
-        </h1>
-      </div>
+      {Score(props.score, props.maxScore)}
 
       {/* Main content */}
       <div className="relative items-center horizontal-center top-1/10">

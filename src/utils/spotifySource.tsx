@@ -73,6 +73,7 @@ export function getSongPage(songParams: SongParams, model: Model, provided_url: 
 }
 
 export function getSongsFromSpotifyPlaylist(songParams: SongParams, model: any, provided_url: string | null = null) {
+  model.showGlobalSuspense = true
   return getSongPage(songParams, model, provided_url)
     .then(pageToItemArrayACB)
     .then(filterValidSongsACB)
@@ -80,15 +81,30 @@ export function getSongsFromSpotifyPlaylist(songParams: SongParams, model: any, 
     .then((songInfo) => callLyricApi(songInfo, model.numSongs))
     .then(removeNullValues)
     .then((songs) => setSongsInModel(songs, model))
+    .then(() => model.startCountdown())
+    .catch((e) => {
+      model.setPlaylistErrorMessage(e);
+      throw new Error(e) //have to throw a new one to catch in resolvePromise
+    })
+    .finally(() =>
+      model.showGlobalSuspense = false
+    )
 }
 
 export function getDailySongsFromArray(songParams: any, model: Model) {
   const songs = songParams.playlistArray
   console.log(songParams.playlistArray);
 
+  model.showGlobalSuspense = true
   return callLyricApi(songs, songs.length)
     .then(removeNullValues)
     .then((songs) => setSongsInModel(songs, model))
+    .finally(() =>
+      model.startCountdown()
+    )
+    .finally(() =>
+      model.showGlobalSuspense = false
+    )
 
 }
 

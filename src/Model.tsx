@@ -266,10 +266,6 @@ export const model: Model = {
     model.progress = model.currentTime / maxTime;
   },
   setSongs(songs: []) {
-<<<<<<< HEAD
-    this.songs = songs;
-    return songs;
-=======
     function addHasBeenScoredCB(song: any){
       song = {...song, hasBeenScored: false}
       return song
@@ -277,7 +273,6 @@ export const model: Model = {
     
     this.songs = songs.map(addHasBeenScoredCB)
     return songs
->>>>>>> 69f99da (scoring is now done directly when submitting answers instead of when moving on to the next song)
   },
 
   setPlaylists(playlists: any) {

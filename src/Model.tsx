@@ -195,15 +195,15 @@ export const model: Model = {
   currentDifficultyEffect() {
     switch (this.difficulty) {
       case "easy":
-        this.maxTime = 60;
-        this.linesToShowTimeCap = 30;
+        this.maxTime = 45;
+        this.linesToShowTimeCap = 15;
         break;
       case "medium":
-        this.maxTime = 35;
-        this.linesToShowTimeCap = 20;
+        this.maxTime = 30;
+        this.linesToShowTimeCap = 15;
         break;
       case "hard":
-        this.maxTime = 25;
+        this.maxTime = 20;
         this.linesToShowTimeCap = 15;
         break;
       default:

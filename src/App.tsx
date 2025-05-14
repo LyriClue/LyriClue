@@ -17,7 +17,7 @@ import { Countdown } from './presenters/CountdownPresenter.tsx';
 const App = observer(
   function AppRender(props: any) {
 
-    if (!props.model.ready || props.model.user === undefined) {
+    if (!props.model.ready || props.model.user === undefined || props.model.showGlobalSuspense) {
       return (
         <div>
           {Background()}

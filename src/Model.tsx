@@ -71,6 +71,7 @@ export interface Model {
   score: number;
   previousGames: OneGameInfo[];
   highScores: HighScore[];
+  showGlobalSuspense: boolean,
 
   storeGameResult(): void;
   PlaylistErrorMessage: string;
@@ -133,6 +134,7 @@ export const model: Model = {
   previousGames: [],
   highScores: [],
   PlaylistErrorMessage: "",
+  showGlobalSuspense: false,
 
   setPlaylistErrorMessage(message: string) {
     this.PlaylistErrorMessage = message;

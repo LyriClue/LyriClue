@@ -29,6 +29,7 @@ export function getLyrics(songParams: { artist?: any; title?: any; }) {
     res.lyrics = res.lyrics.replace(/\(feat.*\)/, "")
     res.lyrics = res.lyrics.replace(/\(.*\)/, "")
     res.lyrics = res.lyrics.replace(/^chorus$/m, "")
+    res.lyrics = res.lyrics.replace(/Paroles de la chanson .* par .*/i, "")
     return res
   }
 }

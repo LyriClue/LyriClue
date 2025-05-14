@@ -36,7 +36,7 @@ export function Logo(position: string = "relative") {
 export function Score(score: number, maxScore: number) {
   return (
     <div className="relative md:absolute top-0 right-0">
-        <h1 className={"p-4 hover:text-stone-700 rounded-lg text-2xl md:ml-5 text-center md:text-right" + blackText}>
+        <h1 className={"p-4 text-2xl md:ml-5 text-center md:text-right" + blackText}>
           Score: {score} / {maxScore}
         </h1>
       </div>

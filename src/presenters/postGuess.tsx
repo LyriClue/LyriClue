@@ -20,7 +20,6 @@ export const PostGuessPresenter = observer(
       />
     )
     function nextRoundACB() {
-      getGuessParams();
       props.model.nextRound()
     }
 
@@ -28,7 +27,6 @@ export const PostGuessPresenter = observer(
       const title = getParamsFromUrl("title")
       const artist = getParamsFromUrl("artist")
       props.model.setCurrentScore(artist, title)
-
     }
 
   }

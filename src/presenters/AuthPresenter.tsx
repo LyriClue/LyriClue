@@ -1,7 +1,5 @@
-import axios from "axios";
 import { Model } from "../Model";
 import { signInAnonymous } from "../utils/firestoreModel";
-import { clientId } from "../utils/spotifyApiConfig";
 import { AuthView } from "../views/AuthView"
 import { observer } from "mobx-react-lite"
 

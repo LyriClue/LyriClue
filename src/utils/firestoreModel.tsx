@@ -6,7 +6,6 @@ import axios from "axios"
 // initialize Firestore
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore"
-import { clientId } from "./spotifyApiConfig.js";
 
 // Extend the Window interface to include Firestore properties
 declare global {
@@ -56,7 +55,7 @@ function signInWithToken(res: any, model: Model) {
   )
 }
 
-export function getRefreshToken(model: Model) {
+export function getRefreshToken() {
   const refreshToken = localStorage.getItem('refreshToken');
   return axios({
     method: 'post',

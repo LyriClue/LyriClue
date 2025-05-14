@@ -5,7 +5,7 @@ function getResponseACB(response: Response) {
   return response.json();
 }
 
-function errorACB(e) {
+function errorACB(e: any) {
   console.log(e);
 
   return null

@@ -1,7 +1,7 @@
 // import { Difficulty } from "../Model.js";
 import { getLyrics } from "./lyricSource.js";
 import { PROXY_URL } from "./spotifyApiConfig.js";
-import { model, Model, SongParams } from "../Model.js";
+import { Model, SongParams } from "../Model.js";
 
 export function getResponseACB(response: Response) {
   if (!response.ok) throw new Error("HTTP status code: " + response.status.toString());
@@ -140,7 +140,7 @@ function callLyricApi(songs: { artist: any; title: any; }[], numSongs: number) {
     return getLyrics(song).then(lyrics => ({ lyrics, ...song })).then(filterValidLyric)
   }
 
-  function filterValidLyric(song: { artist: string, title: string, lyrics: string }) {
+  function filterValidLyric(song: any) {
     if (song.lyrics) {
       return song
     }

@@ -1,10 +1,10 @@
 import { HighScore } from "../Model";
-import { Background, blackText, Logo, whiteText } from "./ViewUtils";
+import { blackText, Logo, whiteText } from "./ViewUtils";
 
 
 export function LandingView(props: any) {
-  const highscoreArray = [1, 2, 3, 4, 5];
-  const myHighscoreArray = [1, 2, 3, 4, 5];
+  // const highscoreArray = [1, 2, 3, 4, 5];
+  // const myHighscoreArray = [1, 2, 3, 4, 5];
   return (<div className="h-screen w-screen">
     {Logo("absolute")}
 

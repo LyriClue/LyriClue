@@ -89,8 +89,8 @@ export function PlaylistSelectionView(props: any) {
     props.onSelectNext()
   }
 
-  function navigateToMenu() {
-    console.log("Navigating to menu");
-    props.navigateToMenu();
-  }
+  // function navigateToMenu() {
+  //   console.log("Navigating to menu");
+  //   props.navigateToMenu();
+  // }
 }

@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { PostGuessView } from "../views/postGuessView";
 import { getParamsFromUrl } from "../utils/pathUtil";
+import { Model } from "../Model";
 
 export const PostGuessPresenter = observer(
   function postGuessRender(props: { model: Model }) {

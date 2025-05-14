@@ -3,13 +3,13 @@ import { blackText, Logo, Score } from "./ViewUtils"
 
 export function PostGuessView(props: any) {
   return (
-    <div className="h-screen w-screen">
-      {Logo("fixed")}
+    <div className="relative h-screen w-screen">
+      {Logo()}
 
       {Score(props.score, props.maxScore)}
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col justify-between items-center ">
+      <div className="relative z-10 flex flex-col justify-between items-center top-1/10">
 
         {songInformationComponent("Your Guess:", props.songGuess, props.artistGuess, resultToEmoji(props.titleIsCorrect), resultToEmoji(props.artistIsCorrect))}
         {songInformationComponent("Correct Answer", props.correctSong.title, props.correctSong.artist)}

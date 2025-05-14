@@ -11,9 +11,9 @@ interface Song {
 const Game = observer(
     function gameRender(props: { model: Model }) {
         if (props.model.currentTime >= props.model.maxTime) {
-            const test = document.getElementById("answers");
-            if (test instanceof HTMLFormElement) {
-                console.log(test.submit());
+            const submitForm = document.getElementById("answers");
+            if (submitForm instanceof HTMLFormElement) {
+                console.log(submitForm.submit());
             } else {
                 console.error("Element is not a form and cannot be submitted.");
             }
@@ -26,7 +26,7 @@ const Game = observer(
                         postGameURL={"/post-guess"}
                         progress={props.model.progress}
                         score={props.model.score}
-                        maxScore={props.model.numSongs * 2}
+                        maxScore={props.model.songs.length * 2}
                         currentSong={props.model.currentSong + 1}
                         numSongs={props.model.songs.length} />)
                     ||

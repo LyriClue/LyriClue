@@ -71,6 +71,7 @@ export interface Model {
   score: number;
   previousGames: OneGameInfo[];
   highScores: HighScore[];
+  showGlobalSuspense: boolean,
 
   storeGameResult(): void;
   PlaylistErrorMessage: string;
@@ -133,6 +134,7 @@ export const model: Model = {
   previousGames: [],
   highScores: [],
   PlaylistErrorMessage: "",
+  showGlobalSuspense: false,
 
   setPlaylistErrorMessage(message: string) {
     this.PlaylistErrorMessage = message;
@@ -224,7 +226,6 @@ export const model: Model = {
 
   retrievePlaylists(url: string | null = null) {
     resolvePromise(getPlaylistPage(this.playlistParams, this, url), this.playlistsPromiseState);
-    this.playlistParams.offset = this.playlistsPromiseState.data?.offset ?? 0;
   },
 
   retrieveNextPlaylistPage() {
@@ -265,8 +266,18 @@ export const model: Model = {
     model.progress = model.currentTime / maxTime;
   },
   setSongs(songs: []) {
+<<<<<<< HEAD
     this.songs = songs;
     return songs;
+=======
+    function addHasBeenScoredCB(song: any){
+      song = {...song, hasBeenScored: false}
+      return song
+    }
+    
+    this.songs = songs.map(addHasBeenScoredCB)
+    return songs
+>>>>>>> 69f99da (scoring is now done directly when submitting answers instead of when moving on to the next song)
   },
 
   setPlaylists(playlists: any) {

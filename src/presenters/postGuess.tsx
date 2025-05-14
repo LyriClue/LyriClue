@@ -4,8 +4,16 @@ import { getParamsFromUrl } from "../utils/pathUtil";
 
 export const PostGuessPresenter = observer(
   function postGuessRender(props: { model: Model }) {
+    if (!props.model.songs[props.model.currentSong].hasBeenScored) {
+      getGuessParams()
+      props.model.songs[props.model.currentSong].hasBeenScored = true
+    }
+    
+
     return (
       <PostGuessView
+        score={props.model.score}
+        maxScore={props.model.songs.length * 2}
         artistGuess={getParamsFromUrl("artist")}
         songGuess={getParamsFromUrl("title")}
         correctSong={{ "artist": props.model.songs[props.model.currentSong].artist, "title": props.model.songs[props.model.currentSong].title }}

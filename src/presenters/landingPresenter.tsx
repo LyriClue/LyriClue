@@ -20,7 +20,7 @@ export const LandingPresenter = observer(
     );
 
     function PlayOwnPlaylistsACB() {
-      if (!props.model.playlists) {
+      if (!props.model.playlistsPromiseState) {
         props.model.retrievePlaylists()
       }
       window.history.pushState("", "", "/settings");

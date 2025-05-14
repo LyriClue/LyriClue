@@ -13,9 +13,14 @@ export function PostGuessView(props: any) {
 
         {songInformationComponent("Your Guess:", props.songGuess, props.artistGuess)}
         {songInformationComponent("Correct Answer", props.correctSong.title, props.correctSong.artist)}
-        <button onClick={props.nextRound} className="font-mono w-35 rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
-          Next Song
-        </button>
+        <div className="flex justify-center h-full">
+          <button hidden={props.hideSpotifyButton} onClick={props.openSpotify} className="mr-5 flex-2/3 font-mono w-35 rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
+            Listen to Song on Spotify
+          </button>
+          <button onClick={props.nextRound} className="font-mono w-35 rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
+            Next Song
+          </button>
+        </div>
       </div>
     </div>
 

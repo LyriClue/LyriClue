@@ -197,14 +197,17 @@ export const model: Model = {
       case "easy":
         this.maxTime = 45;
         this.linesToShowTimeCap = 15;
+        this.maxLinesToShow = 10;
         break;
       case "medium":
         this.maxTime = 30;
         this.linesToShowTimeCap = 15;
+        this.maxLinesToShow = 8;
         break;
       case "hard":
         this.maxTime = 20;
         this.linesToShowTimeCap = 15;
+        this.maxLinesToShow = 5;
         break;
       default:
         console.log("Something went wrong");

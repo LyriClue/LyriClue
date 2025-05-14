@@ -11,7 +11,7 @@ export function LandingView(props: any) {
     {/* Main content */}
     <div className="relative z-10 flex flex-col md:flex-row justify-between items-center">
       {/* High Score Section */}
-      <HighscoreView highScores={props.highScores} previousGames={props.previousGames} />
+      <HighscoreView highScores={props.highScores} previousGames={props.previousGames} isGuest={props.isGuest}/>
 
       {/* Start game section */}
       <ControlView />
@@ -45,12 +45,14 @@ export function LandingView(props: any) {
     );
   }
 
-  function HighscoreView(props: { highScores: HighScore[]; previousGames: any }) {
+  function HighscoreView(props: { highScores: HighScore[]; previousGames: any, isGuest: boolean }) {
 
     return (
       <div className="flex flex-col items-center md:items-start space-y-6 mb-8 md:mb-0 pt-30 w-[300px] md:pl-5">
         {HighScoreTableComponent("High Score", "Daily Playlist", props.highScores.map(HighScoreTableCB))}
-        {HighScoreTableComponent("Previous Games", "My Own Playlists", props.previousGames.map(PreviousGamesTableCB))}
+          <div hidden={props.isGuest}>
+            {HighScoreTableComponent("Previous Games", "My Own Playlists", props.previousGames.map(PreviousGamesTableCB))}
+          </div>
       </div>
     );
 

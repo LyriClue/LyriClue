@@ -2,8 +2,6 @@ import { observer } from "mobx-react-lite";
 import { GameView } from "../views/gameView.tsx";
 import { SuspenseView } from "../views/suspenseView.tsx";
 import { Model } from "../Model.tsx";
-import { useCallback } from "react";
-import { LrcLine } from "react-lrc";
 
 
 interface Song {
@@ -21,17 +19,7 @@ const Game = observer(
                 console.error("Element is not a form and cannot be submitted.");
             }
         }
-        // const lineRenderer = useCallback(
-        function lineRenderer(param) {
 
-            console.log(param);
-
-            // ({ active, line: { content } }: { active: boolean; line: LrcLine }) => (
-            // return <p className={active ? "font-serif bg-green" : "font-sans"}> {content}</p >
-            // ),
-        }
-        //     []
-        // )
         return (
             <div>
                 {(modelHasSongs(props.model) &&
@@ -51,25 +39,38 @@ const Game = observer(
                 }
             </div>
         )
+
+        function lineRenderer({ active, line }: { active: boolean, line: { content: string, startMillisecond: number } }) {
+            let content: string = ""
+            if (line.startMillisecond >= props.model.currentTime * 1000) {
+                content = "...";
+            }
+            else {
+                content = line.content
+            }
+            return (<p className={active ? "font-serif text-green-800" : "font-sans text-black"}>
+                {content}
+            </p>
+            )
+        }
+
+        function formatLyrics(model: { songs: Song[]; currentSong: any; linesToShow: () => number; }) {
+            const songs = model.songs
+            const currentSong = model.currentSong
+
+            const lyrics = songs[currentSong].lyrics
+            const timestampedLyrics = lyrics.map(addTimestamp)
+            const singleStringLyrics = timestampedLyrics.join("")
+            return singleStringLyrics
+
+            function addTimestamp(lyric: string, index: number) {
+                return "[00:" + props.model.whenToShowLine(index) + "]" + lyric + "\n" // WARN: breaks if timestamp > 60s
+            }
+        }
     }
 
 );
 
-function formatLyrics(model: { songs: Song[]; currentSong: any; linesToShow: () => number; }) {
-    const songs = model.songs
-    const currentSong = model.currentSong
-
-    const lyrics = songs[currentSong].lyrics
-    const timestampedLyrics = lyrics.map(addTimestamp)
-    const singleStringLyrics = timestampedLyrics.join("")
-    console.log(singleStringLyrics);
-
-    return singleStringLyrics
-
-    function addTimestamp(lyric: string, index: number) {
-        return "[00:0" + index + ".00]" + lyric + "\n"
-    }
-}
 
 function modelHasSongs(model: { songs: { length: number } }) {
     return (model.songs.length != 0)

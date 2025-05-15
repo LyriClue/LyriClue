@@ -340,6 +340,7 @@ export const model: Model = {
   },
 
   endGame() {
+    this.storeGameResult();
     window.history.pushState("", "", "/post-game");
     dispatchEvent(new PopStateEvent('popstate', {}));
     return;

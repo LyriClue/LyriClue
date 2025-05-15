@@ -29,9 +29,9 @@ export function PostGameView(props: PostGameProps) {
         <div>
 
           <div className="mt-2 ">
-            <span className={blackText + "text-3xl"}>
+            <div className={blackText + "text-3xl py-2"}>
               Songs Played:
-            </span>
+            </div>
             <div className="rounded-xl p-3 bg-black/70 mb-4">
               <table className="divide-y divide-black-200 border-spacing-y-2 font-mono">
                 <tbody>

@@ -36,6 +36,7 @@ interface OneGameInfo {
   playlistName: string;
   score: number;
   difficulty: Difficulty;
+  playlistId: string;
 }
 
 export interface HighScore {
@@ -145,11 +146,13 @@ export const model: Model = {
     if (this.currentPlaylist?.isDailyPlaylist) {
       setDailyHighscore(this.user.displayName, this.score, this.user.uid);
       return;
-    }
+    };
+
     const gameInfo: OneGameInfo = {
       playlistName: this.currentPlaylist?.name || "",
       score: this.score,
-      difficulty: this.difficulty
+      difficulty: this.difficulty,
+      playlistId: this.currentPlaylist?.id || "",
     };
     this.previousGames.unshift(gameInfo);
     if (this.previousGames.length > 5) {
@@ -159,7 +162,7 @@ export const model: Model = {
 
   setCurrentScore(artistGuess: string, titleGuess: string) {
     if (artistGuess.length === 0 && titleGuess.length === 0) {
-      return;
+      return { titleIsCorrect: false, artistIsCorrect: false };
     }
 
     const removeFeat = (str: string) => str.replace(/\(feat.*\)/g, "");
@@ -187,6 +190,7 @@ export const model: Model = {
     if (isArtistCorrect) {
       this.score += 1;
     }
+    return { titleIsCorrect: isTitleCorrect, artistIsCorrect: isArtistCorrect }
   },
 
   userIsGuest() {
@@ -268,7 +272,7 @@ export const model: Model = {
   },
   setSongs(songs: []) {
     function addHasBeenScoredCB(song: any) {
-      song = { ...song, hasBeenScored: false }
+      song = { ...song, score: null }
       return song
     }
 
@@ -347,6 +351,7 @@ export const model: Model = {
   },
 
   endGame() {
+    this.storeGameResult();
     window.history.pushState("", "", "/post-game");
     dispatchEvent(new PopStateEvent('popstate', {}));
     return;

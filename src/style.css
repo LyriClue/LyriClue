@@ -21,3 +21,12 @@ progress::-webkit-progress-value {
 progress::-webkit-progress-bar {
 background-color: #cf9f60; /* beige background */
 }
+
+a {
+    color: #000;
+    text-decoration: none;
+}
+a:hover {
+    color: #cf9f60;
+    text-decoration: underline;
+}

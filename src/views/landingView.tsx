@@ -1,5 +1,6 @@
 import { HighScore } from "../Model";
 import { Background, blackText, Logo, whiteText } from "./ViewUtils";
+import "../style.css";
 
 
 export function LandingView(props: any) {
@@ -77,7 +78,10 @@ export function LandingView(props: any) {
     function HighScoreTableCB(highScore: HighScore) {
       return (
         <tr key={highScore.userId} className="border-b border-gray-200 last:border-0">
-          <td className="py-1">{highScore.userName}</td>
+          <td className="py-1">
+            <a href={"https://open.spotify.com/user/" + highScore.userId} target="_blank" rel="noopener noreferrer">
+              {highScore.userName}
+            </a></td>
           <td className="py-1 px-2">......</td>
           <td className="py-1">{highScore.score} pts</td>
         </tr>
@@ -94,7 +98,15 @@ export function LandingView(props: any) {
       }
       return (
         <tr key={index} className="border-b border-gray-200 last:border-0">
-          <td className="py-1"> {playlistname}</td>
+          <td className="py-1"> 
+            {previousGames.playlistId ? (
+              <a href={"https://open.spotify.com/playlist/" + previousGames.playlistId} target="_blank" rel="noopener noreferrer">
+              {playlistname}
+              </a>
+            ) : (
+              <span className="text-gray-500">{playlistname}</span>
+            )}
+          </td>
           <td className="py-1 px-2">   </td>
           <td className="py-1">{difficulty + ": " + score + "pts"}</td>
         </tr>

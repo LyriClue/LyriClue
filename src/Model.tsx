@@ -158,7 +158,7 @@ export const model: Model = {
 
   setCurrentScore(artistGuess: string, titleGuess: string) {
     if (artistGuess.length === 0 && titleGuess.length === 0) {
-      return;
+      return { titleIsCorrect: false, artistIsCorrect: false };
     }
 
     const removeFeat = (str: string) => str.replace(/\(feat.*\)/g, "");
@@ -186,6 +186,7 @@ export const model: Model = {
     if (isArtistCorrect) {
       this.score += 1;
     }
+    return { titleIsCorrect: isTitleCorrect, artistIsCorrect: isArtistCorrect }
   },
 
   userIsGuest() {
@@ -266,11 +267,11 @@ export const model: Model = {
     model.progress = model.currentTime / maxTime;
   },
   setSongs(songs: []) {
-    function addHasBeenScoredCB(song: any){
-      song = {...song, hasBeenScored: false}
+    function addHasBeenScoredCB(song: any) {
+      song = { ...song, score: null }
       return song
     }
-    
+
     this.songs = songs.map(addHasBeenScoredCB)
     return songs
   },

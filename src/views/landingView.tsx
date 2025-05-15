@@ -98,7 +98,13 @@ export function LandingView(props: any) {
       return (
         <tr key={index} className="border-b border-gray-200 last:border-0">
           <td className="py-1"> 
-            <a href={"https://open.spotify.com/playlist/" + previousGames.playlistId} target="_blank" rel="noopener noreferrer">{playlistname}</a>
+            {previousGames.playlistId ? (
+              <a href={"https://open.spotify.com/playlist/" + previousGames.playlistId} target="_blank" rel="noopener noreferrer">
+              {playlistname}
+              </a>
+            ) : (
+              <span className="text-gray-500">{playlistname}</span>
+            )}
           </td>
           <td className="py-1 px-2">   </td>
           <td className="py-1">{difficulty + ": " + score + "pts"}</td>

@@ -25,6 +25,9 @@ export function Logo(position: string = "relative") {
   )
 
   function NavigateToLanding() {
+    if (window.location.pathname == "/landing") {
+      window.location.reload() //reload to give user some feedback
+    }
     window.history.pushState("", "", "/landing");
     dispatchEvent(new PopStateEvent('popstate', {}))
   }

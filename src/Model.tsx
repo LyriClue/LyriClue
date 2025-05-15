@@ -58,7 +58,7 @@ export interface Model {
   songsPromiseState: PromiseState<any>;     // Specify generic type if known
   timerID: number | null;
   maxTime: number;
-  linesToShowTimeCap: number;
+  timeBetweenLyricLines: number;
   currentTime: number;
   progress: number;
   maxLinesToShow: number;
@@ -96,6 +96,7 @@ export interface Model {
   startTimer(maxTime?: number, delay?: number): void;
   retrieveLyrics(): void;
   linesToShow(): number;
+  whenToShowLine(lineNumber: number): string;
   startGame(): void;
   restartGame(): void;
   nextRound(): void;
@@ -120,7 +121,7 @@ export const model: Model = {
   songsPromiseState: {},
   timerID: null,
   maxTime: 30,
-  linesToShowTimeCap: 20,
+  timeBetweenLyricLines: 3,
   currentTime: 0.0,
   progress: 0,
   maxLinesToShow: 5,
@@ -200,15 +201,15 @@ export const model: Model = {
     switch (this.difficulty) {
       case "easy":
         this.maxTime = 45;
-        this.linesToShowTimeCap = 15;
+        this.timeBetweenLyricLines = 2;
         break;
       case "medium":
         this.maxTime = 30;
-        this.linesToShowTimeCap = 15;
+        this.timeBetweenLyricLines = 4;
         break;
       case "hard":
         this.maxTime = 20;
-        this.linesToShowTimeCap = 15;
+        this.timeBetweenLyricLines = 5;
         break;
       default:
         console.log("Something went wrong");
@@ -271,7 +272,7 @@ export const model: Model = {
   },
   setSongs(songs: []) {
     function addHasBeenScoredCB(song: any) {
-      song = { ...song, score: null }
+      song = { ...song, hasBeenScored: false }
       return song
     }
 
@@ -298,8 +299,14 @@ export const model: Model = {
   },
 
   linesToShow() {
-    return Math.max(Math.round(Math.min(1, this.currentTime / this.linesToShowTimeCap) * this.maxLinesToShow), 1);
+    return Math.max(Math.round(Math.min(1, this.currentTime / this.timeBetweenLyricLines) * this.maxLinesToShow), 1);
   },
+
+  whenToShowLine(lineNumber: number) {
+    const time = (lineNumber * this.timeBetweenLyricLines).toFixed(2)
+    return String(time).padStart(5, "0")
+  },
+
   startCountdown() {
     window.history.pushState("", "", "/countdown");
     dispatchEvent(new PopStateEvent('popstate', {}))

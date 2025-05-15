@@ -6,9 +6,12 @@ function getResponseACB(response: Response) {
 }
 
 function errorACB(e: any) {
-  console.error(e);
-
-  return null
+  if (e.message.includes("404")) {
+    console.log("Lyrics not found (normal)");
+  } else {
+    console.error("Critical error:", e);
+  }
+  return null;
 }
 
 // Reference : https://lyricsovh.docs.apiary.io/#reference/0/lyrics-of-a-song/search?console=1

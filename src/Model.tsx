@@ -36,6 +36,7 @@ interface OneGameInfo {
   playlistName: string;
   score: number;
   difficulty: Difficulty;
+  playlistId: string;
 }
 
 export interface HighScore {
@@ -144,11 +145,13 @@ export const model: Model = {
     if (this.currentPlaylist?.isDailyPlaylist) {
       setDailyHighscore(this.user.displayName, this.score, this.user.uid);
       return;
-    }
+    };
+
     const gameInfo: OneGameInfo = {
       playlistName: this.currentPlaylist?.name || "",
       score: this.score,
-      difficulty: this.difficulty
+      difficulty: this.difficulty,
+      playlistId: this.currentPlaylist?.id || "",
     };
     this.previousGames.unshift(gameInfo);
     if (this.previousGames.length > 5) {

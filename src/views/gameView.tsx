@@ -36,6 +36,7 @@ function GameView(props: any) {
                 name="title"
                 placeholder="Title "
                 autoFocus
+                autoComplete="off"
                 className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-4xl max-w-[calc(100vw-10px)] break-words whitespace-normal"
               />
             </div>
@@ -46,6 +47,7 @@ function GameView(props: any) {
                 id="artist"
                 name="artist"
                 placeholder="Artist "
+                autoComplete="off"
                 className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-4xl max-w-[calc(100vw-10px)] break-words whitespace-normal"
               />
             </div>

@@ -1,4 +1,5 @@
 import { blackText, Logo, Score } from "./ViewUtils";
+import { Lrc } from 'react-lrc';
 import "../style.css"
 
 function GameView(props: any) {
@@ -15,14 +16,21 @@ function GameView(props: any) {
           Song {props.currentSong} / {props.numSongs}
         </h1>
         <div className="h-[50%] items-center justify-center mb-1/2 font-mono ">
-          <table className="mr-auto ml-auto border-spacing-x-10 text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-4xl mb-4 whitespace-pre">
-            <tbody>
-              {props.lyrics.map(renderLyrics)}
-              <tr>
-                <td>...</td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="mr-auto ml-auto text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-xl mb-4 whitespace-pre">
+            <Lrc lrc={props.lyrics}
+              currentMillisecond={props.currentTime}
+              recoverAutoScrollInterval={0}
+              lineRenderer={props.lineRenderer}
+            />
+          </div>
+          {/* <table className="mr-auto ml-auto border-spacing-x-10 text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-4xl mb-4 whitespace-pre"> */}
+          {/*   <tbody> */}
+          {/*     {props.lyrics.map(renderLyrics)} */}
+          {/*     <tr> */}
+          {/*       <td>...</td> */}
+          {/*     </tr> */}
+          {/*   </tbody> */}
+          {/* </table> */}
           <div className="mb-10" />
           <progress value={props.progress} className=" w-[55%] md:w-100 rounded overflow-hidden mb-4" />
           <form action={props.postGameURL} className="" id="answers">

@@ -10,14 +10,6 @@ interface Song {
 
 const Game = observer(
     function gameRender(props: { model: Model }) {
-        if (props.model.currentTime >= props.model.maxTime) {
-            const submitForm = document.getElementById("answers");
-            if (submitForm instanceof HTMLFormElement) {
-                console.log(submitForm.submit());
-            } else {
-                console.error("Element is not a form and cannot be submitted.");
-            }
-        }
         return (
             <div>
                 {(modelHasSongs(props.model) &&

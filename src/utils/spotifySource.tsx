@@ -93,7 +93,6 @@ export function getSongsFromSpotifyPlaylist(songParams: SongParams, model: any, 
 
 export function getDailySongsFromArray(songParams: any, model: Model) {
   const songs = songParams.playlistArray
-  console.log(songParams.playlistArray);
 
   model.showGlobalSuspense = true
   return callLyricApi(songs, songs.length)

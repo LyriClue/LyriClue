@@ -2,7 +2,6 @@
 import {blackText } from "./ViewUtils";
 
 export function AuthView(props: any) {
-  console.log("auth view");
 
   return (
     <div className="h-screen w-screen ">

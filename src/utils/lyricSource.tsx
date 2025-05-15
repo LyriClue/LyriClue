@@ -6,7 +6,7 @@ function getResponseACB(response: Response) {
 }
 
 function errorACB(e: any) {
-  console.log(e);
+  console.error(e);
 
   return null
 }

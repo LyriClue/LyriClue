@@ -73,19 +73,16 @@ export function PlaylistSelectionView(props: any) {
     );
 
     function selectPlaylistACB() {
-      console.log("Selected Playlist");
       props.selectPlaylist(playlist);
     }
 
   }
 
   function selectPrevious() {
-    console.log("previous");
     props.onSelectPrevious()
   }
 
   function selectNext() {
-    console.log("next");
     props.onSelectNext()
   }
 

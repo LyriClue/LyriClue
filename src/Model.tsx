@@ -207,8 +207,6 @@ export const model: Model = {
         this.maxTime = 20;
         this.linesToShowTimeCap = 15;
         break;
-      default:
-        console.log("Something went wrong");
     }
   },
 

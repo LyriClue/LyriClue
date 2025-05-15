@@ -48,7 +48,7 @@ const Game = observer(
             else {
                 content = line.content
             }
-            return (<p className={active ? "font-serif text-green-800" : "font-sans text-black"}>
+            return (<p className={"text-wrap px-4 text-2xl font-mono mx-4" + " " + (active ? "text-stone-700 bg-stone-100 rounded-xl " : "text-black")}>
                 {content}
             </p>
             )

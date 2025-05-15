@@ -17,7 +17,7 @@ export function Background() {
 
 export function Logo(position: string = "relative") {
   return (
-    <div onClick={NavigateToLanding} className={position + " top-0 left-0 cursor-pointer "}>
+    <div onClick={NavigateToLanding} className={position + " z-40 top-0 left-0 cursor-pointer "}>
       <h1 className={"p-4 hover:text-stone-700 rounded-lg text-2xl md:ml-5 text-center md:text-left" + blackText}>
         LyriClue
       </h1>

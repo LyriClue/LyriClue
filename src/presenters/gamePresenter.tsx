@@ -2,6 +2,9 @@ import { observer } from "mobx-react-lite";
 import { GameView } from "../views/gameView.tsx";
 import { SuspenseView } from "../views/suspenseView.tsx";
 import { Model } from "../Model.tsx";
+import { useCallback } from "react";
+import { LrcLine } from "react-lrc";
+
 
 
 interface Song {
@@ -19,7 +22,6 @@ const Game = observer(
                 console.error("Element is not a form and cannot be submitted.");
             }
         }
-
         return (
             <div>
                 {(modelHasSongs(props.model) &&

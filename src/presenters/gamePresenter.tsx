@@ -2,8 +2,6 @@ import { observer } from "mobx-react-lite";
 import { GameView } from "../views/gameView.tsx";
 import { SuspenseView } from "../views/suspenseView.tsx";
 import { Model } from "../Model.tsx";
-import { useCallback } from "react";
-import { LrcLine } from "react-lrc";
 
 
 

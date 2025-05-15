@@ -4,7 +4,7 @@ import { blackText, Logo, Score } from "./ViewUtils"
 export function PostGuessView(props: any) {
   return (
     <div className="h-screen w-screen">
-      {Logo()}
+      {Logo("fixed")}
 
       {Score(props.score, props.maxScore)}
 

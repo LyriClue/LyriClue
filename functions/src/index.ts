@@ -1,43 +1,23 @@
 import express from "express";
 import cors from "cors";
-
-import { initializeApp } from "firebase-admin/app";
-import { getAuth } from "firebase-admin/auth";
-import admin from "firebase-admin";
-import { getUser } from "../../src/utils/spotifySource.tsx";
-import fs from "fs";
+import * as functions from "firebase-functions/v1";
+import * as admin from "firebase-admin";
+import { getUser } from "../../src/utils/spotifySource.js";
 import { clientId, clientSecret } from "../../src/utils/spotifyApiConfig.js";
+import serviceAccount from '../../lyriclue-2ea07-firebase-adminsdk-fbsvc-deeff8318f.json';
 
-const serviceAccount = JSON.parse(
-  fs.readFileSync(
-    "../lyriclue-2ea07-firebase-adminsdk-fbsvc-deeff8318f.json",
-    "utf8",
-  ),
-);
-
-function getApp() {
-  let app;
-  try {
-    app = initializeApp(
-      {
-        credential: admin.credential.cert(
-          serviceAccount as admin.ServiceAccount,
-        ),
-      },
-      "my-app",
-    );
-  } catch {
-    app = admin.app("my-app");
-  }
-  return app;
-}
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+});
 
 const app = express();
+app.set("trust proxy", true);
 app.use(cors({ origin: true }));
+app.use('/api', express.json()); // Add base path
 app.use(express.json());
 
-app.get("/auth/login", (req, res) => {
-  const redirect_uri = `${req.protocol}://${req.hostname}:8080/auth/callback`;
+app.get("/api/auth/login", (req, res) => {
+  const redirect_uri = `${req.protocol}://${req.hostname}/api/auth/callback`;
   const scopes = "playlist-read-private user-top-read";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
@@ -51,9 +31,8 @@ app.get("/auth/login", (req, res) => {
   );
 });
 
-app.get("/auth/callback", function (req, res) {
-  console.log("Entered Callback");
-  const redirect_uri = `${req.protocol}://${req.hostname}:8080/auth/callback`;
+app.get("/api/auth/callback", function (req, res) {
+  const redirect_uri = `${req.protocol}://${req.hostname}/api/auth/callback`;
   const code = req.query.code?.toString() || "";
 
   const body = new URLSearchParams({
@@ -74,42 +53,69 @@ app.get("/auth/callback", function (req, res) {
   })
     .then((res) => res.json())
     .then((response) => {
-      console.log("spotify token exists: " + Boolean(response.access_token));
       const accessToken = response.access_token;
       const refreshToken = response.refresh_token;
       if (!accessToken || !refreshToken) {
         throw new Error("login failed");
       }
       res.redirect(
-        `${req.protocol}://${req.hostname}:5173/home?` +
+        `${req.protocol}://${req.hostname}/home?` +
           new URLSearchParams({ accessToken, refreshToken }),
       );
     })
     .catch(() => {
       res.redirect(
-        `${req.protocol}://${req.hostname}:5173/home?` +
+        `${req.protocol}://${req.hostname}/home?` +
           new URLSearchParams({ error: "unauthorized" }),
       );
     });
 });
 
-app.post("/auth/user", async (req, res) => {
-  console.log("fetching userId");
-  const auth = getAuth(getApp());
-  const user = await getUser(req.headers.token as string);
-  console.log("creating custom token");
-  const firebaseToken = await auth.createCustomToken(user.id);
-  console.log("firebasetoken exists: " + Boolean(firebaseToken));
-  console.log("returning from request");
-  res.status(200).send({
-    token: firebaseToken,
-    images: user.images,
-    displayName: user.display_name,
-  });
+app.post("/api/auth/user", async (req, res) => {
+  try {
+    functions.logger.log("Headers received:", req.headers);
+    
+    // Verify authorization header exists
+    const spotifyToken = req.headers.token as string;
+    if (!spotifyToken) {
+      return res.status(400).json({ error: "Missing authorization token" });
+    }
+
+    // Verify Spotify user
+    functions.logger.log("Fetching Spotify user...");
+    const user = await getUser(spotifyToken);
+    if (!user?.id) {
+      functions.logger.error("Invalid Spotify user response:", user);
+      return res.status(401).json({ error: "Invalid Spotify user data" });
+    }
+
+    // Create Firebase token
+    functions.logger.log("Creating Firebase token for UID:", user.id);
+    const auth = admin.auth();
+    const firebaseToken = await auth.createCustomToken(user.id);
+    
+    // Verify token creation
+    if (!firebaseToken) {
+      throw new Error("Failed to create Firebase token");
+    }
+
+    functions.logger.log("Successfully created token for:", user.display_name);
+    return res.status(200).json({
+      token: firebaseToken,
+      images: user.images,
+      displayName: user.display_name,
+    });
+
+  } catch (error) {
+    functions.logger.error("Error in /auth/user:", error);
+    return res.status(500).json({ 
+      error: "Internal server error",
+      details: error instanceof Error ? error.message : "Unknown error"
+    });
+  }
 });
 
-app.post("/auth/refresh", async (req, res) => {
-  console.log("retrieved refresh request");
+app.post("/api/auth/refresh", async (req, res) => {
   const refreshToken = req.headers.refreshtoken;
 
   const body = new URLSearchParams({
@@ -139,10 +145,9 @@ app.post("/auth/refresh", async (req, res) => {
   }
 });
 
-app.get("test_token", (req, res) => {
+app.get("/api/test_token", (req, res) => {
   const ret = "Test Response";
   res.json({ ret });
 });
 
-const PORT = 8080;
-app.listen(PORT);
+export const api = functions.region('us-central1').https.onRequest(app);

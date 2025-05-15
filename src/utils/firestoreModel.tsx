@@ -30,13 +30,12 @@ const COLLECTIVE_COLLECTION = "lyriclue-collective"
 export function signIn(accessToken: string, model: Model) {
   return axios({
     method: 'post',
-    url: window.location.protocol + '//' + window.location.hostname + ':8080/auth/user',
+    url: window.location.protocol + '//' + window.location.hostname + '/api/auth/user',
     headers: { token: accessToken }
   }).then((res) => signInWithToken(res, model))
 }
 
 export function signOutUser() {
-  console.log("signed out");
   return auth.signOut();
 }
 
@@ -59,7 +58,7 @@ export function getRefreshToken() {
   const refreshToken = localStorage.getItem('refreshToken');
   return axios({
     method: 'post',
-    url: window.location.protocol + '//' + window.location.hostname + ':8080/auth/refresh',
+    url: window.location.protocol + '//' + window.location.hostname + '/api/auth/refresh',
     headers: { refreshToken: refreshToken }
   }).then((res) => {
     localStorage.setItem("accessToken", res.data.accessToken)
@@ -83,7 +82,7 @@ export function signInAnonymous(model: { user: User, updateProfileInfo: Function
       model.updateProfileInfo(userName, profilePic)
     })
     .catch((error) =>
-      console.log(error)
+      console.error(error)
     )
 }
 
@@ -188,10 +187,8 @@ export function connectToPersistence(model: any, watchFunction: any) {
   watchFunction(checkUpdateACB, updateFirestoreACB);
 
   function signInOrOutACB(user: any) {
-    console.log("sign in");
 
     model.user = user
-    console.log(user);
 
     if (user) {
       model.ready = false;

@@ -18,7 +18,7 @@ function GameView(props: any) {
         <div className="h-[50%] items-center justify-center mb-1/2 font-mono ">
           <div className="flex">
             <div className="flex-1/10" />
-            <div className="flex-8/10 max-w-[900px] h-200px  relative mr-auto ml-auto  bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-xl mb-4 whitespace-pre">
+            <div className="flex-8/10 max-w-[900px] h-200px  relative mr-auto ml-auto  bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-xl mb-2 whitespace-pre">
               <Lrc lrc={props.lyrics}
                 style={{ height: "200px", flex: 1, minHeight: 0, padding: "10px" }}
                 currentMillisecond={props.currentTime}
@@ -29,8 +29,9 @@ function GameView(props: any) {
             <div className="flex-1/10" />
           </div>
           <div className="mb-10" />
-          <progress value={props.progress} className=" w-[55%] md:w-100 rounded overflow-hidden mb-4" />
+          <progress value={props.progress} className=" w-[55%] md:w-100 rounded overflow-hidden mb-2" />
           <form action={props.postGameURL} className="" id="answers">
+            
             <div className="mb-4 w-screen">
               <input
                 type="text"
@@ -53,8 +54,9 @@ function GameView(props: any) {
                 className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-4xl max-w-[calc(100vw-10px)] break-words whitespace-normal"
               />
             </div>
+            <button className="mr-2 text-[#cf9f60]">Skip</button>
             <button type="submit">Submit</button>
-            <button className="ml-4">Skip</button>
+            
           </form>
         </div>
       </div>

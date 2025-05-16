@@ -22,7 +22,11 @@ export function getLyrics(songParams: { artist?: any; title?: any; }) {
   ).then(getResponseACB).then(removeOddities).then(splitLyrics).catch(errorACB)
 
   function splitLyrics(res: { lyrics: string }) {
-    return res.lyrics.split(/\n|\r/).filter((line: string) => line != "")
+    const lyricArray = res.lyrics.split(/\n|\r/).filter((line: string) => line != "")
+    if (lyricArray.length === 0) {
+      throw new Error("Song does not have lyrics: " + songParams.title)
+    }
+    return lyricArray
   }
   function removeOddities(res: { lyrics: string }) {
     res.lyrics = res.lyrics.replace(/\[.*\]/, "")

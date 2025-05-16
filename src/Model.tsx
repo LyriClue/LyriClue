@@ -105,7 +105,6 @@ export interface Model {
   isPlaylistPromiseResolved(): boolean;
   isPromiseResolved(promiseState: { promise?: any, data?: any, error?: any }): boolean
   updateProfileInfo(name: string, profilePic: string): void;
-  reauthenticateUser(): Promise<any>;
 }
 
 export const model: Model = {
@@ -373,9 +372,6 @@ export const model: Model = {
   },
   updateProfileInfo(name: string, profilePic: string) {
     this.user = { ...this.user, displayName: name, photoURL: profilePic };
-  },
-  reauthenticateUser() {
-    return getRefreshToken(this);
   },
   setPreviousGames: function(): void {
     throw new Error("Function not implemented.");

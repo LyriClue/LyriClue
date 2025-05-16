@@ -61,13 +61,6 @@ function GameView(props: any) {
     </div>
   );
 
-  function renderLyrics(lyric: string[], index: number) {
-    return (
-      <tr key={index}>
-        <td className="max-w-[calc(100vw-10px)] break-words whitespace-normal">{lyric}</td>
-      </tr>
-    );
-  }
 }
 
 export { GameView };

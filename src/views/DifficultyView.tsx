@@ -1,5 +1,5 @@
 import { Difficulty } from "../Model";
-import { blackText, Logo} from "./ViewUtils";
+import { blackText, Logo } from "../utils/ViewUtils";
 
 
 const difficulties = [Difficulty.easy, Difficulty.medium, Difficulty.hard]

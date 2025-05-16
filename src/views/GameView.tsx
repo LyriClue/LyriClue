@@ -1,4 +1,4 @@
-import { blackText, Logo, Score } from "./ViewUtils";
+import { blackText, Logo, Score } from "../utils/ViewUtils";
 import { Lrc } from 'react-lrc';
 import "../style.css"
 
@@ -31,7 +31,7 @@ function GameView(props: any) {
           <div className="mb-10" />
           <progress value={props.progress} className=" w-[55%] md:w-100 rounded overflow-hidden mb-2" />
           <form action={props.postGameURL} className="" id="answers">
-            
+
             <div className="mb-4 w-screen">
               <input
                 type="text"
@@ -56,7 +56,7 @@ function GameView(props: any) {
             </div>
             <button className="mr-2 text-[#cf9f60]">Skip</button>
             <button type="submit">Submit</button>
-            
+
           </form>
         </div>
       </div>

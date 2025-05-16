@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
-import { GameView } from "../views/gameView.tsx";
-import { SuspenseView } from "../views/suspenseView.tsx";
+import { GameView } from "../views/GameView.tsx";
+import { SuspenseView } from "../views/SuspenseView.tsx";
 import { Model } from "../Model.tsx";
 
 
@@ -22,7 +22,7 @@ const Game = observer(
                 console.error("Element is not a form and cannot be submitted.");
             }
         }
-        
+
         return (
             <div>
                 {(modelHasSongs(props.model) &&

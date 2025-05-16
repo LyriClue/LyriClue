@@ -1,13 +1,13 @@
 import { PlaylistSelectionView } from "../views/PlaylistSelectionView"
 import { observer } from "mobx-react-lite"
-import { SuspenseView } from "../views/suspenseView"
+import { SuspenseView } from "../views/SuspenseView"
 // import { Difficulty } from "../Model"
-import { DifficultyView } from "../views/difficultyView"
+import { DifficultyView } from "../views/DifficultyView"
 import { Model } from "../Model"
 
 
-export const Settings = observer(
-  function SettingsPresenter(props: any) {
+export const SettingsPresenter = observer(
+  function SettingsRender(props: any) {
     return (
       <div>
         <DifficultyView

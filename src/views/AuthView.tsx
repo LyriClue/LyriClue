@@ -1,5 +1,4 @@
-
-import {blackText } from "./ViewUtils";
+import { blackText } from "../utils/ViewUtils";
 
 export function AuthView(props: any) {
   console.log("auth view");

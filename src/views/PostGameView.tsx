@@ -1,4 +1,4 @@
-import { blackText, Logo } from "./ViewUtils"
+import { blackText, Logo } from "../utils/ViewUtils"
 import { Difficulty } from "../Model"
 
 

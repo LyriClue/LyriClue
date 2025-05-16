@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { PostGameView } from "../views/postGameView";
+import { PostGameView } from "../views/PostGameView";
 import { Model } from "../Model";
 
 

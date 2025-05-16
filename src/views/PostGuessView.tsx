@@ -1,4 +1,4 @@
-import { blackText, Logo, Score } from "./ViewUtils"
+import { blackText, Logo, Score } from "../utils/ViewUtils"
 
 
 export function PostGuessView(props: any) {

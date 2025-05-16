@@ -7,7 +7,7 @@ export function LandingView(props: any) {
   const highscoreArray = [1, 2, 3, 4, 5];
   const myHighscoreArray = [1, 2, 3, 4, 5];
   return (<div className="h-screen w-screen">
-    {Logo("fixed")}
+    {Logo()}
 
     {/* Main content */}
     <div className="relative z-10 flex flex-col md:flex-row justify-between items-center">

@@ -12,7 +12,11 @@ export const Settings = observer(
       <div>
         <DifficultyView
           selectDifficulty={selectDifficulty}
+          selectSpeed={selectSpeedAcb}
           currentDifficulty={props.model.difficulty}
+          selectTime={selectTimePerRound}
+          timeValue={props.model.maxTime}
+          speedValue={timeToSpeedValue(props.model.timeBetweenLyricLines)}
         />
         {
           (modelHasPlaylists(props.model) &&
@@ -59,6 +63,20 @@ export const Settings = observer(
     }
     function refreshPlaylistsACB() {
       props.model.retrievePlaylists()
+    }
+    function selectSpeedAcb(value: number) {
+      props.model.timeBetweenLyricLines = speedValueToTime(value);
+      console.log((speedValueToTime(value)));
+    }
+    function speedValueToTime(value: number) {
+      return 5 - (value / (10 / 4))
+    }
+    function timeToSpeedValue(value: number) {
+      return (10 / 4) * (5 - value)
+    }
+    function selectTimePerRound(value: number) {
+
+      props.model.maxTime = value
     }
 
     function goToMenuACB() {

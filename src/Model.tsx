@@ -6,7 +6,8 @@ import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist, g
 export enum Difficulty {
   easy = "easy",
   medium = "medium",
-  hard = "hard"
+  hard = "hard",
+  custom = "custom"
 }
 
 interface Playlist {
@@ -113,7 +114,7 @@ export const model: Model = {
   songs: [],
   searchParams: {},
   market: "SV",
-  playlistParams: { limit: 10, offset: 0 },
+  playlistParams: { limit: 8, offset: 0 },
   songParams: { market: "SV", playlistId: null, limit: 50, offset: 0, playlistArray: null },
   searchResultsPromiseState: {},
   playlistsPromiseState: {},
@@ -205,7 +206,7 @@ export const model: Model = {
         break;
       case "medium":
         this.maxTime = 30;
-        this.timeBetweenLyricLines = 4;
+        this.timeBetweenLyricLines = 3.5;
         break;
       case "hard":
         this.maxTime = 20;

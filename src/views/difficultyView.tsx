@@ -39,6 +39,12 @@ export function DifficultyView(props: { timeValue: number, speedValue: number, s
             min={1}
             max={10}
             onChange={selectSpeedACB}
+            sx={{
+              color: '#000',
+              '& .MuiSlider-thumb:hover': {
+                boxShadow: '0px 0px 12px 3px rgba(0, 0, 0, 1)',
+              },
+            }}
           />
           <h2 className={blackText + " text-xl"}>
             Time Per Round
@@ -53,6 +59,14 @@ export function DifficultyView(props: { timeValue: number, speedValue: number, s
             min={15}
             max={60}
             onChange={selectTimeACB}
+            sx={{
+              color: '#000',
+              '& .MuiSlider-thumb:hover': {
+                boxShadow: '0px 0px 12px 3px rgba(0, 0, 0, 1)', 
+
+                
+              },
+            }}
           />
         </div>
       </div>

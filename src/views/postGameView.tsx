@@ -1,4 +1,4 @@
-import {  blackText, Logo } from "./ViewUtils"
+import { blackText, Logo } from "./ViewUtils"
 import { Difficulty } from "../Model"
 
 
@@ -24,7 +24,7 @@ export function PostGameView(props: PostGameProps) {
           Difficulty:  {props.difficulty}
         </span>
         <span className={blackText + "mt-10 mb-10 text-6xl text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]"}>
-        {props.score}/{props.totalAvailablePoints}
+          {props.score}/{props.totalAvailablePoints}
         </span>
         <div>
 
@@ -36,6 +36,7 @@ export function PostGameView(props: PostGameProps) {
               <table className="divide-y divide-black-200 border-spacing-y-2 font-mono">
                 <tbody>
                   <tr>
+                    <th></th>
                     <th className="px-4 py-2">
                       Title
                     </th>
@@ -70,13 +71,19 @@ export function PostGameView(props: PostGameProps) {
   function songTablerowCB(song: any, index: number) {
     return (
       <tr key={index} className="text-center">
+        <td className="px-4 py-1">{resultEmoji(song.score.titleIsCorrect)}</td>
         <td className="px-4 py-1">
           {song.title}
         </td>
-        <td>
+        <td className="px-4 py-1">
           {song.artist}
         </td>
+        <td className="px-4 py-1">{resultEmoji(song.score.artistIsCorrect)}</td>
       </tr>
     )
+  }
+
+  function resultEmoji(guess: boolean) {
+    return guess ? "✅" : "❌"
   }
 }

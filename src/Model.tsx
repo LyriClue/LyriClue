@@ -54,7 +54,6 @@ export interface Model {
   songParams: SongParams;
   searchResultsPromiseState: PromiseState;
   playlistsPromiseState: PromiseState<any>; // Specify generic type if known
-  playlists: Playlist[] | null;
   songsPromiseState: PromiseState<any>;     // Specify generic type if known
   timerID: number | null;
   maxTime: number;
@@ -92,7 +91,6 @@ export interface Model {
   incrementTimer(model: Model, delay: number, maxTime: number): void;
   startCountdown(): void;
   setSongs(songs: Song[]): Song[];
-  setPlaylists(playlists: Playlist[]): Playlist[];
   startTimer(maxTime?: number, delay?: number): void;
   retrieveLyrics(): void;
   linesToShow(): number;
@@ -117,7 +115,6 @@ export const model: Model = {
   songParams: { market: "SV", playlistId: null, limit: 50, offset: 0, playlistArray: null },
   searchResultsPromiseState: {},
   playlistsPromiseState: {},
-  playlists: null,
   songsPromiseState: {},
   timerID: null,
   maxTime: 30,
@@ -280,10 +277,6 @@ export const model: Model = {
     return songs
   },
 
-  setPlaylists(playlists: any) {
-    this.playlists = playlists;
-    return playlists;
-  },
 
   startTimer(maxTime = 10, delay = 100) {
     if (this.timerID) {

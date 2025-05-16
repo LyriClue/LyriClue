@@ -7,7 +7,7 @@ export function DifficultyView(props: { currentDifficulty: Difficulty; selectDif
   return (
     <div>
       <div>
-        {Logo("fixed")}
+        {Logo()}
       </div>
       <div className="relative w-full h-[30%]">
         {/* Content */}

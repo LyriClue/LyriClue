@@ -17,7 +17,7 @@ export function Background() {
 
 export function Logo(position: string = "relative") {
   return (
-    <div onClick={NavigateToLanding} className={position + " z-40 top-0 left-0 cursor-pointer "}>
+    <div onClick={NavigateToLanding} className={position + " md:absolute top-0 left-0 cursor-pointer "}>
       <h1 className={"p-4 hover:text-stone-700 rounded-lg text-2xl md:ml-5 text-center md:text-left" + blackText}>
         LyriClue
       </h1>
@@ -35,8 +35,8 @@ export function Logo(position: string = "relative") {
 
 export function Score(score: number, maxScore: number) {
   return (
-    <div className="absolute top-4 right-0">
-        <h1 className={" text-2xl md:ml-5 md:text-right" + blackText}>
+    <div className="relative md:absolute top-0 right-0">
+        <h1 className={"p-4 text-2xl md:ml-5 text-center md:text-right" + blackText}>
           Score: {score} / {maxScore}
         </h1>
       </div>

@@ -5,7 +5,7 @@ function GameView(props: any) {
   return (
     <div className="h-screen">
 
-      {Logo("fixed")}
+      {Logo()}
 
       {Score(props.score, props.maxScore)}
 

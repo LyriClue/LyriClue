@@ -39,7 +39,6 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
     },
   )
     .then(getResponseACB)
-    .then((playlists) => model.setPlaylists(playlists))
     .catch((_e) => {
       model.reauthenticateUser().then(() => {
         if (!retry) {

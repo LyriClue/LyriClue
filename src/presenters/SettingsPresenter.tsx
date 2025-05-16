@@ -19,9 +19,9 @@ export const Settings = observer(
             <div>
               < PlaylistSelectionView
                 errorMessage={props.model.PlaylistErrorMessage}
-                playlists={props.model.playlists.items}
-                previous={props.model.playlists.previous}
-                next={props.model.playlists.next}
+                playlists={props.model.playlistsPromiseState.data.items}
+                previous={props.model.playlistsPromiseState.data.previous}
+                next={props.model.playlistsPromiseState.data.next}
                 onSelectPrevious={selectPreviousPlaylistPageACB}
                 onSelectNext={selectNextPlaylistPageACB}
                 selectPlaylist={selectPlaylistACB}
@@ -37,11 +37,10 @@ export const Settings = observer(
 
     function modelHasPlaylists(model: Model) {
 
-      let promise = model.isPlaylistPromiseResolved()
-      const promiseDoesNotExist = promise === undefined // HACK: Since isPromiseResolved returns null when loading
-      return (
-        (model.playlists && promiseDoesNotExist) || promise
-      )
+      if (Object.keys(props.model.playlistsPromiseState).length == 0) {
+        props.model.retrievePlaylists()
+      }
+      return model.isPlaylistPromiseResolved()
     }
 
 

@@ -6,7 +6,6 @@ import axios from "axios"
 // initialize Firestore
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore"
-import { clientId } from "./spotifyApiConfig.js";
 
 // Extend the Window interface to include Firestore properties
 declare global {
@@ -25,7 +24,7 @@ window.setDoc = setDoc;
 window.db = db;
 window.auth = auth
 
-const COLLECTION = "lyriclue"; // TODO: create better names
+const COLLECTION = "lyriclue";
 const COLLECTIVE_COLLECTION = "lyriclue-collective"
 
 export function signIn(accessToken: string, model: Model) {
@@ -233,7 +232,6 @@ export function connectToPersistence(model: any, watchFunction: any) {
         currentPlaylist: model.currentPlaylist,
         score: model.score,
         previousGames: model.previousGames,
-        // TODO: Add firestore attributes to save model to
       },
       { merge: true },
 
@@ -244,10 +242,6 @@ export function connectToPersistence(model: any, watchFunction: any) {
   }
 
   function gotDataACB(snapshot: any) {
-
-
-    // TODO:  Update model Attributes according to firestore
-
     model.difficulty = snapshot.data()?.difficulty || Difficulty.medium
     model.songs = snapshot.data()?.songs || []
     model.currentSong = snapshot.data()?.currentSong || 0

@@ -1,7 +1,6 @@
 import './App.css'
 import { Settings } from './presenters/SettingsPresenter.tsx';
 import { AuthPresenter } from './presenters/AuthPresenter.tsx'
-import { ViteDefault } from './views/viteDefault';
 import { SuspenseView } from './views/suspenseView'
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { observer } from 'mobx-react-lite';
@@ -48,10 +47,6 @@ const App = observer(
 
 export function makeRouter(reactiveModel: any) {
   return createBrowserRouter([
-    {
-      path: "/vite",
-      element: <ViteDefault />
-    },
     {
       path: "/",
       element: <AuthPresenter model={reactiveModel} />

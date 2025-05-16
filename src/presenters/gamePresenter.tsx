@@ -3,14 +3,9 @@ import { GameView } from "../views/gameView.tsx";
 import { SuspenseView } from "../views/suspenseView.tsx";
 import { Model } from "../Model.tsx";
 
-
-
-
-
 interface Song {
     [key: string]: any;
 }
-
 
 const Game = observer(
     function gameRender(props: { model: Model }) {
@@ -22,7 +17,7 @@ const Game = observer(
                 console.error("Element is not a form and cannot be submitted.");
             }
         }
-        
+
         return (
             <div>
                 {(modelHasSongs(props.model) &&

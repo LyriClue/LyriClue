@@ -4,15 +4,13 @@ import "../style.css";
 
 
 export function LandingView(props: any) {
-  const highscoreArray = [1, 2, 3, 4, 5];
-  const myHighscoreArray = [1, 2, 3, 4, 5];
   return (<div className="h-screen w-screen">
     {Logo()}
 
     {/* Main content */}
     <div className="relative z-10 flex flex-col md:flex-row justify-between items-center">
       {/* High Score Section */}
-      <HighscoreView highScores={props.highScores} previousGames={props.previousGames} isGuest={props.isGuest}/>
+      <HighscoreView highScores={props.highScores} previousGames={props.previousGames} isGuest={props.isGuest} />
 
       {/* Start game section */}
       <ControlView />
@@ -32,7 +30,7 @@ export function LandingView(props: any) {
             Start Game
           </h1>
           <div className="w-full flex flex-col items-center space-y-4">
-            
+
             <button disabled={props.isGuest} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
               onClick={props.playOwnPlaylist}>
               Play my own songs
@@ -52,9 +50,9 @@ export function LandingView(props: any) {
     return (
       <div className="flex flex-col items-center md:items-start space-y-6 mb-8 md:mb-0 pt-30 w-[300px] md:pl-5">
         {HighScoreTableComponent("High Score", "Daily Playlist", props.highScores.map(HighScoreTableCB))}
-          <div hidden={props.isGuest}>
-            {HighScoreTableComponent("Previous Games", "My Own Playlists", props.previousGames.map(PreviousGamesTableCB))}
-          </div>
+        <div hidden={props.isGuest}>
+          {HighScoreTableComponent("Previous Games", "My Own Playlists", props.previousGames.map(PreviousGamesTableCB))}
+        </div>
       </div>
     );
 
@@ -98,10 +96,10 @@ export function LandingView(props: any) {
       }
       return (
         <tr key={index} className="border-b border-gray-200 last:border-0">
-          <td className="py-1"> 
+          <td className="py-1">
             {previousGames.playlistId ? (
               <a href={"https://open.spotify.com/playlist/" + previousGames.playlistId} target="_blank" rel="noopener noreferrer">
-              {playlistname}
+                {playlistname}
               </a>
             ) : (
               <span className="text-gray-500">{playlistname}</span>

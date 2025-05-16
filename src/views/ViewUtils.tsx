@@ -1,6 +1,3 @@
-export const blackText = " text-black mainfont [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)] "
-export const whiteText = " text-white mainfont [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)] "
-
 export function Background() {
   return (
     <div>
@@ -18,7 +15,7 @@ export function Background() {
 export function Logo(position: string = "relative") {
   return (
     <div onClick={NavigateToLanding} className={position + " z-40 md:absolute top-0 left-0 cursor-pointer "}>
-      <h1 className={"p-4 hover:text-stone-700 rounded-lg text-2xl md:ml-5 text-center md:text-left" + blackText}>
+      <h1 className="blackText p-4 hover:text-stone-700 rounded-lg text-2xl md:ml-5 text-center md:text-left " >
         LyriClue
       </h1>
     </div >
@@ -36,9 +33,9 @@ export function Logo(position: string = "relative") {
 export function Score(score: number, maxScore: number) {
   return (
     <div className="relative md:absolute top-0 right-0">
-        <h1 className={"p-4 text-2xl md:ml-5 text-center md:text-right" + blackText}>
-          Score: {score} / {maxScore}
-        </h1>
-      </div>
+      <h1 className="p-4 text-2xl md:ml-5 text-center md:text-right blackText" >
+        Score: {score} / {maxScore}
+      </h1>
+    </div>
   )
 }

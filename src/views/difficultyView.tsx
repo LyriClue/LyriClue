@@ -1,5 +1,5 @@
 import { Difficulty } from "../Model";
-import { blackText, Logo} from "./ViewUtils";
+import { Logo } from "./ViewUtils";
 
 
 const difficulties = [Difficulty.easy, Difficulty.medium, Difficulty.hard]
@@ -17,7 +17,7 @@ export function DifficultyView(props: { currentDifficulty: Difficulty; selectDif
       <div className="relative w-full h-[30%]">
         {/* Content */}
         <div className="relative w-full max-w-md mx-auto flex flex-col items-center z-20">
-          <h1 className={blackText + "text-3xl md:text-5xl mb-8 text-center mt-5"}>
+          <h1 className="blackText text-3xl md:text-5xl mb-8 text-center mt-5">
             Choose difficulty
           </h1>
           <div className="w-full flex justify-between space-x-4">

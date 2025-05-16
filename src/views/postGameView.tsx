@@ -1,4 +1,4 @@
-import { blackText, Logo } from "./ViewUtils"
+import { Logo } from "./ViewUtils"
 import { Difficulty } from "../Model"
 
 
@@ -17,19 +17,19 @@ export function PostGameView(props: PostGameProps) {
         {Logo()}
       </div>
       <div className=" relative z-10 flex flex-col items-center justify-center h-screen">
-        <h1 className={"text-3xl md:text-5xl    text-center" + blackText}>
+        <h1 className="text-3xl md:text-5xl    text-center blackText">
           Results:
         </h1>
-        <span className={blackText + "text-2xl"}>
+        <span className="blackText text-2xl">
           Difficulty:  {props.difficulty}
         </span>
-        <span className={blackText + "mt-10 mb-10 text-6xl text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]"}>
+        <span className="blackText mt-10 mb-10 text-6xl text-center md:text-left [text-shadow:_0px_4px_8px_rgb(255_255_255_/_1.00)]">
           {props.score}/{props.totalAvailablePoints}
         </span>
         <div>
 
           <div className="mt-2 ">
-            <div className={blackText + "text-3xl py-2"}>
+            <div className="blackText text-3xl py-2">
               Songs Played:
             </div>
             <div className="rounded-xl p-3 bg-black/70 mb-4">

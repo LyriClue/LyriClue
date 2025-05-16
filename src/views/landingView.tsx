@@ -1,5 +1,5 @@
 import { HighScore } from "../Model";
-import { Background, blackText, Logo, whiteText } from "./ViewUtils";
+import { Background, Logo } from "./ViewUtils";
 import "../style.css";
 
 
@@ -12,7 +12,7 @@ export function LandingView(props: any) {
     {/* Main content */}
     <div className="relative z-10 flex flex-col md:flex-row justify-between items-center">
       {/* High Score Section */}
-      <HighscoreView highScores={props.highScores} previousGames={props.previousGames} isGuest={props.isGuest}/>
+      <HighscoreView highScores={props.highScores} previousGames={props.previousGames} isGuest={props.isGuest} />
 
       {/* Start game section */}
       <ControlView />
@@ -28,11 +28,11 @@ export function LandingView(props: any) {
       <div className="w-full md:w-2/3 flex flex-col items-center p-30">
         {/* Start Game */}
         <div className="w-full max-w-md flex flex-col items-center mb-12">
-          <h1 className={blackText + "text-3xl md:text-5xl  mb-8 text-center "}>
+          <h1 className="blackText text-3xl md:text-5xl  mb-8 text-center ">
             Start Game
           </h1>
           <div className="w-full flex flex-col items-center space-y-4">
-            
+
             <button disabled={props.isGuest} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
               onClick={props.playOwnPlaylist}>
               Play my own songs
@@ -52,9 +52,9 @@ export function LandingView(props: any) {
     return (
       <div className="flex flex-col items-center md:items-start space-y-6 mb-8 md:mb-0 pt-30 w-[300px] md:pl-5">
         {HighScoreTableComponent("High Score", "Daily Playlist", props.highScores.map(HighScoreTableCB))}
-          <div hidden={props.isGuest}>
-            {HighScoreTableComponent("Previous Games", "My Own Playlists", props.previousGames.map(PreviousGamesTableCB))}
-          </div>
+        <div hidden={props.isGuest}>
+          {HighScoreTableComponent("Previous Games", "My Own Playlists", props.previousGames.map(PreviousGamesTableCB))}
+        </div>
       </div>
     );
 
@@ -98,10 +98,10 @@ export function LandingView(props: any) {
       }
       return (
         <tr key={index} className="border-b border-gray-200 last:border-0">
-          <td className="py-1"> 
+          <td className="py-1">
             {previousGames.playlistId ? (
               <a href={"https://open.spotify.com/playlist/" + previousGames.playlistId} target="_blank" rel="noopener noreferrer">
-              {playlistname}
+                {playlistname}
               </a>
             ) : (
               <span className="text-gray-500">{playlistname}</span>
@@ -124,13 +124,13 @@ export function LandingView(props: any) {
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/40 to-black/80 rounded-3xl md:rounded-tr-none md:rounded-br-none " />
         <div className="relative z-10 flex flex-col items-center justify-center h-full p-6">
 
-          <h1 className={whiteText + "flex-none text-3xl  mb-8 text-center "}>
+          <h1 className="whiteText flex-none text-3xl  mb-8 text-center ">
             Profile
           </h1>
           <div className="flex-1 grow flex flex-col items-center justify-center">
             <div>
               <img src={props.profilePicture} alt="Profile Picture" className=" w-50 aspect-square rounded-full mb-4" />
-              <p className={whiteText + "text-xl mb-8"}>{props.displayName}</p>
+              <p className="whiteText text-xl mb-8">{props.displayName}</p>
             </div>
           </div>
           <div className="flex-none w-full items-center space-y-4">

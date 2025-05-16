@@ -1,4 +1,4 @@
-import { blackText, Logo, Score } from "./ViewUtils";
+import { Logo, Score } from "./ViewUtils";
 import { Lrc } from 'react-lrc';
 import "../style.css"
 
@@ -12,7 +12,7 @@ function GameView(props: any) {
 
       {/* Main content */}
       <div className="relative items-center horizontal-center top-1/10">
-        <h1 className={blackText + " text-2xl py-4 "}>
+        <h1 className="blackText  text-2xl py-4 ">
           Song {props.currentSong} / {props.numSongs}
         </h1>
         <div className="h-[50%] items-center justify-center mb-1/2 font-mono ">
@@ -31,7 +31,7 @@ function GameView(props: any) {
           <div className="mb-10" />
           <progress value={props.progress} className=" w-[55%] md:w-100 rounded overflow-hidden mb-2" />
           <form action={props.postGameURL} className="" id="answers">
-            
+
             <div className="mb-4 w-screen">
               <input
                 type="text"
@@ -56,7 +56,7 @@ function GameView(props: any) {
             </div>
             <button className="mr-2 text-[#cf9f60]">Skip</button>
             <button type="submit">Submit</button>
-            
+
           </form>
         </div>
       </div>

@@ -22,8 +22,8 @@ export function getLyrics(songParams: { artist?: any; title?: any; }) {
   ).then(getResponseACB).then(removeOddities).then(splitLyrics).catch(errorACB)
 
   function splitLyrics(res: { lyrics: string }) {
-    const lyricArray = res.lyrics.split(/\n|\r/).filter((line: string) => line != "")
-    if (lyricArray.length === 0) {
+    const lyricArray = res.lyrics.split(/\n|\r/).filter((line: string) => line != "") 
+    if (lyricArray.length < 3) {
       throw new Error("Song does not have lyrics: " + songParams.title)
     }
     return lyricArray

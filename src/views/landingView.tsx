@@ -1,12 +1,13 @@
 import { HighScore } from "../Model";
-import { blackText, Logo, whiteText } from "./ViewUtils";
+import { Background, blackText, Logo, whiteText } from "./ViewUtils";
+import "../style.css";
 
 
 export function LandingView(props: any) {
   // const highscoreArray = [1, 2, 3, 4, 5];
   // const myHighscoreArray = [1, 2, 3, 4, 5];
   return (<div className="h-screen w-screen">
-    {Logo("absolute")}
+    {Logo()}
 
     {/* Main content */}
     <div className="relative z-10 flex flex-col md:flex-row justify-between items-center">
@@ -31,12 +32,13 @@ export function LandingView(props: any) {
             Start Game
           </h1>
           <div className="w-full flex flex-col items-center space-y-4">
-            <button onClick={props.playDailyPlaylist} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
-              Play daily playlist
-            </button>
+            
             <button disabled={props.isGuest} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
               onClick={props.playOwnPlaylist}>
               Play my own songs
+            </button>
+            <button onClick={props.playDailyPlaylist} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
+              Play daily playlist
             </button>
           </div>
         </div>
@@ -76,7 +78,10 @@ export function LandingView(props: any) {
     function HighScoreTableCB(highScore: HighScore) {
       return (
         <tr key={highScore.userId} className="border-b border-gray-200 last:border-0">
-          <td className="py-1">{highScore.userName}</td>
+          <td className="py-1">
+            <a href={"https://open.spotify.com/user/" + highScore.userId} target="_blank" rel="noopener noreferrer">
+              {highScore.userName}
+            </a></td>
           <td className="py-1 px-2">......</td>
           <td className="py-1">{highScore.score} pts</td>
         </tr>
@@ -93,7 +98,15 @@ export function LandingView(props: any) {
       }
       return (
         <tr key={index} className="border-b border-gray-200 last:border-0">
-          <td className="py-1"> {playlistname}</td>
+          <td className="py-1"> 
+            {previousGames.playlistId ? (
+              <a href={"https://open.spotify.com/playlist/" + previousGames.playlistId} target="_blank" rel="noopener noreferrer">
+              {playlistname}
+              </a>
+            ) : (
+              <span className="text-gray-500">{playlistname}</span>
+            )}
+          </td>
           <td className="py-1 px-2">   </td>
           <td className="py-1">{difficulty + ": " + score + "pts"}</td>
         </tr>

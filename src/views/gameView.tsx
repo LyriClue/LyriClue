@@ -1,11 +1,12 @@
 import { blackText, Logo, Score } from "./ViewUtils";
+import { Lrc } from 'react-lrc';
 import "../style.css"
 
 function GameView(props: any) {
   return (
     <div className="h-screen">
 
-      {Logo("absolute")}
+      {Logo()}
 
       {Score(props.score, props.maxScore)}
 
@@ -15,14 +16,18 @@ function GameView(props: any) {
           Song {props.currentSong} / {props.numSongs}
         </h1>
         <div className="h-[50%] items-center justify-center mb-1/2 font-mono ">
-          <table className="mr-auto ml-auto border-spacing-x-10 text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-4xl mb-4 whitespace-pre">
-            <tbody>
-              {props.lyrics.map(renderLyrics)}
-              <tr>
-                <td>...</td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="flex">
+            <div className="flex-1/10" />
+            <div className="flex-8/10 max-w-[900px] h-200px  relative mr-auto ml-auto  bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-xl mb-4 whitespace-pre">
+              <Lrc lrc={props.lyrics}
+                style={{ height: "200px", flex: 1, minHeight: 0, padding: "10px" }}
+                currentMillisecond={props.currentTime}
+                recoverAutoScrollInterval={2000}
+                lineRenderer={props.lineRenderer}
+              />
+            </div>
+            <div className="flex-1/10" />
+          </div>
           <div className="mb-10" />
           <progress value={props.progress} className=" w-[55%] md:w-100 rounded overflow-hidden mb-4" />
           <form action={props.postGameURL} className="" id="answers">
@@ -33,6 +38,7 @@ function GameView(props: any) {
                 name="title"
                 placeholder="Title "
                 autoFocus
+                autoComplete="off"
                 className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-4xl max-w-[calc(100vw-10px)] break-words whitespace-normal"
               />
             </div>
@@ -43,6 +49,7 @@ function GameView(props: any) {
                 id="artist"
                 name="artist"
                 placeholder="Artist "
+                autoComplete="off"
                 className="text-black bg-white font-mono shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] text-4xl max-w-[calc(100vw-10px)] break-words whitespace-normal"
               />
             </div>

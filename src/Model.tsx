@@ -36,6 +36,7 @@ interface OneGameInfo {
   playlistName: string;
   score: number;
   difficulty: Difficulty;
+  playlistId: string;
 }
 
 export interface HighScore {
@@ -58,7 +59,7 @@ export interface Model {
   songsPromiseState: PromiseState<any>;     // Specify generic type if known
   timerID: number | null;
   maxTime: number;
-  linesToShowTimeCap: number;
+  timeBetweenLyricLines: number;
   currentTime: number;
   progress: number;
   maxLinesToShow: number;
@@ -96,6 +97,7 @@ export interface Model {
   startTimer(maxTime?: number, delay?: number): void;
   retrieveLyrics(): void;
   linesToShow(): number;
+  whenToShowLine(lineNumber: number): string;
   startGame(): void;
   restartGame(): void;
   nextRound(): void;
@@ -120,7 +122,7 @@ export const model: Model = {
   songsPromiseState: {},
   timerID: null,
   maxTime: 30,
-  linesToShowTimeCap: 20,
+  timeBetweenLyricLines: 3,
   currentTime: 0.0,
   progress: 0,
   maxLinesToShow: 5,
@@ -145,11 +147,13 @@ export const model: Model = {
     if (this.currentPlaylist?.isDailyPlaylist) {
       setDailyHighscore(this.user.displayName, this.score, this.user.uid);
       return;
-    }
+    };
+
     const gameInfo: OneGameInfo = {
       playlistName: this.currentPlaylist?.name || "",
       score: this.score,
-      difficulty: this.difficulty
+      difficulty: this.difficulty,
+      playlistId: this.currentPlaylist?.id || "",
     };
     this.previousGames.unshift(gameInfo);
     if (this.previousGames.length > 5) {
@@ -159,7 +163,7 @@ export const model: Model = {
 
   setCurrentScore(artistGuess: string, titleGuess: string) {
     if (artistGuess.length === 0 && titleGuess.length === 0) {
-      return;
+      return { titleIsCorrect: false, artistIsCorrect: false };
     }
 
     const removeFeat = (str: string) => str.replace(/\(feat.*\)/g, "");
@@ -187,6 +191,7 @@ export const model: Model = {
     if (isArtistCorrect) {
       this.score += 1;
     }
+    return { titleIsCorrect: isTitleCorrect, artistIsCorrect: isArtistCorrect }
   },
 
   userIsGuest() {
@@ -197,15 +202,15 @@ export const model: Model = {
     switch (this.difficulty) {
       case "easy":
         this.maxTime = 45;
-        this.linesToShowTimeCap = 15;
+        this.timeBetweenLyricLines = 2;
         break;
       case "medium":
         this.maxTime = 30;
-        this.linesToShowTimeCap = 15;
+        this.timeBetweenLyricLines = 4;
         break;
       case "hard":
         this.maxTime = 20;
-        this.linesToShowTimeCap = 15;
+        this.timeBetweenLyricLines = 5;
         break;
     }
   },
@@ -266,12 +271,12 @@ export const model: Model = {
   },
   setSongs(songs: []) {
     function addHasBeenScoredCB(song: any) {
-      song = { ...song, hasBeenScored: false };
-      return song;
+      song = { ...song, hasBeenScored: false }
+      return song
     }
 
-    this.songs = songs.map(addHasBeenScoredCB);
-    return songs;
+    this.songs = songs.map(addHasBeenScoredCB)
+    return songs
   },
 
   setPlaylists(playlists: any) {
@@ -293,8 +298,14 @@ export const model: Model = {
   },
 
   linesToShow() {
-    return Math.max(Math.round(Math.min(1, this.currentTime / this.linesToShowTimeCap) * this.maxLinesToShow), 1);
+    return Math.max(Math.round(Math.min(1, this.currentTime / this.timeBetweenLyricLines) * this.maxLinesToShow), 1);
   },
+
+  whenToShowLine(lineNumber: number) {
+    const time = (lineNumber * this.timeBetweenLyricLines).toFixed(2)
+    return String(time).padStart(5, "0")
+  },
+
   startCountdown() {
     window.history.pushState("", "", "/countdown");
     dispatchEvent(new PopStateEvent('popstate', {}));
@@ -340,6 +351,7 @@ export const model: Model = {
   },
 
   endGame() {
+    this.storeGameResult();
     window.history.pushState("", "", "/post-game");
     dispatchEvent(new PopStateEvent('popstate', {}));
     return;

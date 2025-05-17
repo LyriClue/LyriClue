@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-import { Difficulty, model } from './Model.tsx'
+import { model } from './Model.tsx'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'

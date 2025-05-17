@@ -18,7 +18,6 @@ export const PostGamePresenter = observer(
         playAgain={playAgainACB}
         difficulty={props.model.difficulty}
         songs={props.model.songs}
-
       />
     )
 

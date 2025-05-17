@@ -3,14 +3,9 @@ import { GameView } from "../views/GameView.tsx";
 import { SuspenseView } from "../views/SuspenseView.tsx";
 import { Model } from "../Model.tsx";
 
-
-
-
-
 interface Song {
     [key: string]: any;
 }
-
 
 const Game = observer(
     function gameRender(props: { model: Model }) {

@@ -1,7 +1,6 @@
 import { PlaylistSelectionView } from "../views/PlaylistSelectionView"
 import { observer } from "mobx-react-lite"
 import { SuspenseView } from "../views/SuspenseView"
-// import { Difficulty } from "../Model"
 import { DifficultyView } from "../views/DifficultyView"
 import { Model } from "../Model"
 

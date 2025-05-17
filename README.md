@@ -1,23 +1,85 @@
-# LyriClue
+# 🎵 LyriClue
 
 LyriClue is a game where the player is presented with the lyrics of their favorite songs and try to guess the title and artist before the time runs out. 
 
-## 🚀 What's Been Done
+## Table of Contents
+
+1. [Overview](#overview)
+2. [Installation](#📦-installation)
+3. [Third Party Components](#third-party)
+4. [Project Structure](#project-structure)
+
+## Overview
+
+### 🚀 What's Been Done
 
 - [x] Basic layout
 - [x] Spotify Authentication
 - [x] Spotify API calls
 - [x] Lyric API calls
+- [x] Finalize game loop
+- [x] Iterate layout based on user feedback 
+- [x] Per user persistance
+- [x] Authorization scopes
 
-## 📅 Planned Features
+### 📅 Planned Features
 
-- [ ] Finalize game loop
-- [ ] Iterate layout based on user feedback 
-- [ ] Per user persistance
-- [ ] Authorization scopes
-- [ ] User settings
+- [ ] User specific settings
+- [ ] Redesign of Landing page
 
-## 📁 Project File Structure
+## 📦 Installation
+
+In order to run the website locally, install the requried dependencies with:
+
+```bash
+npm install
+```
+
+To start the website, you have to both run the backend server aswell as the frontend hosting. 
+
+### Starting the server
+
+While positioned in the '/functions/' directory, run:
+
+```bash
+npm run server
+```
+
+### Start website hosting
+
+In a separate terminal instance, while positioned in the root directory of the project, run:
+
+```bash
+npm run dev
+```
+
+The website should now be available at:
+
+```bash
+http://localhost:5173/
+```
+
+### A note on Spotify
+
+The trial of the spotify API that was used in this project requires us to manually add each spotify user that should have access to the API. This means that unless manually added by us, you will not be able to log in through spotify. If you'd like access, please contact us and we'll make sure to add you as quickly as possible. 
+
+## ⚙️Third Party Components <a name="third-party"></a>
+
+Two components were used from a third party.
+
+### React-Lrc
+
+[Link to GitHub page](https://github.com/mebtte/react-lrc/tree/74df10e762b12fce1ca54bab27a6d4844be25503)
+
+A component createed to display lyrics of the LRC format. This component enables easy lyrics management using time stamps for each line, automatic scrolling aswell as easy styling for active lines. The component was used in the game view in order to display the lyrics to the user.
+
+### Material UI - Slider
+
+[Link to Documentation](https://mui.com/material-ui/react-slider/)
+
+The slider for the difficulty was created using the material ui slider component. It offered a surprising amount of customizability while remaining easy to configure and setup. It can be found while choosing playlists when logged in with spotify.
+
+## 📁 Project File Structure <a name="project-structure"/>
 
 ```plaintext
 project-root/

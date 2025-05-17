@@ -1,5 +1,5 @@
 import { HighScore } from "../Model";
-import { Background, blackText, Logo, whiteText } from "./ViewUtils";
+import { blackText, Logo, whiteText } from "./ViewUtils";
 import "../style.css";
 
 

@@ -55,7 +55,7 @@ function signInWithToken(res: any, model: Model) {
   )
 }
 
-export function getRefreshToken(model: Model) {
+export function getRefreshToken() {
   const refreshToken = localStorage.getItem('refreshToken');
   return axios({
     method: 'post',

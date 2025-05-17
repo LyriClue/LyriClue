@@ -1,7 +1,7 @@
 import { setDailyHighscore, getRefreshToken } from "./utils/firestoreModel";
 import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
-import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist, getUser } from "./utils/spotifySource";
+import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist } from "./utils/spotifySource";
 
 export enum Difficulty {
   easy = "easy",
@@ -375,7 +375,7 @@ export const model: Model = {
     this.user = { ...this.user, displayName: name, photoURL: profilePic };
   },
   reauthenticateUser() {
-    return getRefreshToken(this);
+    return getRefreshToken();
   },
   setPreviousGames: function(): void {
     throw new Error("Function not implemented.");

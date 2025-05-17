@@ -9,6 +9,9 @@ interface Song {
 
 const Game = observer(
     function gameRender(props: { model: Model }) {
+        if (!props.model.timerID) {
+            props.model.startTimer(props.model.maxTime)
+        }
         if (props.model.currentTime >= props.model.maxTime) {
             const submitForm = document.getElementById("answers");
             if (submitForm instanceof HTMLFormElement) {

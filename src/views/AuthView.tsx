@@ -1,4 +1,3 @@
-import { blackText } from "../utils/ViewUtils";
 
 export function AuthView(props: any) {
   console.log("auth view");
@@ -8,7 +7,7 @@ export function AuthView(props: any) {
 
       {/* Logo */}
       <div className="absolute top-1/7 left-0 w-full text-6xl">
-        <h1 className={blackText + " text-center"}>
+        <h1 className="blackText text-center">
           LyriClue
         </h1>
       </div>

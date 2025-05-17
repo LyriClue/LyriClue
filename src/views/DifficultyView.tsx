@@ -1,9 +1,15 @@
 import { Difficulty } from "../Model";
 import Slider from '@mui/material/Slider';
-import { blackText, Logo } from "../utils/ViewUtils";
+import { Logo } from "../utils/ViewUtils";
 
-const difficulties = [Difficulty.easy, Difficulty.medium, Difficulty.hard, Difficulty.custom]
-export function DifficultyView(props: { timeValue: number, speedValue: number, selectTime: (value: number) => void, selectSpeed: (value: number) => void, currentDifficulty: Difficulty; selectDifficulty: (arg0: Difficulty) => void }) {
+const difficulties = [Difficulty.easy, Difficulty.medium, Difficulty.hard, Difficulty.custom];
+export function DifficultyView(props: { timeValue: number, speedValue: number, selectTime: (value:number) => void, selectSpeed: (value: number) => void, currentDifficulty: Difficulty; selectDifficulty: (arg0: Difficulty) => void }) {
+  const difficultyDescriptions: Record<Difficulty, string> = {
+    [Difficulty.easy]: "Show more clues and gives more time to guess",
+    [Difficulty.medium]: "A balanced difficulty, some clues and time to guess",
+    [Difficulty.hard]: "Less clues and less time to guess",
+    [Difficulty.custom]: "Custom difficulty, set your own speed and time",
+  };
   return (
     <div>
       <div>
@@ -12,21 +18,21 @@ export function DifficultyView(props: { timeValue: number, speedValue: number, s
       <div className="relative w-full h-[30%]">
         {/* Content */}
         <div className="relative w-full max-w-md mx-auto flex flex-col items-center z-20">
-          <h1 className={blackText + "text-3xl md:text-5xl mb-8 text-center mt-5"}>
+          <h1 className="blackText text-3xl md:text-5xl mb-8 text-center mt-5">
             Choose difficulty
           </h1>
         </div>
-        <h2 className={blackText + " text-2xl pb-2"}>
+        <h2 className={"blackText text-2xl pb-2"}>
           Presets
         </h2>
         <div className="w-full flex pb-3 justify-between space-x-4">
-          {difficulties.map(difficultyOption)}
-        </div>
-        <div className="w-full flex justify-between space-x-4">
+            {difficulties.map(difficultyOption)}
+          </div>
+          <div className="w-full flex justify-between space-x-4">
           {/* {speed()} */}
         </div>
         <div>
-          <h2 className={blackText + " text-xl"}>
+          <h2 className={"blackText text-xl"}>
             Lyric Reveal Speed
           </h2>
           <Slider
@@ -46,7 +52,7 @@ export function DifficultyView(props: { timeValue: number, speedValue: number, s
               },
             }}
           />
-          <h2 className={blackText + " text-xl"}>
+          <h2 className={"blackText text-xl"}>
             Time Per Round
           </h2>
           <Slider
@@ -79,6 +85,7 @@ export function DifficultyView(props: { timeValue: number, speedValue: number, s
         disabled={props.currentDifficulty === difficulty}
         onClick={(_e) => selectDifficultyACB(difficulty)}
         className="flex-1 text-lg md:text-2xl font-mono h-12 rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
+        title={difficultyDescriptions[difficulty]}
       >
         {difficulty.toString()}
       </button>

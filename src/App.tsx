@@ -1,17 +1,16 @@
 import './App.css'
-import { Settings } from './presenters/SettingsPresenter.tsx';
+import { SettingsPresenter } from './presenters/SettingsPresenter.tsx';
 import { AuthPresenter } from './presenters/AuthPresenter.tsx'
-import { ViteDefault } from './views/viteDefault';
-import { SuspenseView } from './views/suspenseView'
+import { SuspenseView } from './views/SuspenseView'
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { observer } from 'mobx-react-lite';
 import { SpotifyLanding } from './presenters/SpotifyLanding.tsx';
-import { Game } from './presenters/gamePresenter.tsx';
-import { LandingPresenter } from './presenters/landingPresenter.tsx';
+import { Game } from './presenters/GamePresenter.tsx';
+import { LandingPresenter } from './presenters/LandingPresenter.tsx';
 import './style.css'
-import { PostGuessPresenter } from './presenters/postGuess.tsx';
+import { PostGuessPresenter } from './presenters/PostGuessPresenter.tsx';
 import { PostGamePresenter } from './presenters/PostGamePresenter.tsx';
-import { Background } from './views/ViewUtils.tsx';
+import { Background } from './utils/ViewUtils.tsx';
 import { Countdown } from './presenters/CountdownPresenter.tsx';
 
 const App = observer(
@@ -49,10 +48,6 @@ const App = observer(
 export function makeRouter(reactiveModel: any) {
   return createBrowserRouter([
     {
-      path: "/vite",
-      element: <ViteDefault />
-    },
-    {
       path: "/",
       element: <AuthPresenter model={reactiveModel} />
     },
@@ -62,7 +57,7 @@ export function makeRouter(reactiveModel: any) {
     },
     {
       path: "/settings",
-      element: <Settings model={reactiveModel} />
+      element: <SettingsPresenter model={reactiveModel} />
     },
     {
       path: "/countdown",

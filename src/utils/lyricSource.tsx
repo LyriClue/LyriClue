@@ -25,14 +25,18 @@ export function getLyrics(songParams: { artist?: any; title?: any; }) {
   ).then(getResponseACB).then(removeOddities).then(splitLyrics).catch(errorACB)
 
   function splitLyrics(res: { lyrics: string }) {
-    return res.lyrics.split(/\n|\r/).filter((line: string) => line != "")
+    const lyricArray = res.lyrics.split(/\n|\r/).filter((line: string) => line != "") 
+    if (lyricArray.length < 3) {
+      throw new Error("Song does not have lyrics: " + songParams.title)
+    }
+    return lyricArray
   }
   function removeOddities(res: { lyrics: string }) {
-    res.lyrics = res.lyrics.replace(/\[.*\]/, "")
-    res.lyrics = res.lyrics.replace(/\(feat.*\)/, "")
-    res.lyrics = res.lyrics.replace(/\(instrumental\)/, "")
-    res.lyrics = res.lyrics.replace(/^chorus$/m, "")
-    res.lyrics = res.lyrics.replace(/Paroles de la chanson .* par .*/i, "")
+    res.lyrics = res.lyrics.replace(/\[.*\]/g, "")
+    res.lyrics = res.lyrics.replace(/\(feat.*\)/g, "")
+    res.lyrics = res.lyrics.replace(/\(instrumental\)/g, "")
+    res.lyrics = res.lyrics.replace(/^\s*chorus\s*$/gm, "")
+    res.lyrics = res.lyrics.replace(/Paroles de la chanson .* par .*/gi, "")
     return res
   }
 }

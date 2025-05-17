@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite"
 import { Model } from "../Model"
 import { CountdownView } from "../views/CountdownView"
 import { useEffect } from "react"
-import { SuspenseView } from "../views/suspenseView"
+import { SuspenseView } from "../views/SuspenseView"
 
 interface countdownProps {
   model: Model

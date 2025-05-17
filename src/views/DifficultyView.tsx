@@ -1,6 +1,6 @@
 import { Difficulty } from "../Model";
-import { blackText, Logo } from "./ViewUtils";
 import Slider from '@mui/material/Slider';
+import { blackText, Logo } from "../utils/ViewUtils";
 
 const difficulties = [Difficulty.easy, Difficulty.medium, Difficulty.hard, Difficulty.custom]
 export function DifficultyView(props: { timeValue: number, speedValue: number, selectTime: (value: number) => void, selectSpeed: (value: number) => void, currentDifficulty: Difficulty; selectDifficulty: (arg0: Difficulty) => void }) {

@@ -1,4 +1,4 @@
-import { blackText } from "./ViewUtils";
+import { blackText } from "../utils/ViewUtils";
 
 export function CountdownView(props: any) {
   return (

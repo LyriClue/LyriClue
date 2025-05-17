@@ -1,4 +1,4 @@
-import { SuspenseView } from "../views/suspenseView"
+import { SuspenseView } from "../views/SuspenseView"
 import { getParamsFromUrl, urlContains } from "../utils/pathUtil";
 import { signIn } from "../utils/firestoreModel";
 import { Model } from "../Model";

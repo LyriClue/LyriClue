@@ -1,5 +1,5 @@
 // import { redirect, useNavigate } from "react-router-dom";
-import { LandingView } from "../views/landingView";
+import { LandingView } from "../views/LandingView";
 // import { Link } from "react-router-dom"
 import { getDailyPlaylists, signOutUser } from "../utils/firestoreModel";
 import { observer } from "mobx-react-lite";

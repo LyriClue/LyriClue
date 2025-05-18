@@ -1,8 +1,8 @@
-// import { Difficulty } from "../Model.js";
 import { getLyrics } from "./lyricSource.js";
 import { PROXY_URL } from "./spotifyApiConfig.js";
 import { Model, SongParams } from "../Model.js";
 import { getRefreshToken } from "./firestoreModel.js";
+
 
 export function getResponseACB(response: Response) {
   if (!response.ok) throw new Error("HTTP status code: " + response.status.toString());
@@ -40,7 +40,6 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
     },
   )
     .then(getResponseACB)
-    .then((playlists) => model.setPlaylists(playlists))
     .catch((_e) => {
       getRefreshToken().then(() => {
         if (!retry) {
@@ -57,7 +56,7 @@ export function getSongPage(songParams: SongParams, model: Model, provided_url: 
     var url: string = provided_url
   } else {
     var url: string = PROXY_URL + "playlists/" + songParams.playlistId + "/tracks"
-    "?" + new URLSearchParams({ "market": songParams.market, "limit": songParams.limit.toString(), "offset": songParams.offset.toString() }) //TODO: maybe att fields param?
+    "?" + new URLSearchParams({ "market": songParams.market, "limit": songParams.limit.toString(), "offset": songParams.offset.toString() })
   }
   return fetch(
     url,

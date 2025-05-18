@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { PostGameView } from "../views/postGameView";
+import { PostGameView } from "../views/PostGameView";
 import { Model } from "../Model";
 
 
@@ -18,7 +18,6 @@ export const PostGamePresenter = observer(
         playAgain={playAgainACB}
         difficulty={props.model.difficulty}
         songs={props.model.songs}
-
       />
     )
 

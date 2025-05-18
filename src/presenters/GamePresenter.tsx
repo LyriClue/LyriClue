@@ -1,19 +1,17 @@
 import { observer } from "mobx-react-lite";
-import { GameView } from "../views/gameView.tsx";
-import { SuspenseView } from "../views/suspenseView.tsx";
+import { GameView } from "../views/GameView.tsx";
+import { SuspenseView } from "../views/SuspenseView.tsx";
 import { Model } from "../Model.tsx";
-
-
-
-
 
 interface Song {
     [key: string]: any;
 }
 
-
 const Game = observer(
     function gameRender(props: { model: Model }) {
+        if (!props.model.timerID) {
+            props.model.startTimer(props.model.maxTime)
+        }
         if (props.model.currentTime >= props.model.maxTime) {
             const submitForm = document.getElementById("answers");
             if (submitForm instanceof HTMLFormElement) {
@@ -22,7 +20,7 @@ const Game = observer(
                 console.error("Element is not a form and cannot be submitted.");
             }
         }
-        
+
         return (
             <div>
                 {(modelHasSongs(props.model) &&

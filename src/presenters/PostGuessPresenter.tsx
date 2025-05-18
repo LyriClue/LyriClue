@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { PostGuessView } from "../views/postGuessView";
+import { PostGuessView } from "../views/PostGuessView";
 import { getParamsFromUrl } from "../utils/pathUtil";
 import { Model } from "../Model";
 

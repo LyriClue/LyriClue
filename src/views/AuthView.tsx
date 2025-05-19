@@ -17,7 +17,7 @@ export function AuthView(props: any) {
           </div>
 
           {/* Description */}
-          <div className="w-[500px] opacity-75 bg-black mb-4 my-5 rounded-xl">
+          <div className="w-full md:w-1/2 opacity-75 bg-black mb-4 my-5 rounded-xl">
               <div className="text-[20px] m-2">Guess songs from lyrics! Link Spotify to turn your playlists into quizzes, or play daily challenges as a guest. Prove you’re the ultimate lyric sleuth. 🎵🔍</div>
           </div>
     

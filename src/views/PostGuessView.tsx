@@ -3,7 +3,7 @@ import { Score } from "../utils/ViewUtils"
 
 export function PostGuessView(props: any) {
   return (
-    <div className="relative h-screen w-screen">
+    <div className="static h-screen w-screen">
       {Score(props.score, props.maxScore)}
 
       {/* Main content */}

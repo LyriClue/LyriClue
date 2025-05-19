@@ -39,6 +39,7 @@ export function DifficultyView(props: { timeValue: number, speedValue: number, s
             defaultValue={5}
             valueLabelDisplay="auto"
             value={props.speedValue}
+            valueLabelFormat={(value) => value.toFixed(0)}
             shiftStep={30}
             step={1}
             marks

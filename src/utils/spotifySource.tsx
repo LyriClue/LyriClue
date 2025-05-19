@@ -1,6 +1,8 @@
 import { getLyrics } from "./lyricSource.js";
 import { PROXY_URL } from "./spotifyApiConfig.js";
 import { Model, SongParams } from "../Model.js";
+import { getRefreshToken } from "./firestoreModel.js";
+
 
 export function getResponseACB(response: Response) {
   if (!response.ok) throw new Error("HTTP status code: " + response.status.toString());
@@ -39,7 +41,7 @@ export function getPlaylistPage(pageParams: { limit: number; offset: number }, m
   )
     .then(getResponseACB)
     .catch((_e) => {
-      model.reauthenticateUser().then(() => {
+      getRefreshToken().then(() => {
         if (!retry) {
           getPlaylistPage(pageParams, model, provided_url, retry = true)
         }
@@ -66,7 +68,7 @@ export function getSongPage(songParams: SongParams, model: Model, provided_url: 
   )
     .then(getResponseACB)
     .catch((_e) => {
-      model.reauthenticateUser().then(() => { if (!retry) { getSongPage(songParams, model, provided_url, retry = true) } })
+      getRefreshToken().then(() => { if (!retry) { getSongPage(songParams, model, provided_url, retry = true) } })
     })
 }
 

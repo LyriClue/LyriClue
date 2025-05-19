@@ -1,6 +1,6 @@
 # 🎵 LyriClue
 
-LyriClue is a game where the player is presented with the lyrics of their favorite songs and try to guess the title and artist before the time runs out. 
+LyriClue is a game where the player is presented with the lyrics of their favorite songs and try to guess the title and artist before the time runs out.
 
 ## Table of Contents
 
@@ -18,7 +18,7 @@ LyriClue is a game where the player is presented with the lyrics of their favori
 - [x] Spotify API calls
 - [x] Lyric API calls
 - [x] Finalize game loop
-- [x] Iterate layout based on user feedback 
+- [x] Iterate layout based on user feedback
 - [x] Per user persistance
 - [x] Authorization scopes
 
@@ -35,7 +35,7 @@ In order to run the website locally, install the requried dependencies with:
 npm install
 ```
 
-To start the website, you have to both run the backend server aswell as the frontend hosting. 
+To start the website, you have to both run the backend server aswell as the frontend hosting.
 
 ### Starting the server
 
@@ -61,7 +61,7 @@ http://localhost:5173/
 
 ### A note on Spotify
 
-The trial of the spotify API that was used in this project requires us to manually add each spotify user that should have access to the API. This means that unless manually added by us, you will not be able to log in through spotify. If you'd like access, please contact us and we'll make sure to add you as quickly as possible. 
+The trial of the spotify API that was used in this project requires us to manually add each spotify user that should have access to the API. This means that unless manually added by us, you will not be able to log in through spotify. If you'd like access, please contact us and we'll make sure to add you as quickly as possible.
 
 ## ⚙️Third Party Components <a name="third-party"></a>
 
@@ -82,56 +82,63 @@ The slider for the difficulty was created using the material ui slider component
 ## 📁 Project File Structure <a name="project-structure"/>
 
 ```plaintext
-project-root/
-│
-├── dist/                               # Built production files
-├── node_modules/                       # NPM dependencies
-├── public/                             # Static assets and public files  
-├── src/                                # Main application source code    
-│   ├── assets/                         # Image/asset storage
-│   ├── presenters/                     # Application presentation components   
-│   │   ├── AuthPresenter.tsx           # Presents the AuthView and handles Spotify Authentication    
-│   │   ├── gamePresenter.tsx           # Presents the gameView and formats lyrics from api   
-│   │   ├── landingPresenter.tsx        # Presents landingView
-│   │   ├── postGuess.tsx               # Presents postGuessView
-│   │   ├── SettingsPresenter.tsx       # Presents PlayListSelectionView    
-│   │   └── SpotifyLanding.tsx          # Redirects to /landing if user is logged in    
-│   ├── utils/                          # Utility functions and configurations    
-│   │   ├── firebaseConfig.tsx          # Config file for Firebase  
-│   │   ├── firestoreModel.tsx          # Handles firestore
-│   │   ├── lyricApiConfig.tsx          # Config file for Lyric API   
-│   │   ├── lyricSource.tsx             # Setup Lyric API
-│   │   ├── pathUtil.tsx                # Gets params from URL
-│   │   ├── resolvePromise.tsx          # Prevents race conditions  
-│   │   ├── spotifyApiConfig.tsx        # Config file for Spotify API   
-│   │   └── spotifySource.tsx           # Setup Spotify API
-│   ├── views/                          # Component view implementations    
-│   │   ├── AuthView.tsx    
-│   │   ├── difficultyView.tsx          # Player can choose difficulty
-│   │   ├── gameView.tsx                # Main game
-│   │   ├── landingView.tsx             # Menu page, Shows highscores and here the user can choose gamemode 
-│   │   ├── PlaylistSelectionView.tsx   # Displays the user's availible playlists on their spotify account
-│   │   ├── postGuessView.tsx           # Shows the users guess and the correct answer beween every song
-│   │   ├── suspenseView.tsx            # Displays loading icon while data is loading
-│   │   └── viteDefault.tsx
-│   ├── App.css                         # Main application styles 
-│   ├── App.tsx                         # Root React component
-│   ├── index.css                       # Base CSS styles
-│   ├── main.tsx                        # Application entry point 
-│   ├── Model.tsx                       # Data models/state management  
-│   ├── style.css                       # Importing typefaces
-│   └── vite-env.d.ts                   # Vite type declarations
-│   
-├── .firebaserc                         # Firebase project configuration  
-├── .gitignore                          # Git exclusion rules
-├── eslint.config.js                    # ESLint configuration
-├── firebase.json                       # Firebase deployment settings    
-├── index.html                          # Main HTML entry point
-├── package-lock.json                   # Exact dependency versions 
-├── package.json                        # Project dependencies and scripts  
-├── README.md                           # Exact dependency versions 
-├── tsconfig.app.json                   # App-specific TS config
-├── tsconfig.json                       # TypeScript configuration  
-├── tsconfig.node.json                  # Node-specific TS config 
-└── vite.config.ts                      # Vite build configuration
+.
+├── dist                                                    # Built production files
+├── eslint.config.js                                        # ESLint configuration
+├── firebase.json                                           # Firebase deployment settings
+├── functions                                               # Main directory for backend server functions
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── src
+│   │   └── index.ts                                        # Backend server
+│   └── tsconfig.json
+├── index.html                                              # Main HTML entry point
+├── lyriclue-2ea07-firebase-adminsdk-fbsvc-deeff8318f.json  # (ignored in repo) Firebase API secrets
+├── package.json                                            # Project dependencies and scripts
+├── package-lock.json                                       # Exact dependency versions
+├── public                                                  # Static assets and public files
+│   └── vite.svg
+├── README.md                                               # Exact dependency versions
+├── src                                                     # Main application source code
+│   ├── App.css                                             # Main application styles
+│   ├── App.tsx                                             # Root React component
+│   ├── assets
+│   │   └── react.svg
+│   ├── index.css                                           # Base CSS styles
+│   ├── main.tsx                                            # Application entry point
+│   ├── Model.tsx                                           # Handles firestore
+│   ├── presenters                                          # Application presentation components
+│   │   ├── AuthPresenter.tsx                               # Presents the AuthView and handles Spotify Authentication
+│   │   ├── CountdownPresenter.tsx                          # Presents the countdown before game is shown
+│   │   ├── GamePresenter.tsx                               # Presents the gameView and formats lyrics from api
+│   │   ├── LandingPresenter.tsx                            # Presents landingView
+│   │   ├── PostGamePresenter.tsx                           # Presents PostGameView
+│   │   ├── PostGuessPresenter.tsx                          # Presents PostGuessView
+│   │   ├── SettingsPresenter.tsx                           # Presents PlayListSelectionView
+│   │   └── SpotifyLanding.tsx                              # Redirects to /landing if user is logged in
+│   ├── style.css                                           # Importing typefaces
+│   ├── utils                                               # Utility functions and configurations
+│   │   ├── firebaseConfig.tsx                              # Config file for Firebase
+│   │   ├── firestoreModel.tsx                              # Handles firestore
+│   │   ├── lyricApiConfig.tsx                              # Config file for Lyric API
+│   │   ├── lyricSource.tsx                                 # Setup Lyric API
+│   │   ├── pathUtil.tsx                                    # Gets params from URL
+│   │   ├── resolvePromise.tsx                              # Prevents race conditions
+│   │   ├── spotifyApiConfig.tsx                            # Config file for Spotify API
+│   │   ├── spotifySource.tsx                               # Setup Spotify API
+│   │   └── ViewUtils.tsx                                   # Utils for views and components
+│   ├── views                                               # Component view implementations
+│   │   ├── AuthView.tsx                                    # Displays login page
+│   │   ├── CountdownView.tsx                               # Displays a 3s countdown before game
+│   │   ├── DifficultyView.tsx                              # Player can choose difficulty
+│   │   ├── GameView.tsx                                    # Displays the lyrics of a song and a guessing form
+│   │   ├── LandingView.tsx                                 # Menu Page, shows highscores and user can choose game mode
+│   │   ├── PlaylistSelectionView.tsx                       # Displays the user's availible playlists on their spotify account
+│   │   ├── PostGameView.tsx                                # Shows a summary of the recently played game
+│   │   ├── PostGuessView.tsx                               # Shows results of a guess for an individual song
+│   │   └── SuspenseView.tsx                                # Displays loading icon while data is loading
+├── tsconfig.app.json                                       # App-specific TS config
+├── tsconfig.json                                           # TypeScript configuration
+├── tsconfig.node.json                                      # Node-specific TS config
+└── vite.config.ts                                          # Vite build configuration
 ```

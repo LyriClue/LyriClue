@@ -125,8 +125,8 @@ export function LandingView(props: any) {
 
   function ProfileSection() {
     return (
-      <div className="bg-black/40 rounded-tl-3xl rounded-bl-3xl relative right-0 z-10 flex flex-col items-center justify-center md:h-screen w-screen md:max-w-[300px] bg-gradient-to-b from-black/40 to-black/80 rounded-3xl md:rounded-tr-none md:rounded-br-none "  >
-        <h1 className="whiteText flex-none text-3xl mb-5 mt-5 text-center ">
+      <div className="bg-black/40 p-5 rounded-tl-3xl rounded-bl-3xl relative right-0 z-10 flex flex-col items-center justify-center md:h-screen w-screen md:max-w-[300px] bg-gradient-to-b from-black/40 to-black/80 rounded-3xl md:rounded-tr-none md:rounded-br-none "  >
+        <h1 className="whiteText flex-none text-3xl text-center ">
           Profile
         </h1>
         <div className="flex-1 grow flex flex-col items-center justify-center">
@@ -135,10 +135,8 @@ export function LandingView(props: any) {
             <p className="whiteText text-xl mb-8">{props.displayName}</p>
           </div>
         </div>
-        <div className="items-center space-y-4 m-5">
-          <button onClick={onLogoutACB} className="text-xl font-mono w-full md:w-[250px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
-            Log out
-          </button>
+        <div className="items-center space-y-4 w-full">
+          {buttonRender()}
         </div>
       </div>
 
@@ -152,7 +150,7 @@ export function LandingView(props: any) {
     props.onLogout();
   }
   function buttonRender(){
-    const buttonClass = "text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
+    const buttonClass = "text-xl font-mono h-12 w-full rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
     if (props.isGuest) {
       return (
         <button onClick={onSignInACB} className={buttonClass}>

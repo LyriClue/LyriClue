@@ -1,4 +1,4 @@
-import { Logo, Score } from "../utils/ViewUtils";
+import { Score } from "../utils/ViewUtils";
 import { Lrc } from 'react-lrc';
 import "../style.css"
 
@@ -6,12 +6,13 @@ function GameView(props: any) {
   return (
     <div className="h-screen">
 
-      {Logo()}
+      <div className="text-2xl">
+        {Score(props.score, props.maxScore)}
+      </div>
 
-      {Score(props.score, props.maxScore)}
 
       {/* Main content */}
-      <div className="relative items-center horizontal-center top-1/10">
+      <div className="relative items-center horizontal-center md:top-1/10">
         <h1 className="blackText  text-2xl py-4 ">
           Song {props.currentSong} / {props.numSongs}
         </h1>

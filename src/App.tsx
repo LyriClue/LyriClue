@@ -10,8 +10,9 @@ import { LandingPresenter } from './presenters/LandingPresenter.tsx';
 import './style.css'
 import { PostGuessPresenter } from './presenters/PostGuessPresenter.tsx';
 import { PostGamePresenter } from './presenters/PostGamePresenter.tsx';
-import { Background } from './utils/ViewUtils.tsx';
+import { Background, Logo } from './utils/ViewUtils.tsx';
 import { Countdown } from './presenters/CountdownPresenter.tsx';
+import { navigateTo } from './utils/pathUtil.tsx';
 
 const App = observer(
   function AppRender(props: any) {
@@ -20,14 +21,14 @@ const App = observer(
       return (
         <div>
           {Background()}
+          {Logo()}
           <SuspenseView promise={Promise.resolve("loading data")} />
         </div>
       )
     }
 
     if (props.model.user == null && window.location.pathname != "/home") {
-      window.history.pushState("", "", "/");
-      dispatchEvent(new PopStateEvent('popstate', {}))
+      navigateTo("/")
       return (
         <div>
           {Background()}
@@ -39,6 +40,7 @@ const App = observer(
     return (
       <div>
         {Background()}
+        {Logo()}
         <RouterProvider router={makeRouter(props.model)} />
       </div>
     )

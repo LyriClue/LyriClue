@@ -1,10 +1,14 @@
 import { Model } from "../Model";
 import { signInAnonymous } from "../utils/firestoreModel";
+import { navigateTo } from "../utils/pathUtil";
 import { AuthView } from "../views/AuthView"
 import { observer } from "mobx-react-lite"
 
 export const AuthPresenter = observer(
   function AuthPresenterRender(props: { model: Model }) {
+    if (props.model.user) {
+      navigateTo("/landing")
+    }
     return (
       <AuthView
         onSpotifyLogin={onSpotifyLoginACB}
@@ -17,13 +21,10 @@ export const AuthPresenter = observer(
     }
 
     function onGuestLoginACB() {
-      signInAnonymous(props.model).then(navigateToLanding);
+      console.log("model: " + props.model);
+      signInAnonymous(props.model).then(() => navigateTo("/landing"))
     }
   }
 );
 
-function navigateToLanding() {
-  window.history.pushState("", "", "/landing");
-  dispatchEvent(new PopStateEvent("popstate", {}));
-}
 

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Model } from "../Model";
 import { signInAnonymous } from "../utils/firestoreModel";
 import { navigateTo } from "../utils/pathUtil";

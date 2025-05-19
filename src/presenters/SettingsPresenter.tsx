@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite"
 import { SuspenseView } from "../views/SuspenseView"
 import { DifficultyView } from "../views/DifficultyView"
 import { Model } from "../Model"
+import { navigateTo } from "../utils/pathUtil"
 
 
 export const SettingsPresenter = observer(
@@ -78,8 +79,7 @@ export const SettingsPresenter = observer(
     }
 
     function goToMenuACB() {
-      window.history.pushState("", "", "/landing");
-      dispatchEvent(new PopStateEvent('popstate', {}))
+      navigateTo("/landing")
     }
   }
 

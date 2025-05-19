@@ -1,5 +1,6 @@
 import { setDailyHighscore, getRefreshToken } from "./utils/firestoreModel";
 import { getLyrics } from "./utils/lyricSource";
+import { navigateTo } from "./utils/pathUtil";
 import { resolvePromise } from "./utils/resolvePromise";
 import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist } from "./utils/spotifySource";
 
@@ -301,8 +302,7 @@ export const model: Model = {
   },
 
   startCountdown() {
-    window.history.pushState("", "", "/countdown");
-    dispatchEvent(new PopStateEvent('popstate', {}))
+    navigateTo("/countdown")
     this.startTimer(3, 1000)
     return true
 
@@ -337,16 +337,13 @@ export const model: Model = {
       this.endGame();
       return;
     }
-
     this.startTimer(this.maxTime)
-    window.history.pushState("", "", "/game");
-    dispatchEvent(new PopStateEvent('popstate', {}));
+    navigateTo("/game")
   },
 
   endGame() {
     this.storeGameResult();
-    window.history.pushState("", "", "/post-game");
-    dispatchEvent(new PopStateEvent('popstate', {}));
+    navigateTo("/post-game")
     return;
   },
   isPromiseResolved(promiseState: { promise?: any, data?: any, error?: any }) {

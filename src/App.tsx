@@ -10,7 +10,7 @@ import { LandingPresenter } from './presenters/LandingPresenter.tsx';
 import './style.css'
 import { PostGuessPresenter } from './presenters/PostGuessPresenter.tsx';
 import { PostGamePresenter } from './presenters/PostGamePresenter.tsx';
-import { Background } from './utils/ViewUtils.tsx';
+import { Background, Logo } from './utils/ViewUtils.tsx';
 import { Countdown } from './presenters/CountdownPresenter.tsx';
 
 const App = observer(
@@ -20,6 +20,7 @@ const App = observer(
       return (
         <div>
           {Background()}
+          {Logo()}
           <SuspenseView promise={Promise.resolve("loading data")} />
         </div>
       )
@@ -39,6 +40,7 @@ const App = observer(
     return (
       <div>
         {Background()}
+        {Logo()}
         <RouterProvider router={makeRouter(props.model)} />
       </div>
     )

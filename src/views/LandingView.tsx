@@ -1,12 +1,9 @@
 import { HighScore } from "../Model";
-import { Logo } from "../utils/ViewUtils";
 import "../style.css";
 
 
 export function LandingView(props: any) {
   return (<div className="h-screen w-screen">
-    {Logo()}
-
     {/* Main content */}
     <div className="relative z-10 flex flex-col md:flex-row justify-between items-center ">
       {/* Start game section */}
@@ -151,7 +148,7 @@ export function LandingView(props: any) {
   function onLogoutACB() {
     props.onLogout();
   }
-  function buttonRender(){
+  function buttonRender() {
     const buttonClass = "text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
     if (props.isGuest) {
       return (
@@ -164,6 +161,6 @@ export function LandingView(props: any) {
       <button onClick={onLogoutACB} className={buttonClass}>
         Log out
       </button>
-      )
+    )
   }
 }

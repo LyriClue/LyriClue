@@ -1,9 +1,8 @@
 import { Difficulty } from "../Model";
 import Slider from '@mui/material/Slider';
-import { Logo } from "../utils/ViewUtils";
 
 const difficulties = [Difficulty.easy, Difficulty.medium, Difficulty.hard, Difficulty.custom];
-export function DifficultyView(props: { timeValue: number, speedValue: number, selectTime: (value:number) => void, selectSpeed: (value: number) => void, currentDifficulty: Difficulty; selectDifficulty: (arg0: Difficulty) => void }) {
+export function DifficultyView(props: { timeValue: number, speedValue: number, selectTime: (value: number) => void, selectSpeed: (value: number) => void, currentDifficulty: Difficulty; selectDifficulty: (arg0: Difficulty) => void }) {
   const difficultyDescriptions: Record<Difficulty, string> = {
     [Difficulty.easy]: "Show more clues and gives more time to guess",
     [Difficulty.medium]: "A balanced difficulty, some clues and time to guess",
@@ -13,7 +12,6 @@ export function DifficultyView(props: { timeValue: number, speedValue: number, s
   return (
     <div>
       <div>
-        {Logo()}
       </div>
       <div className="relative w-full h-[30%]">
         {/* Content */}
@@ -26,9 +24,9 @@ export function DifficultyView(props: { timeValue: number, speedValue: number, s
           Presets
         </h2>
         <div className="w-full flex md:m-1 justify-between space-x-1 md:space-x-3">
-            {difficulties.map(difficultyOption)}
-          </div>
-          <div className="w-full flex justify-between space-x-4">
+          {difficulties.map(difficultyOption)}
+        </div>
+        <div className="w-full flex justify-between space-x-4">
           {/* {speed()} */}
         </div>
         <div className="w-full flex flex-col items-center p-5">
@@ -69,9 +67,9 @@ export function DifficultyView(props: { timeValue: number, speedValue: number, s
             sx={{
               color: '#000',
               '& .MuiSlider-thumb:hover': {
-                boxShadow: '0px 0px 12px 3px rgba(0, 0, 0, 1)', 
+                boxShadow: '0px 0px 12px 3px rgba(0, 0, 0, 1)',
 
-                
+
               },
             }}
           />

@@ -29,7 +29,7 @@ export function PostGuessView(props: any) {
       <div className="w-full md:w-2/3 flex flex-col items-center p-5">
 
         <div className="relative bg-white p-4  shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] max-w-screen md:w-[500px]">
-          <h2 className="blackText text-3xl text-center md:text-left py-2">
+          <h2 className="blackText text-3xl text-center py-2">
             {header}
           </h2>
           <p className="text-center text-black text-2xl font-mono leading-10 mb-1">

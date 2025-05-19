@@ -12,6 +12,7 @@ import { PostGuessPresenter } from './presenters/PostGuessPresenter.tsx';
 import { PostGamePresenter } from './presenters/PostGamePresenter.tsx';
 import { Background } from './utils/ViewUtils.tsx';
 import { Countdown } from './presenters/CountdownPresenter.tsx';
+import { navigateTo } from './utils/pathUtil.tsx';
 
 const App = observer(
   function AppRender(props: any) {
@@ -26,8 +27,7 @@ const App = observer(
     }
 
     if (props.model.user == null && window.location.pathname != "/home") {
-      window.history.pushState("", "", "/");
-      dispatchEvent(new PopStateEvent('popstate', {}))
+      navigateTo("/")
       return (
         <div>
           {Background()}

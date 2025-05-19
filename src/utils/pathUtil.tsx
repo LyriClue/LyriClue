@@ -8,3 +8,8 @@ export function urlContains(param: string) {
   return windowParams.has(param)
 
 }
+
+export function navigateTo(param: string) {
+  window.history.pushState("", "", param)
+  dispatchEvent(new PopStateEvent('popstate', {}))
+}

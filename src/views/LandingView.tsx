@@ -33,16 +33,16 @@ export function LandingView(props: any) {
       <div className="w-full">
         {/* Start Game */}
         <div className="w-full max-w-md flex flex-col mb-12">
-          <h1 className="blackText text-3xl md:text-5xl mb-8 text-center ">
+          <h1 className="blackText text-3xl md:text-5xl mb-8 text-center m-5 ">
             Start Game
           </h1>
-          <div className="w-full flex flex-col space-y-4">
+          <div className="w-full flex flex-col space-y-4 items-center">
 
-            <button disabled={props.isGuest} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 disabled:pointer-events-none transition-colors shadow-md"
+            <button disabled={props.isGuest} className="font-mono w-[250px] h-12  rounded-full bg-white hover:bg-gray-100 disabled:pointer-events-none transition-colors shadow-md"
               onClick={props.playOwnPlaylist}>
               Play my own songs
             </button>
-            <button onClick={props.playDailyPlaylist} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
+            <button onClick={props.playDailyPlaylist} className="font-mono w-[250px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
               Play daily playlist
             </button>
           </div>
@@ -125,26 +125,23 @@ export function LandingView(props: any) {
 
   function ProfileSection() {
     return (
-      <div className="w-96 bg-black/40 rounded-tl-3xl rounded-bl-3xl relative right-0 md:h-screen rounded-3xl md:rounded-tr-none md:rounded-br-none" >
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/40 to-black/80 rounded-3xl md:rounded-tr-none md:rounded-br-none " />
-        <div className="relative z-10 flex flex-col items-center justify-center h-full p-6">
-
-          <h1 className="whiteText flex-none text-3xl  mb-8 text-center ">
-            Profile
-          </h1>
-          <div className="flex-1 grow flex flex-col items-center justify-center">
-            <div>
-              <img src={props.profilePicture} alt="Profile Picture" className=" w-50 aspect-square rounded-full mb-4" />
-              <p className="whiteText text-xl mb-8">{props.displayName}</p>
-            </div>
-          </div>
-          <div className="flex-none w-full items-center space-y-4">
-            <button onClick={onLogoutACB} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
-              Log out
-            </button>
+      <div className="bg-black/40 rounded-tl-3xl rounded-bl-3xl relative right-0 z-10 flex flex-col items-center justify-center md:h-screen w-screen md:max-w-[300px] bg-gradient-to-b from-black/40 to-black/80 rounded-3xl md:rounded-tr-none md:rounded-br-none "  >
+        <h1 className="whiteText flex-none text-3xl mb-5 mt-5 text-center ">
+          Profile
+        </h1>
+        <div className="flex-1 grow flex flex-col items-center justify-center">
+          <div>
+            <img src={props.profilePicture} alt="Profile Picture" className=" w-50 aspect-square rounded-full mb-4" />
+            <p className="whiteText text-xl mb-8">{props.displayName}</p>
           </div>
         </div>
+        <div className="items-center space-y-4 m-5">
+          <button onClick={onLogoutACB} className="text-xl font-mono w-full md:w-[250px] h-12  rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
+            Log out
+          </button>
+        </div>
       </div>
+
     )
   }
 

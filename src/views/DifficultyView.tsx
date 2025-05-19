@@ -3,7 +3,7 @@ import Slider from '@mui/material/Slider';
 import { Logo } from "../utils/ViewUtils";
 
 const difficulties = [Difficulty.easy, Difficulty.medium, Difficulty.hard, Difficulty.custom];
-export function DifficultyView(props: { timeValue: number, speedValue: number, selectTime: (value:number) => void, selectSpeed: (value: number) => void, currentDifficulty: Difficulty; selectDifficulty: (arg0: Difficulty) => void }) {
+export function DifficultyView(props: { timeValue: number, speedValue: number, selectTime: (value: number) => void, selectSpeed: (value: number) => void, currentDifficulty: Difficulty; selectDifficulty: (arg0: Difficulty) => void }) {
   const difficultyDescriptions: Record<Difficulty, string> = {
     [Difficulty.easy]: "Show more clues and gives more time to guess",
     [Difficulty.medium]: "A balanced difficulty, some clues and time to guess",
@@ -18,18 +18,17 @@ export function DifficultyView(props: { timeValue: number, speedValue: number, s
       <div className="relative w-full h-[30%]">
         {/* Content */}
         <div className="relative w-full max-w-md mx-auto flex flex-col items-center z-20">
-          <span className="blackText text-3xl md:text-5xl mb-4 text-center mt-5">
+          <p className="blackText text-3xl md:text-5xl mb-2 md:mb-8 text-center mt-2 md:mt-10">
             Choose difficulty
-          </span>
+          </p>
         </div>
         <h2 className={"blackText text-2xl pb-2"}>
           Presets
         </h2>
         <div className="w-full flex md:m-1 justify-between space-x-1 md:space-x-3">
-            {difficulties.map(difficultyOption)}
-          </div>
-          <div className="w-full flex justify-between space-x-4">
-          {/* {speed()} */}
+          {difficulties.map(difficultyOption)}
+        </div>
+        <div className="w-full flex justify-between space-x-4">
         </div>
         <div className="w-full flex flex-col items-center p-5">
           <h2 className={"blackText text-xl"}>
@@ -69,9 +68,9 @@ export function DifficultyView(props: { timeValue: number, speedValue: number, s
             sx={{
               color: '#000',
               '& .MuiSlider-thumb:hover': {
-                boxShadow: '0px 0px 12px 3px rgba(0, 0, 0, 1)', 
+                boxShadow: '0px 0px 12px 3px rgba(0, 0, 0, 1)',
 
-                
+
               },
             }}
           />

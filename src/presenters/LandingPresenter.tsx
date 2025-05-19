@@ -40,7 +40,7 @@ export const LandingPresenter = observer(
       signOutUser();
     }
     function onSignInACB() {
-      window.location.assign(window.location.protocol + '//' + window.location.hostname + ':8080/auth/login');
+      window.location.assign(window.location.protocol + '//' + window.location.hostname + '/api/auth/login');
     }
   }
 )

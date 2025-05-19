@@ -7,6 +7,7 @@ export const LandingPresenter = observer(
   function LandingPresenterRender(props: any) {
     return (
       <LandingView playOwnPlaylist={PlayOwnPlaylistsACB}
+        onSignIn={onSignInACB}
         onLogout={onLogoutACB}
         previousGames={props.model.previousGames}
         playDailyPlaylist={PlayDailyPlaylistsACB}
@@ -36,6 +37,9 @@ export const LandingPresenter = observer(
 
     function onLogoutACB() {
       signOutUser();
+    }
+    function onSignInACB() {
+      window.location.assign(window.location.protocol + '//' + window.location.hostname + ':8080/auth/login');
     }
   }
 )

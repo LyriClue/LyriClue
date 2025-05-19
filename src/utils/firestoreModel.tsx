@@ -19,10 +19,12 @@ declare global {
 const db = getFirestore(app);
 
 // make doc and setDoc available at the Console for testing
-window.doc = doc;
-window.setDoc = setDoc;
-window.db = db;
-window.auth = auth
+if (typeof window !== "undefined") {
+  window.doc = doc;
+  window.setDoc = setDoc;
+  window.db = db;
+  window.auth = auth
+}
 
 const COLLECTION = "lyriclue";
 const COLLECTIVE_COLLECTION = "lyriclue-collective"

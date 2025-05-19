@@ -1,8 +1,6 @@
 import { LandingView } from "../views/LandingView";
 import { getDailyPlaylists, signOutUser } from "../utils/firestoreModel";
 import { observer } from "mobx-react-lite";
-import { Background } from '../utils/ViewUtils.tsx';
-import { AuthPresenter } from '../presenters/AuthPresenter.tsx'
 
 
 export const LandingPresenter = observer(

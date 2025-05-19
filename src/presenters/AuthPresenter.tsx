@@ -7,13 +7,6 @@ import { observer } from "mobx-react-lite"
 
 export const AuthPresenter = observer(
   function AuthPresenterRender(props: { model: Model }) {
-
-    useEffect(() => {
-      if (props.model.user) {
-        navigateTo(("landing"))
-      }
-    }, [])
-
     return (
       <AuthView
         onSpotifyLogin={onSpotifyLoginACB}

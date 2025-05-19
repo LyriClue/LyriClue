@@ -51,7 +51,7 @@ export function makeRouter(reactiveModel: any) {
   return createBrowserRouter([
     {
       path: "/",
-      element: <AuthPresenter model={reactiveModel} />
+      element: reactiveModel.user ? <LandingPresenter model={reactiveModel} /> : <AuthPresenter model={reactiveModel} />
     },
     {
       path: "/home",

@@ -1,12 +1,15 @@
 import { LandingView } from "../views/LandingView";
 import { getDailyPlaylists, signOutUser } from "../utils/firestoreModel";
 import { observer } from "mobx-react-lite";
+import { Background } from '../utils/ViewUtils.tsx';
+import { AuthPresenter } from '../presenters/AuthPresenter.tsx'
 
 
 export const LandingPresenter = observer(
   function LandingPresenterRender(props: any) {
     return (
       <LandingView playOwnPlaylist={PlayOwnPlaylistsACB}
+        onSignIn={onSignInACB}
         onLogout={onLogoutACB}
         previousGames={props.model.previousGames}
         playDailyPlaylist={PlayDailyPlaylistsACB}
@@ -36,6 +39,9 @@ export const LandingPresenter = observer(
 
     function onLogoutACB() {
       signOutUser();
+    }
+    function onSignInACB() {
+      window.location.assign(window.location.protocol + '//' + window.location.hostname + ':8080/auth/login');
     }
   }
 )

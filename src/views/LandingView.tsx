@@ -1,12 +1,9 @@
 import { HighScore } from "../Model";
-import { Logo } from "../utils/ViewUtils";
 import "../style.css";
 
 
 export function LandingView(props: any) {
   return (<div className="h-screen w-screen">
-    {Logo()}
-
     {/* Main content */}
     <div className="relative z-10 flex flex-col md:flex-row justify-between items-center ">
       {/* Start game section */}

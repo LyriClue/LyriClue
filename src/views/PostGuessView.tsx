@@ -1,11 +1,9 @@
-import { Logo, Score } from "../utils/ViewUtils"
+import { Score } from "../utils/ViewUtils"
 
 
 export function PostGuessView(props: any) {
   return (
     <div className="relative h-screen w-screen">
-      {Logo()}
-
       {Score(props.score, props.maxScore)}
 
       {/* Main content */}
@@ -29,11 +27,11 @@ export function PostGuessView(props: any) {
   function songInformationComponent(header: string, title: string, artist: string, titleResult: string = "", artistResult: string = "") {
     return (
       <div className="w-full md:w-2/3 flex flex-col items-center p-5">
-        
+
         <div className="relative bg-white p-4  shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] max-w-screen md:w-[500px]">
-        <h2 className="blackText text-3xl text-center md:text-left py-2">
-          {header}
-        </h2>
+          <h2 className="blackText text-3xl text-center md:text-left py-2">
+            {header}
+          </h2>
           <p className="text-center text-black text-2xl font-mono leading-10 mb-1">
             {titleResult}
             {" Song title: " + title}

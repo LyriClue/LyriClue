@@ -11,7 +11,7 @@ export function AuthView(props: any) {
 
           {/* Logo */}
           <div className="left-0 w-full text-3xl md:text-6xl">
-            <h1 className="logofont text-center ">
+            <h1 className="logofont text-center pointer-events-none">
               LyriClue
             </h1>
           </div>

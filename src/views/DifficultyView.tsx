@@ -18,14 +18,14 @@ export function DifficultyView(props: { timeValue: number, speedValue: number, s
       <div className="relative w-full h-[30%]">
         {/* Content */}
         <div className="relative w-full max-w-md mx-auto flex flex-col items-center z-20">
-          <h1 className="blackText text-3xl md:text-5xl mb-8 text-center mt-5">
+          <span className="blackText text-3xl md:text-5xl mb-4 text-center mt-5">
             Choose difficulty
-          </h1>
+          </span>
         </div>
         <h2 className={"blackText text-2xl pb-2"}>
           Presets
         </h2>
-        <div className="w-full flex m-3 justify-between space-x-3">
+        <div className="w-full flex md:m-1 justify-between space-x-1 md:space-x-3">
             {difficulties.map(difficultyOption)}
           </div>
           <div className="w-full flex justify-between space-x-4">

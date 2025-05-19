@@ -7,8 +7,10 @@ function GameView(props: any) {
     <div className="h-screen">
 
       {Logo()}
-
-      {Score(props.score, props.maxScore)}
+      <div className="text-2xl">
+        {Score(props.score, props.maxScore)}
+      </div>
+      
 
       {/* Main content */}
       <div className="relative items-center horizontal-center md:top-1/10">

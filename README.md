@@ -1,7 +1,16 @@
 # 🎵 [LyriClue](https://lyriclue-2ea07.web.app/)
 
-
 [LyriClue](https://lyriclue-2ea07.web.app/) is a game where the player is presented with the lyrics of their favorite songs and try to guess the title and artist before the time runs out.
+
+## ⚠️ NOTE! ⚠️
+
+### Differences in code over branches
+
+Due to how firebase functions are implemented, the code used for local hosting and the deployed versions differs quite a bit. The code used for local hosting can be found in 'main' while the deployed code is in the branch [production](https://github.com/LyriClue/LyriClue/tree/production). In general, the code in production can be considered 'cleaner'.
+
+### Spotify Login
+
+The trial of the spotify API that was used in this project requires us to manually add each spotify user that should have access to the API. This means that unless manually added by us, you will not be able to log in through spotify. If you'd like access, please contact us and we'll make sure to add you as quickly as possible.
 
 ## Table of Contents
 
@@ -61,10 +70,6 @@ The website should now be available at:
 ```bash
 http://localhost:5173/
 ```
-
-### A note on Spotify
-
-The trial of the spotify API that was used in this project requires us to manually add each spotify user that should have access to the API. This means that unless manually added by us, you will not be able to log in through spotify. If you'd like access, please contact us and we'll make sure to add you as quickly as possible.
 
 ## ⚙️Third Party Components <a name="third-party"></a>
 

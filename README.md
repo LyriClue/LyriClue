@@ -1,6 +1,6 @@
-# 🎵 LyriClue
+# 🎵 [LyriClue](https://lyriclue-2ea07.web.app/)
 
-LyriClue is a game where the player is presented with the lyrics of their favorite songs and try to guess the title and artist before the time runs out. 
+[LyriClue](https://lyriclue-2ea07.web.app/) is a game where the player is presented with the lyrics of their favorite songs and try to guess the title and artist before the time runs out.
 
 ## Table of Contents
 
@@ -28,6 +28,8 @@ LyriClue is a game where the player is presented with the lyrics of their favori
 - [ ] Redesign of Landing page
 
 ## 📦 Installation
+
+The deployed website can be found at https://lyriclue-2ea07.web.app/
 
 In order to run the website locally, install the requried dependencies with:
 

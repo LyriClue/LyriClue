@@ -11,7 +11,7 @@ function GameView(props: any) {
       {Score(props.score, props.maxScore)}
 
       {/* Main content */}
-      <div className="relative items-center horizontal-center top-1/10">
+      <div className="relative items-center horizontal-center md:top-1/10">
         <h1 className="blackText  text-2xl py-4 ">
           Song {props.currentSong} / {props.numSongs}
         </h1>

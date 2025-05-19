@@ -8,29 +8,36 @@ export function LandingView(props: any) {
     {Logo()}
 
     {/* Main content */}
-    <div className="relative z-10 flex flex-col md:flex-row justify-between items-center">
-      {/* High Score Section */}
-      <HighscoreView highScores={props.highScores} previousGames={props.previousGames} isGuest={props.isGuest} />
-
+    <div className="relative z-10 flex flex-col md:flex-row justify-between items-center ">
       {/* Start game section */}
-      <ControlView />
 
-      {/* Profile Section */}
-      <ProfileSection />
+      <div className="order-2 md:order-1">
+        {/* High Score Section */}
+        <HighscoreView highScores={props.highScores} previousGames={props.previousGames} isGuest={props.isGuest} />
+      </div>
+      <div className="order-1 md:order-2 items-center">
+        <ControlView />
+      </div>
+
+      <div className="order-3">
+        {/* Profile Section */}
+        <ProfileSection />
+      </div>
+
     </div>
   </div>
   );
 
   function ControlView() {
     return (
-      <div className="w-full md:w-2/3 flex flex-col items-center p-30">
+      <div className="w-full">
         {/* Start Game */}
-        <div className="w-full max-w-md flex flex-col items-center mb-12">
-          <h1 className="blackText text-3xl md:text-5xl  mb-8 text-center ">
+        <div className="w-full max-w-md flex flex-col mb-12">
+          <h1 className="blackText text-3xl md:text-5xl mb-8 text-center ">
             Start Game
           </h1>
-          <div className="w-full flex flex-col items-center space-y-4">
-            
+          <div className="w-full flex flex-col space-y-4">
+
             <button disabled={props.isGuest} className="text-xl  font-mono w-[300px] h-12  rounded-full bg-white hover:bg-gray-100 disabled:pointer-events-none transition-colors shadow-md"
               onClick={props.playOwnPlaylist}>
               Play my own songs
@@ -48,7 +55,7 @@ export function LandingView(props: any) {
   function HighscoreView(props: { highScores: HighScore[]; previousGames: any, isGuest: boolean }) {
 
     return (
-      <div className="flex flex-col items-center md:items-start space-y-6 mb-8 md:mb-0 pt-30 w-[300px] md:pl-5">
+      <div className="flex flex-col items-center md:items-start space-y-6 mb-8 md:mb-0 md:pt-30 w-[300px] md:pl-5">
         {HighScoreTableComponent("High Score", "Daily Playlist", props.highScores.map(HighScoreTableCB))}
         <div hidden={props.isGuest}>
           {HighScoreTableComponent("Previous Games", "My Own Playlists", props.previousGames.map(PreviousGamesTableCB))}
@@ -118,7 +125,7 @@ export function LandingView(props: any) {
 
   function ProfileSection() {
     return (
-      <div className="w-96 bg-black/40 rounded-tl-3xl rounded-bl-3xl relative right-0 h-screen rounded-3xl md:rounded-tr-none md:rounded-br-none" >
+      <div className="w-96 bg-black/40 rounded-tl-3xl rounded-bl-3xl relative right-0 md:h-screen rounded-3xl md:rounded-tr-none md:rounded-br-none" >
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/40 to-black/80 rounded-3xl md:rounded-tr-none md:rounded-br-none " />
         <div className="relative z-10 flex flex-col items-center justify-center h-full p-6">
 

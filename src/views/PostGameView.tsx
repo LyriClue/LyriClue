@@ -13,11 +13,11 @@ interface PostGameProps {
 export function PostGameView(props: PostGameProps) {
   return (
     <div className="fixed top-0 left-0 w-full h-screen z-0">
-      <div className="fixed w-full h-screen z-0">
+      <div className="fixed w-full h-screen z-0 mb-20">
         {Logo()}
       </div>
       <div className=" relative z-10 flex flex-col items-center justify-center h-screen">
-        <h1 className="text-3xl md:text-5xl    text-center blackText">
+        <h1 className="text-3xl md:text-5xl  text-center blackText">
           Results:
         </h1>
         <span className="blackText text-2xl">

@@ -25,13 +25,13 @@ export function DifficultyView(props: { timeValue: number, speedValue: number, s
         <h2 className={"blackText text-2xl pb-2"}>
           Presets
         </h2>
-        <div className="w-full flex pb-3 justify-between space-x-4">
+        <div className="w-full flex m-3 justify-between space-x-3">
             {difficulties.map(difficultyOption)}
           </div>
           <div className="w-full flex justify-between space-x-4">
           {/* {speed()} */}
         </div>
-        <div>
+        <div className="w-full flex flex-col items-center p-5">
           <h2 className={"blackText text-xl"}>
             Lyric Reveal Speed
           </h2>

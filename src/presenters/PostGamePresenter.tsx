@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { PostGameView } from "../views/PostGameView";
 import { Model } from "../Model";
+import { navigateTo } from "../utils/pathUtil";
 
 
 interface PostGameProps {
@@ -23,8 +24,7 @@ export const PostGamePresenter = observer(
 
 
     function returnToMenuACB() {
-      window.history.pushState("", "", "/landing");
-      dispatchEvent(new PopStateEvent('popstate', {}))
+      navigateTo("/landing")
     }
     function playAgainACB() {
       props.model.restartGame()

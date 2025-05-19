@@ -1,5 +1,6 @@
 import { Model } from "../Model";
 import { signInAnonymous } from "../utils/firestoreModel";
+import { navigateTo } from "../utils/pathUtil";
 import { AuthView } from "../views/AuthView"
 import { observer } from "mobx-react-lite"
 
@@ -18,14 +19,10 @@ export const AuthPresenter = observer(
 
     function onGuestLoginACB() {
       console.log("model: " + props.model);
-      signInAnonymous(props.model).then(navigateToLanding)
+      signInAnonymous(props.model).then(() => navigateTo("/landing"))
     }
   }
 
 )
 
-function navigateToLanding() {
-  window.history.pushState("", "", "/landing")
-  dispatchEvent(new PopStateEvent('popstate', {}))
-}
 

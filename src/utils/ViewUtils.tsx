@@ -1,3 +1,5 @@
+import { navigateTo } from "./pathUtil";
+
 export function Background() {
   return (
     <div>
@@ -25,8 +27,7 @@ export function Logo(position: string = "relative") {
     if (window.location.pathname == "/landing") {
       window.location.reload() //reload to give user some feedback
     }
-    window.history.pushState("", "", "/landing");
-    dispatchEvent(new PopStateEvent('popstate', {}))
+    navigateTo("/landing")
   }
 }
 

@@ -18,7 +18,6 @@ export const AuthPresenter = observer(
     }
 
     function onGuestLoginACB() {
-      console.log("model: " + props.model);
       signInAnonymous(props.model).then(() => navigateTo("/landing"))
     }
   }

@@ -6,7 +6,6 @@ import { Model } from "../Model";
 export const PostGuessPresenter = observer(
   function postGuessRender(props: { model: Model }) {
     if (!props.model.songs[props.model.currentSong].score) {
-      console.log("set score");
 
       const result = getGuessParams()
       props.model.songs[props.model.currentSong].score = result
@@ -41,11 +40,8 @@ export const PostGuessPresenter = observer(
     function getGuessParams() {
       const title = getParamsFromUrl("title")
       const artist = getParamsFromUrl("artist")
-      console.log(artist);
-      console.log(title);
 
       const result = props.model.setCurrentScore(artist, title)
-      console.log(result);
 
       return result
     }

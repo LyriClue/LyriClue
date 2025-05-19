@@ -65,7 +65,6 @@ export const SettingsPresenter = observer(
     }
     function selectSpeedAcb(value: number) {
       props.model.timeBetweenLyricLines = speedValueToTime(value);
-      console.log((speedValueToTime(value)));
     }
     function speedValueToTime(value: number) {
       return 5 - (value / (10 / 4))

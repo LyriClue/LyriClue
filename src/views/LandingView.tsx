@@ -143,25 +143,14 @@ export function LandingView(props: any) {
     )
   }
 
-  function onSignInACB() {
-    props.onSignIn();
-  }
   function onLogoutACB() {
     props.onLogout();
   }
-  function buttonRender(){
-    const buttonClass = "text-xl font-mono h-12 w-full rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md"
-    if (props.isGuest) {
-      return (
-        <button onClick={onSignInACB} className={buttonClass}>
-          Sign in
-        </button>
-      )
-    }
+  function buttonRender() {
     return (
-      <button onClick={onLogoutACB} className={buttonClass}>
-        Log out
+      <button onClick={onLogoutACB} className="text-xl font-mono h-12 w-full rounded-full bg-white hover:bg-gray-100 transition-colors shadow-md">
+        {props.isGuest ? "Sign in" : "Log Out"}
       </button>
-      )
+    )
   }
 }

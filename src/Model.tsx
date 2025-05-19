@@ -1,4 +1,4 @@
-import { setDailyHighscore, getRefreshToken } from "./utils/firestoreModel";
+import { setDailyHighscore } from "./utils/firestoreModel";
 import { getLyrics } from "./utils/lyricSource";
 import { resolvePromise } from "./utils/resolvePromise";
 import { getPlaylistPage, getDailySongsFromArray, getSongsFromSpotifyPlaylist } from "./utils/spotifySource";

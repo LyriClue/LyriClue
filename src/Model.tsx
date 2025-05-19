@@ -164,11 +164,11 @@ export const model: Model = {
     }
 
     const removeFeat = (str: string) => str.replace(/\(feat.*\)/g, "");
-    const correctTitle = removeFeat(this.songs[this.currentSong].title.toLowerCase());
-    const correctArtist = this.songs[this.currentSong].artist.toLowerCase();
+    const correctTitle = removeFeat(this.songs[this.currentSong].title.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "");
+    const correctArtist = this.songs[this.currentSong].artist.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
 
-    titleGuess = titleGuess.toLowerCase();
-    artistGuess = artistGuess.toLowerCase();
+    titleGuess = titleGuess.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
+    artistGuess = artistGuess.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
     const splitToLetters = (str: string) => str.replace(/[^a-zA-Z]/g, "").split("");
 
     const correctTitleLetters = splitToLetters(correctTitle);

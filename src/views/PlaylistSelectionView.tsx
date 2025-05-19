@@ -6,7 +6,7 @@ export function PlaylistSelectionView(props: any) {
 
       {/* Playlist Content */}
       <div className="relative z-20 p-8">
-        <h1 className="blackText  text-3xl  mb-4">Choose a Playlist!</h1>
+        <h2 className="blackText text-3xl md:text-5xl mb-4 text-center mt-5">Choose a Playlist!</h2>
         <span className="font-mono text-red-600 ">{showErrorMessage()}</span>
         <div className="rounded-xl p-3 bg-black/70 mb-4">
           <table className="w-full divide-y divide-black-200 border-spacing-y-2 ">

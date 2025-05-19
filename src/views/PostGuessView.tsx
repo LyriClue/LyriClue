@@ -28,12 +28,12 @@ export function PostGuessView(props: any) {
 
   function songInformationComponent(header: string, title: string, artist: string, titleResult: string = "", artistResult: string = "") {
     return (
-      <div className="w-full md:w-2/3 flex flex-col items-center p-10">
+      <div className="w-full md:w-2/3 flex flex-col items-center p-5">
         <h2 className="blackText text-6xl text-center md:text-left py-2">
           {header}
         </h2>
         <br />
-        <div className="relative bg-white p-4  shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] w-[500px]">
+        <div className="relative bg-white p-4  shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] max-w-screen md:w-[500px]">
           <p className="text-center text-black text-2xl font-mono leading-10 mb-1">
             {titleResult}
             {" Song title: " + title}
